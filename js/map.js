@@ -10,7 +10,6 @@ Map = function() {
 
   this.hexColor = 0x00ffff;
 
-  // (X,Y) -> (Z,X)
 }
 world.scene.map = new Map();
 
@@ -83,7 +82,7 @@ Hex.prototype = {
     });
 
     var xyPoint = this.getRectCoord();
-    xyPoint.print();
+
     var xoffset = (xyPoint.x * world.scene.map.hexRadius) * 1.5;
     var yoffset = xyPoint.y * world.scene.map.hexHeight - world.scene.map.hexBuffer / 2;
     if (xyPoint.x % 2 != 0) {
@@ -112,7 +111,7 @@ Hex.prototype = {
     });
 
     var xyPoint = this.getRectCoord();
-    xyPoint.print();
+   // xyPoint.print();
     var xoffset = (xyPoint.x * world.scene.map.hexRadius) * 1.5;
     var yoffset = xyPoint.y * world.scene.map.hexHeight - world.scene.map.hexBuffer / 2;
     if (xyPoint.x % 2 != 0) {
