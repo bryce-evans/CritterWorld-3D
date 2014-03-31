@@ -1,5 +1,5 @@
 World = function() {
-  this.container = document.createElement('div');
+  this.container = document.getElementById('world');
   this.stats
 
   this.scene = new THREE.Scene();

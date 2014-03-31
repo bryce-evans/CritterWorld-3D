@@ -5,8 +5,6 @@ init();
 
 function init() {
 
-  document.body.appendChild(world.container);
-
   // Grid
 
   world.addAxes();
