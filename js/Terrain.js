@@ -21,9 +21,9 @@ Terrain = function() {
   this.fog = 0.001;
   this.deepth = -80;
 
-  this.geometry
-  this.mesh
-  this.combined
+  this.geometry;
+  this.mesh;
+  this.combined;
 
   this.updateTerrain = function(width, height, segments, smoothingFactor) {
     this.width = width;
@@ -77,10 +77,16 @@ Terrain = function() {
 }
 
 var terrain = new Terrain();
-terrain.updateTerrain(terrain.width, terrain.height, terrain.segments, terrain.smoothingFactor);
+var map = world.scene.map;
+terrain.updateTerrain(2 / 3 * map.hexSize * (world.ROWS +2),  map.hexSize * (world.COLUMNS+2) , terrain.segments, 6);
+
 world.scene.terrain = terrain;
 terrain.setTexture(terrain.texture);
 terrain.setFog(terrain.fog);
+
+terrain.mesh.position.x = map.center.x-map.hexSize ;
+terrain.mesh.position.z = map.center.y-map.hexSize ;
+
 world.scene.add(terrain.mesh);
 
 

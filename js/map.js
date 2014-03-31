@@ -1,4 +1,22 @@
-Map = function() {
+XYPoint = function() {
+  this.x;
+  this.y;
+
+  this.print = function() {
+    console.log("XY: (" + this.x + "," + this.y + ")");
+  }
+}
+CRPoint = function() {
+  this.c;
+  this.r;
+
+  this.print = function() {
+    console.log("CR: (" + this.c + "," + this.r + ")");
+  }
+}
+
+Map = function(world) {
+	this.world = world;
   this.hexes = new Array();
 	this.hexGeometries = new Array();
 	
@@ -9,26 +27,19 @@ Map = function() {
   this.hexHeight = (this.hexRadius * Math.sqrt(3));
 
   this.hexColor = 0x00ffff;
-
+	
+	this.center = new XYPoint();
 }
-world.scene.map = new Map();
-
-XYPoint = function() {
-  var x;
-  var y;
-
-  this.print = function() {
-    console.log("XY: (" + this.x + "," + this.y + ")");
-  }
+Map.prototype = {
+	calculateCenter : function(){
+		this.center.x = this.hexSize * this.world.ROWS / 3 ;
+		this.center.y = this.hexSize * this.world.COLUMNS / 2;
+	}
 }
-CRPoint = function() {
-  this.c
-  this.r
+world.scene.map = new Map(world);
+world.scene.map.calculateCenter();
 
-  this.print = function() {
-    console.log("CR: (" + this.c + "," + this.r + ")");
-  }
-}
+
 Hex = function(c, r) {
 
   this.location = new CRPoint();
