@@ -257,9 +257,9 @@ THREE.OrbitControls = function(object, domElement) {
       mousePosition.x = event.x;
       mousePosition.y = event.y;
 
-      hex = getHitObject();
-      if (hex) {
-        world.critterControls.setSelected(hex);
+      hexMesh = getHitObject();
+      if (hexMesh) {
+        world.critterControls.setSelected(hexMesh.object.hex);
       }
       if (event.button === 1)
         state = STATE.ZOOM;

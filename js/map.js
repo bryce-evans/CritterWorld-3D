@@ -37,9 +37,11 @@ Hex = function(c, r) {
   this.location.c = c;
   this.location.r = r;
 
-  this.type
-  this.contains
+  this.type;
+  this.contains;
 
+	this.wire;
+	
   this.addWire();
   this.addMesh();
   
@@ -97,6 +99,7 @@ Hex.prototype = {
     }
 
     var mesh = new THREE.Line(geometry, this.material);
+    this.wire = mesh;
     world.scene.add(mesh);
   },
 
@@ -105,7 +108,7 @@ Hex.prototype = {
     this.material = new THREE.MeshBasicMaterial({
       color : world.scene.map.hexColor,
       transparent : true,
-      opacity : 0.3
+      opacity : 0.001
     });
 
     var xyPoint = this.getRectCoord();
@@ -129,6 +132,7 @@ Hex.prototype = {
     }
 
     var mesh = new THREE.Mesh(geometry, this.material);
+    mesh.hex = this;
     world.scene.map.hexGeometries.push(mesh);
     world.scene.add(mesh);
   }

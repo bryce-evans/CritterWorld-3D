@@ -1,15 +1,15 @@
 CritterControls = function() {
-  this.currentCritter = null;
+  this.currentHex = null;
 
 }
 
 CritterControls.prototype = {
-  setSelected : function(critter) {
-    if (this.currentCritter) {
-      this.currentCritter.object.material.color.setHex(0x000000);
+  setSelected : function(hex) {
+    if (this.currentHex) {
+      this.currentHex.wire.material.color.setHex(0x000000);
     }
-    this.currentCritter = critter;
-    this.currentCritter.object.material.color.setHex(0xffffff);
+    this.currentHex = hex;
+    this.currentHex.wire.material.color.setHex(0xffffff);
   }
 }
 
