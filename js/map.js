@@ -1,6 +1,7 @@
 Map = function() {
   this.hexes = new Array();
-
+	this.hexGeometries = new Array();
+	
   this.hexSize = 3;
   this.hexBuffer = .25;
 
@@ -41,7 +42,8 @@ Hex = function(c, r) {
 
   this.addWire();
   this.addMesh();
-
+  
+  world.scene.map.hexes.push(this);
 }
 
 Hex.prototype = {
@@ -102,8 +104,8 @@ Hex.prototype = {
     var geometry = new THREE.Geometry();
     this.material = new THREE.MeshBasicMaterial({
       color : world.scene.map.hexColor,
-      transparent: true,
-      opacity: 0.3
+      transparent : true,
+      opacity : 0.3
     });
 
     var xyPoint = this.getRectCoord();
@@ -114,34 +116,22 @@ Hex.prototype = {
       yoffset -= world.scene.map.hexHeight;
     }
 
-    for (var i = 0; i <= 6; i++) {
+    for (var i = 0; i < 6; i++) {
 
-      var xPoint = (xoffset + world.scene.map.hexRadius / 2 * Math.cos(i * 2 * Math.PI / 6));
-      var yPoint = (yoffset + world.scene.map.hexRadius / 2 * Math.sin(i * 2 * Math.PI / 6));
+      var xPoint = (xoffset + world.scene.map.hexRadius * Math.cos(i * 2 * Math.PI / 6));
+      var yPoint = (yoffset + world.scene.map.hexRadius * Math.sin(i * 2 * Math.PI / 6));
 
-      geometry.vertices.push(new THREE.Vector3(yPoint, 0.04, xPoint));
+      geometry.vertices.push(new THREE.Vector3(yPoint, 0.02, xPoint));
     }
 
-    var mesh = new THREE.Line(geometry, this.material);
+    for (var i = 1; i < 5; i++) {
+      geometry.faces.push(new THREE.Face3(0, i, i + 1));
+    }
+
+    var mesh = new THREE.Mesh(geometry, this.material);
+    world.scene.map.hexGeometries.push(mesh);
     world.scene.add(mesh);
   }
 }
 
-/**
- * Draws a blank hex on the map
- * @param {Object} c
- * @param {Object} r
- */
-function drawBlankHex(c, r) {
-  var coords = hexToRectCoord(c, r);
-  var x = coords.x;
-  var y = coords.y;
-
-  var rad = world.scene.map.scale * (world.scene.map.size + world.scene.map.buffer);
-
-  var height = (rad * Math.sqrt(3));
-  var xPoint = (x * 1.5 * rad);
-  var yPoint = ((x % 2 == 0 ) ? y * height - world.scene.map.buffer / 2 : (y * height - world.scene.map.buffer / 2 - height / 2));
-
-}
 
