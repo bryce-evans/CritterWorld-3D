@@ -1,0 +1,58 @@
+World = function() {
+  this.container = document.createElement('div');
+  this.stats
+
+  this.scene = new THREE.Scene();
+  this.camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 2000);
+  this.camera.position.set(1,8,1);
+
+  this.renderer, this.objects, this.lookAt;
+  this.particleLight, this.pointLight;
+  this.t = 0;
+  this.clock = new THREE.Clock();
+  
+  this.COLUMNS = 10;
+  this.ROWS = 10;
+
+}
+
+World.prototype = {
+  addAxes : function() {
+    var x = new THREE.Geometry();
+
+    x.vertices.push(new THREE.Vector3(0, 0, 0));
+    x.vertices.push(new THREE.Vector3(10, 0, 0));
+
+    var xmaterial = new THREE.LineBasicMaterial({
+      color : 0xff0000
+    });
+
+    var xline = new THREE.Line(x, xmaterial);
+    world.scene.add(xline);
+
+    var y = new THREE.Geometry();
+    y.vertices.push(new THREE.Vector3(0, 0, 0));
+    y.vertices.push(new THREE.Vector3(0, 10, 0));
+
+    var ymaterial = new THREE.LineBasicMaterial({
+      color : 0x00ff00
+    });
+
+    yline = new THREE.Line(y, ymaterial);
+    world.scene.add(yline);
+
+    var z = new THREE.Geometry();
+    z.vertices.push(new THREE.Vector3(0, 0, 0));
+    z.vertices.push(new THREE.Vector3(0, 0, 10));
+
+    var zmaterial = new THREE.LineBasicMaterial({
+      color : 0x0000ff
+    });
+
+    zline = new THREE.Line(z, zmaterial);
+    world.scene.add(zline);
+
+  }
+}
+
+world = new World();
