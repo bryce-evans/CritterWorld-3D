@@ -7,39 +7,15 @@ function init() {
 
   document.body.appendChild(world.container);
 
-  lookAt = new THREE.Vector3(3, -3, 3);
-
   // Grid
 
   world.addAxes();
-  // var size = 14, step = 1;
 
   var geometry = new THREE.Geometry();
   var material = new THREE.LineBasicMaterial({
     color : 0x00ffff
   });
 
-  // for (var i = -size; i <= size; i += step) {
-  //
-  // geometry.vertices.push(new THREE.Vector3(-size, -0.04, i));
-  // geometry.vertices.push(new THREE.Vector3(size, -0.04, i));
-  //
-  // geometry.vertices.push(new THREE.Vector3(i, -0.04, -size));
-  // geometry.vertices.push(new THREE.Vector3(i, -0.04, size));
-  //
-  // }
-
-  /*
-   for (var i = 0; i <= 6; i++) {
-   xPoint = (1 * Math.cos(i * 2 * Math.PI / 6));
-   yPoint = (1 * Math.sin(i * 2 * Math.PI / 6));
-   geometry.vertices.push(new THREE.Vector3(xPoint,0, yPoint));
-   }
-
-   var line = new THREE.Line(geometry, material);
-   world.scene.add(line);
-
-   */
 
   for (var c = 0; c != world.COLUMNS + 1; c++) {
     for (var r = Math.ceil(c / 2); 2 * r <= c + (2 * world.ROWS - world.COLUMNS) + (world.COLUMNS % 2 == 0 && c % 2 != 0 ? 1 : 0); r++) {
@@ -73,7 +49,7 @@ function init() {
 
   window.addEventListener('resize', onWindowResize, false);
   controls = new THREE.OrbitControls(world.camera, world.renderer.domElement);
-
+ 
   /* *************************************************************
   * Here we are adding the skinned mesh to the scene
   *
@@ -98,17 +74,21 @@ function onWindowResize() {
 
   world.camera.aspect = window.innerWidth / window.innerHeight;
   world.camera.updateProjectionMatrix();
+   
 
   world.renderer.setSize(window.innerWidth, window.innerHeight);
 
   world.SCREEN_WIDTH = window.innerWidth;
   world.SCREEN_HEIGHT = window.innerHeight;
+  
+ 
 
 }
 
 //
 
 function animate() {
+	 
 
   /*
   * Here the mesh animation is updated
@@ -123,6 +103,7 @@ function animate() {
   /////////////////////
 
   var delta = world.clock.getDelta();
+
 
   requestAnimationFrame(animate);
 
@@ -153,6 +134,8 @@ function animate() {
 
    }
    */
+ 
+
   render();
   world.stats.update();
 
@@ -172,6 +155,7 @@ function render() {
   // particleLight.position.y = Math.cos(timer * 5) * 4000;
   // particleLight.position.z = Math.cos(timer * 4) * 3009;
 
+	
   world.renderer.render(world.scene, world.camera);
   controls.update();
 

@@ -4,11 +4,13 @@ World = function() {
 
   this.scene = new THREE.Scene();
   this.camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 2000);
-  this.camera.position.set(0, 5, 5);
+  this.camera.position.set(-15, 15, 15);
+  this.lookAt = (new THREE.Vector3(5, 0, 15));
+  
 
 	this.projector = new THREE.Projector();
 	
-  this.renderer, this.objects, this.lookAt;
+  this.renderer;
   this.particleLight, this.pointLight;
   this.t = 0;
   this.clock = new THREE.Clock();
