@@ -1,25 +1,24 @@
 XYPoint = function() {
-  this.x;
-  this.y;
+  this.x
+  this.y
 
   this.print = function() {
     console.log("XY: (" + this.x + "," + this.y + ")");
   }
 }
 CRPoint = function() {
-  this.c;
-  this.r;
+  this.c
+  this.r
 
   this.print = function() {
     console.log("CR: (" + this.c + "," + this.r + ")");
   }
 }
-
 Map = function(world) {
-	this.world = world;
+  this.world = world;
   this.hexes = new Array();
-	this.hexGeometries = new Array();
-	
+  this.hexGeometries = new Array();
+
   this.hexSize = 3;
   this.hexBuffer = .25;
 
@@ -27,22 +26,22 @@ Map = function(world) {
   this.hexHeight = (this.hexRadius * Math.sqrt(3));
 
   this.hexColor = 0x00ffff;
-	
-	this.size = new XYPoint();
-	this.center = new XYPoint();
+  this.selectedHexColor = 0xffffff;
+
+  this.size = new XYPoint();
+  this.center = new XYPoint();
 }
 Map.prototype = {
-	calculateSize : function(){
-		this.size.x = 2 * this.hexSize * (this.world.ROWS + 2) / 3 ;
-		this.size.y = this.hexSize * (this.world.COLUMNS+2);
-		
-		this.center.x = this.size.x / 2 -this.hexSize ;
-		this.center.y = this.size.y / 2 -this.hexSize ;
-	}
+  calculateSize : function() {
+    this.size.x = 2 * this.hexSize * (this.world.ROWS + 2) / 3;
+    this.size.y = this.hexSize * (this.world.COLUMNS + 2);
+
+    this.center.x = this.size.x / 2 - this.hexSize;
+    this.center.y = this.size.y / 2 - this.hexSize;
+  }
 }
 world.scene.map = new Map(world);
 world.scene.map.calculateSize();
-
 
 Hex = function(c, r) {
 
@@ -54,15 +53,27 @@ Hex = function(c, r) {
   this.type;
   this.contains;
 
-	this.wire;
-	
+  this.wire;
+
   this.addWire();
   this.addMesh();
-  
+
   world.scene.map.hexes.push(this);
 }
 
 Hex.prototype = {
+  addCritter : function() {
+    var geometry = new THREE.SphereGeometry(1, 8, 8);
+    var material = new THREE.MeshBasicMaterial({
+      color : 0xff0000
+    });
+    var crit_mesh = new THREE.Mesh(geometry, material);
+    crit_mesh.position = new THREE.Vector3(this.getPosY(), 1, this.getPosX());
+
+    world.scene.add(crit_mesh);
+    
+    this.type = 2;
+  },
   hasCritter : function() {
 
   },
@@ -77,6 +88,13 @@ Hex.prototype = {
    * @param {Object} c
    * @param {Object} r
    */
+  getPosY : function() {
+    return Math.sqrt(3)*(this.location.r - .5 * this.location.c) *world.scene.map.hexRadius;
+  },
+  getPosX : function() {
+    return (this.location.c) *  1.5*world.scene.map.hexRadius;
+
+  },
 
   getRectCoord : function() {
 
@@ -100,9 +118,6 @@ Hex.prototype = {
 
     var xoffset = (xyPoint.x * world.scene.map.hexRadius) * 1.5;
     var yoffset = xyPoint.y * world.scene.map.hexHeight - world.scene.map.hexBuffer / 2;
-    if (xyPoint.x % 2 != 0) {
-      yoffset -= world.scene.map.hexHeight;
-    }
 
     for (var i = 0; i <= 6; i++) {
 
@@ -126,12 +141,10 @@ Hex.prototype = {
     });
 
     var xyPoint = this.getRectCoord();
-   // xyPoint.print();
+    // xyPoint.print();
     var xoffset = (xyPoint.x * world.scene.map.hexRadius) * 1.5;
     var yoffset = xyPoint.y * world.scene.map.hexHeight - world.scene.map.hexBuffer / 2;
-    if (xyPoint.x % 2 != 0) {
-      yoffset -= world.scene.map.hexHeight;
-    }
+
 
     for (var i = 0; i < 6; i++) {
 
@@ -151,5 +164,4 @@ Hex.prototype = {
     world.scene.add(mesh);
   }
 }
-
 
