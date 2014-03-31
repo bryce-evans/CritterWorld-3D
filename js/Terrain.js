@@ -78,14 +78,14 @@ Terrain = function() {
 
 var terrain = new Terrain();
 var map = world.scene.map;
-terrain.updateTerrain(2 / 3 * map.hexSize * (world.ROWS +2),  map.hexSize * (world.COLUMNS+2) , terrain.segments, 6);
+terrain.updateTerrain(map.size.x,  map.size.y , terrain.segments, 6);
 
 world.scene.terrain = terrain;
 terrain.setTexture(terrain.texture);
 terrain.setFog(terrain.fog);
 
-terrain.mesh.position.x = map.center.x-map.hexSize ;
-terrain.mesh.position.z = map.center.y-map.hexSize ;
+terrain.mesh.position.x = map.center.x ;
+terrain.mesh.position.z = map.center.y;
 
 world.scene.add(terrain.mesh);
 

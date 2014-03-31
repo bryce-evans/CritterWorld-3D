@@ -28,16 +28,20 @@ Map = function(world) {
 
   this.hexColor = 0x00ffff;
 	
+	this.size = new XYPoint();
 	this.center = new XYPoint();
 }
 Map.prototype = {
-	calculateCenter : function(){
-		this.center.x = this.hexSize * this.world.ROWS / 3 ;
-		this.center.y = this.hexSize * this.world.COLUMNS / 2;
+	calculateSize : function(){
+		this.size.x = 2 * this.hexSize * (this.world.ROWS + 2) / 3 ;
+		this.size.y = this.hexSize * (this.world.COLUMNS+2);
+		
+		this.center.x = this.size.x / 2 -this.hexSize ;
+		this.center.y = this.size.y / 2 -this.hexSize ;
 	}
 }
 world.scene.map = new Map(world);
-world.scene.map.calculateCenter();
+world.scene.map.calculateSize();
 
 
 Hex = function(c, r) {
