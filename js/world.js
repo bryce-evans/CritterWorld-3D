@@ -4,7 +4,7 @@ World = function() {
 
   this.scene = new THREE.Scene();
   this.camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 2000);
-  this.camera.position.set(1,8,1);
+  this.camera.position.set(0,5,5);
 
   this.renderer, this.objects, this.lookAt;
   this.particleLight, this.pointLight;

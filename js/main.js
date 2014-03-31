@@ -7,7 +7,7 @@ function init() {
 
   document.body.appendChild(world.container);
 
-  lookAt = new THREE.Vector3(5,0,5);
+  lookAt = new THREE.Vector3(3,-3,3);
 
   // Grid
 
@@ -74,6 +74,8 @@ world.container.appendChild(world.stats.domElement);
 //
 
 window.addEventListener('resize', onWindowResize, false);
+ controls = new THREE.OrbitControls(world.camera, world.renderer.domElement);
+ 
 /* *************************************************************
 * Here we are adding the skinned mesh to the scene
 *
@@ -170,5 +172,6 @@ function render() {
   // particleLight.position.z = Math.cos(timer * 4) * 3009;
 
   world.renderer.render(world.scene, world.camera);
+  controls.update();
 
 }
