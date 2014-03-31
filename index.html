@@ -4,28 +4,7 @@
 		<title>Critter World</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<style>
-      body {
-        font-family: Monospace;
-        background-color: #000000;
-        margin: 0px;
-        overflow: hidden;
-      }
-
-      #info {
-        color: #fff;
-        position: absolute;
-        top: 10px;
-        width: 100%;
-        text-align: center;
-        z-index: 100;
-        display: block;
-      }
-
-      a {
-        color: skyblue
-      }
-		</style>
+		<style src="style.css"></style>
 	</head>
 	<body>
 		<div id="info">
@@ -35,8 +14,7 @@
 		<script src="http://threejs.org/build/three.js"></script>
 		<script src="http://threejs.org/examples/js/Detector.js"></script>
 		<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
-		
-		
+
 		<script src="js/World.js"></script>
 		<script src="js/Map.js"></script>
 		<script src="js/lib/TerrainGeneration.js"></script>
@@ -45,6 +23,20 @@
 		<script src="js/lib/MouseControls.js"></script>
 		<script src="js/CritterControls.js"></script>
 		<script src="js/Main.js"></script>
+
+		<div id="page">
+			<div id= "menubar">
+
+			</div>
+			<div id="main">
+				<div id="world">
+
+				</div>
+				<div id="controls">
+
+				</div>
+			</div>
+		</div>
 
 	</body>
 </html>
