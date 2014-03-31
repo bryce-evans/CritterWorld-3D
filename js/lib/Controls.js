@@ -3,6 +3,7 @@
  * @author mrdoob / http://mrdoob.com
  * @author alteredq / http://alteredqualia.com/
  * @author WestLangley / http://github.com/WestLangley
+ * @author bae43 / http://github.com/bae43
  */
 
 THREE.OrbitControls = function ( object, domElement ) {
@@ -23,7 +24,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	this.userRotateSpeed = 1.0;
 
 	this.userPan = true;
-	this.userPanSpeed = 2.0;
+	this.userPanSpeed = .2;
 
 	this.autoRotate = false;
 	this.autoRotateSpeed = 2.0; // 30 seconds per round when fps is 60
@@ -140,6 +141,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	this.pan = function ( distance ) {
 
+		this.userPanSpeed = 0.005 * this.object.position.y;
 		distance.transformDirection( this.object.matrix );
 		distance.multiplyScalar( scope.userPanSpeed );
 
@@ -293,7 +295,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 			zoomStart.copy( zoomEnd );
 
 		} else if ( state === STATE.PAN ) {
-
+			
 			var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
 			var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
