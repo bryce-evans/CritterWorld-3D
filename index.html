@@ -7,6 +7,7 @@
 		<script src="js/lib/jquery-1.7.2.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css">
 
+		<script src="utils.js"></script>
 		<script src="http://threejs.org/build/three.js"></script>
 		<script src="http://threejs.org/examples/js/Detector.js"></script>
 		<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
@@ -42,21 +43,21 @@
 						World Stats:
 					</div>
 					<div id= "world-stats">
-						<div>
-							<span class="stat-label">Critter Count: </span><span class="stat" id="critter-count">0</span>
+						<div class="stat">
+							<span class="stat-label">Critter Count: </span><span class="stat-data" id="critter-count">0</span>
 						</div>
 						<br>
-						<div>
-							<span class="stat-label">Time:</span><span class="stat" id = "time-count">0</span>
+						<div class="stat">
+							<span class="stat-label">Time:</span><span class="stat-data" id = "time-count">0</span>
 						</div>
 						<br>
 
-						<div>
-							<span class="stat-label">Current Hex: </span><span class="stat" id="current-hex">(0,0)</span>
+						<div class="stat">
+							<span class="stat-label">Current Hex: </span><span class="stat-data" id="current-hex">(0,0)</span>
 						</div>
 						<br>
-						<div>
-							<span class="stat-label">Type: </span><span class="stat" id="current-hex-type"> </span>
+						<div class="stat">
+							<span class="stat-label">Type: </span><span class="stat-data" id="current-hex-type"> </span>
 						</div>
 					</div>
 

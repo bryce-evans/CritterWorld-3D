@@ -4,8 +4,14 @@ CritterControls = function(world) {
   this.currentHovered = null;
 
   this.hexHoverColor = 0xffffff;
-  this.hexSelectedColor = 0xff0000;
+  this.hexSelectedColor = 0xffbe10;
   this.hexBaseColor = this.world.scene.map.hexColor;
+
+  $(document).keypress(function(event) {
+    if (event.which == 97 && this.currentSelected) {
+      this.currentSelected.addCritter();
+    }
+  }.bind(this));
 }
 
 CritterControls.prototype = {
@@ -34,8 +40,6 @@ CritterControls.prototype = {
     this.currentSelected = hex;
     this.currentSelected.wire.material.color.setHex(this.hexSelectedColor);
     document.getElementById("current-hex").innerHTML = ("(" + this.currentSelected.location.c + "," + this.currentSelected.location.r + ")");
-
-    hex.addCritter();
 
     if (hex.type === 2) {
       document.getElementById("current-hex-type").innerHTML = ("Critter");

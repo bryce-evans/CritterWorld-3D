@@ -78,7 +78,7 @@ Terrain = function() {
 
 var terrain = new Terrain();
 var map = world.scene.map;
-terrain.updateTerrain(map.size.x,  map.size.y , terrain.segments, 6);
+terrain.updateTerrain(map.size.x,  map.size.y , terrain.segments, 3);
 
 world.scene.terrain = terrain;
 terrain.setTexture(terrain.texture);
