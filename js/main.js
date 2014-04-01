@@ -113,7 +113,7 @@ function animate() {
 	// update all animated objects
   var l = world.scene.map.animations.length;
   for (var i = 0; i < l; i++) {
-    world.scene.map.animations[i].update(delta * 1.2);
+    world.scene.map.animations[i].update(world.frameDelta * 1.2);
   }
 
   render();
