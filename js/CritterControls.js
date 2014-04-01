@@ -7,9 +7,10 @@ CritterControls = function(world) {
   this.hexSelectedColor = 0xffbe10;
   this.hexBaseColor = this.world.scene.map.hexColor;
 
-  $(document).keypress(function(event) {
+  $(document).keypress( function(event) {
     if (event.which == 97 && this.currentSelected) {
       this.currentSelected.addCritter();
+      this.updateStats(this.currentSelected);
     }
   }.bind(this));
 }
@@ -41,7 +42,16 @@ CritterControls.prototype = {
     this.currentSelected.wire.material.color.setHex(this.hexSelectedColor);
     document.getElementById("current-hex").innerHTML = ("(" + this.currentSelected.location.c + "," + this.currentSelected.location.r + ")");
 
-    if (hex.type === 2) {
+    this.updateStats(hex);
+
+  },
+
+  updateStats : function(hex) {
+    if (hex.type === 0) {
+      document.getElementById("current-hex-type").innerHTML = (" ");
+    } else if (hex.type === 1) {
+      document.getElementById("current-hex-type").innerHTML = ("Rock");
+    } else if (hex.type === 2) {
       document.getElementById("current-hex-type").innerHTML = ("Critter");
     }
   }

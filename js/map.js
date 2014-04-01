@@ -49,10 +49,11 @@ Hex = function(c, r) {
   this.location.c = c;
   this.location.r = r;
 
-  this.type;
-  this.contains;
+  // 0 : empty, 1 : rock, 2 : critter
+  this.type = 0;
+  this.contains
 
-  this.wire;
+  this.wire
 
   this.addWire();
   this.addMesh();
@@ -70,7 +71,7 @@ Hex.prototype = {
     crit_mesh.position = new THREE.Vector3(this.getPosY(), 1, this.getPosX());
 
     world.scene.add(crit_mesh);
-    
+
     this.type = 2;
   },
   hasCritter : function() {
@@ -88,10 +89,10 @@ Hex.prototype = {
    * @param {Object} r
    */
   getPosY : function() {
-    return Math.sqrt(3)*(this.location.r - .5 * this.location.c) *world.scene.map.hexRadius;
+    return Math.sqrt(3) * (this.location.r - .5 * this.location.c) * world.scene.map.hexRadius;
   },
   getPosX : function() {
-    return (this.location.c) *  1.5*world.scene.map.hexRadius;
+    return (this.location.c) * 1.5 * world.scene.map.hexRadius;
 
   },
 
@@ -111,7 +112,7 @@ Hex.prototype = {
     var geometry = new THREE.Geometry();
     this.material = new THREE.LineBasicMaterial({
       color : world.scene.map.hexColor,
-      linewidth: 3
+      linewidth : 3
     });
 
     var xyPoint = this.getRectCoord();
@@ -144,7 +145,6 @@ Hex.prototype = {
     // xyPoint.print();
     var xoffset = (xyPoint.x * world.scene.map.hexRadius) * 1.5;
     var yoffset = xyPoint.y * world.scene.map.hexHeight - world.scene.map.hexBuffer / 2;
-
 
     for (var i = 0; i < 6; i++) {
 
