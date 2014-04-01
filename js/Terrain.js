@@ -71,7 +71,7 @@ Terrain = function() {
   this.setFog = function() {
     world.scene.fog = new THREE.Fog(0xffffff, 10,300);
   };
-  this.setFog();
+  //this.setFog();
 }
 
 var terrain = new Terrain();

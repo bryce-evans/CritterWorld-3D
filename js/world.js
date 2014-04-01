@@ -10,10 +10,13 @@ World = function() {
 
 	this.projector = new THREE.Projector();
 	
+	this.water;
+	
   this.renderer;
   this.particleLight, this.pointLight;
   this.t = 0;
   this.clock = new THREE.Clock();
+  this.frameDelta = 0;
 
   this.COLUMNS = 10;
   this.ROWS = 10;

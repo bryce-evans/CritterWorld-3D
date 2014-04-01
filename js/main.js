@@ -34,16 +34,28 @@ function init() {
   spotLight.shadowMapHeight = 1024;
   world.scene.add(spotLight);
 
-  // var directionalLight = new THREE.DirectionalLight(/*Math.random() * 0xffffff*/0xeeeeee);
-  // directionalLight.position.x = Math.random() - 0.5;
-  // directionalLight.position.y = Math.random() - 0.5;
-  // directionalLight.position.z = Math.random() - 0.5;
-  // directionalLight.position.normalize();
-  // world.scene.add(directionalLight);
+  var skyGeometry = new THREE.CubeGeometry(1500, 1500, 1500);
+
+  var sky_path = "/CritterWorld/rsc/textures/sky2_ENV/cloudy_";
+  var directions = ["xp", "xn", "yp", "yn", "zp", "zn"];
+  var extension = ".png";
+
+  var materialArray = [];
+  for (var i = 0; i < 6; i++)
+    materialArray.push(new THREE.MeshBasicMaterial({
+      map : THREE.ImageUtils.loadTexture(sky_path + directions[i] + extension),
+      side : THREE.BackSide,
+      // fog: new THREE.fog(0xffffff,1000,1600)
+    }));
+  var skyMaterial = new THREE.MeshFaceMaterial(materialArray);
+  var skyBox = new THREE.Mesh(skyGeometry, skyMaterial);
+  // world.scene.add(skyBox);
+
+  // INSERT PLANE HERE
 
   world.renderer = new THREE.WebGLRenderer();
   world.renderer.setSize(window.innerWidth, window.innerHeight);
-  world.renderer.setClearColor(0x111111, 0.6)
+  world.renderer.setClearColor(0xade0f4, 0.6)
 
   world.container.appendChild(world.renderer.domElement);
 
@@ -105,7 +117,7 @@ function animate() {
 
   /////////////////////
 
-  var delta = world.clock.getDelta();
+  world.frameDelta = world.clock.getDelta();
 
   requestAnimationFrame(animate);
 
@@ -137,19 +149,9 @@ function animate() {
 
 function render() {
 
-  var timer = Date.now() * 0.0005;
+  var delta = 5 * world.clock.getDelta();
 
-  // world.camera.position.x = Math.cos(timer) * 15;
-  // world.camera.position.y = 10;
-  // world.camera.position.z = Math.sin(timer) * 15;
-  //
-  // world.camera.lookAt(new THREE.Vector3(0, 0, 0));
-  //
-  // particleLight.position.x = Math.sin(timer * 4) * 3009;
-  // particleLight.position.y = Math.cos(timer * 5) * 4000;
-  // particleLight.position.z = Math.cos(timer * 4) * 3009;
-
+  world.water.update(world.frameDelta);
   world.renderer.render(world.scene, world.camera);
   controls.update();
-
 }
