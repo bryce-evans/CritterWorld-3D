@@ -8,7 +8,7 @@ CritterControls = function(world) {
   this.hexBaseColor = this.world.scene.map.hexColor;
 
   $(document).keypress( function(event) {
-    if (event.which == 97 && this.currentSelected) {
+    if (event.which == 97 && this.currentSelected && this.currentSelected.type === 0) {
       this.currentSelected.addCritter();
       this.updateStats(this.currentSelected);
     }

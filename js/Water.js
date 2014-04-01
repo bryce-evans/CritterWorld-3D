@@ -26,7 +26,7 @@ Water.prototype = {
 
       envMap : reflectionCube,
       //combine : THREE.MixOperation,
-      reflectivity : 0.1
+      reflectivity : 1
     });
     var plane = new THREE.Mesh(geometry, material);
     plane.rotation.x = -Math.PI / 2;
