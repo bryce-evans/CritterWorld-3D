@@ -26,7 +26,6 @@ Map = function(world) {
   this.hexHeight = (this.hexRadius * Math.sqrt(3));
 
   this.hexColor = 0x00ffff;
-  this.selectedHexColor = 0xffffff;
 
   this.size = new XYPoint();
   this.center = new XYPoint();

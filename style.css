@@ -4,7 +4,7 @@
 #menubar {
   position: absolute;
   top: 0px;
-  height: 20px;
+  height: 21px;
   width: 100%;
   z-index: 3;
   display: block;
@@ -53,7 +53,7 @@
   height: 25px;
   width: 200px;
   position: absolute;
-  top: 25px;
+  top: 15px;
   right: 15px;
   box-shadow: 2px 2px 10px black;
   border-radius: 0px 5px 5px 0px;
