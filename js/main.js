@@ -14,7 +14,6 @@ function init() {
     color : 0x00ffff
   });
 
-
   for (var c = 0; c != world.COLUMNS + 1; c++) {
     for (var r = Math.ceil(c / 2); 2 * r <= c + (2 * world.ROWS - world.COLUMNS) + (world.COLUMNS % 2 == 0 && c % 2 != 0 ? 1 : 0); r++) {
       world.scene.map.hexes.push(new Hex(c, r));
@@ -25,12 +24,22 @@ function init() {
 
   world.scene.add(new THREE.AmbientLight(0xcccccc));
 
-  var directionalLight = new THREE.DirectionalLight(/*Math.random() * 0xffffff*/0xeeeeee);
-  directionalLight.position.x = Math.random() - 0.5;
-  directionalLight.position.y = Math.random() - 0.5;
-  directionalLight.position.z = Math.random() - 0.5;
-  directionalLight.position.normalize();
-  world.scene.add(directionalLight);
+  spotLight = new THREE.SpotLight(0xaaaaaa);
+  spotLight.position.set(1000, 500, 1000);
+  spotLight.castShadow = true;
+  spotLight.shadowCameraNear = 500;
+  spotLight.shadowCameraFov = 70;
+  spotLight.shadowBias = 0.001;
+  spotLight.shadowMapWidth = 1024;
+  spotLight.shadowMapHeight = 1024;
+  world.scene.add(spotLight);
+
+  // var directionalLight = new THREE.DirectionalLight(/*Math.random() * 0xffffff*/0xeeeeee);
+  // directionalLight.position.x = Math.random() - 0.5;
+  // directionalLight.position.y = Math.random() - 0.5;
+  // directionalLight.position.z = Math.random() - 0.5;
+  // directionalLight.position.normalize();
+  // world.scene.add(directionalLight);
 
   world.renderer = new THREE.WebGLRenderer();
   world.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -47,7 +56,7 @@ function init() {
 
   window.addEventListener('resize', onWindowResize, false);
   controls = new THREE.OrbitControls(world.camera, world.renderer.domElement);
- 
+
   /* *************************************************************
   * Here we are adding the skinned mesh to the scene
   *
@@ -72,21 +81,17 @@ function onWindowResize() {
 
   world.camera.aspect = window.innerWidth / window.innerHeight;
   world.camera.updateProjectionMatrix();
-   
 
   world.renderer.setSize(window.innerWidth, window.innerHeight);
 
   world.SCREEN_WIDTH = window.innerWidth;
   world.SCREEN_HEIGHT = window.innerHeight;
-  
- 
 
 }
 
 //
 
 function animate() {
-	 
 
   /*
   * Here the mesh animation is updated
@@ -101,7 +106,6 @@ function animate() {
   /////////////////////
 
   var delta = world.clock.getDelta();
-
 
   requestAnimationFrame(animate);
 
@@ -132,7 +136,6 @@ function animate() {
 
    }
    */
- 
 
   render();
   world.stats.update();
@@ -153,7 +156,6 @@ function render() {
   // particleLight.position.y = Math.cos(timer * 5) * 4000;
   // particleLight.position.z = Math.cos(timer * 4) * 3009;
 
-	
   world.renderer.render(world.scene, world.camera);
   controls.update();
 
