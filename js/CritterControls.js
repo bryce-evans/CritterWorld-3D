@@ -5,7 +5,9 @@ CritterControls = function(world) {
 }
 
 CritterControls.prototype = {
-
+	setHovered :function(hex){
+		hex.wire.material.color.setHex(0xff0000);
+	},
   setSelected : function(hex) {
     if (this.currentHex) {
       this.currentHex.wire.material.color.setHex(this.world.scene.map.hexColor);

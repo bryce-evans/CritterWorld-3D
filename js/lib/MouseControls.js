@@ -87,7 +87,15 @@ THREE.OrbitControls = function(object, domElement) {
 
   // events
 
+  $("#world").mousemove(function(event) {
+    mousePosition.x = event.clientX;
+    mousePosition.y = event.clientY;
 
+    hexMesh = getHitObject();
+    if (hexMesh) {
+      world.critterControls.setHovered(hexMesh.object.hex);
+    }
+  });
 
   var changeEvent = {
     type : 'change'
