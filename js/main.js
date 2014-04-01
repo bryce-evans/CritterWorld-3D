@@ -105,42 +105,16 @@ function onWindowResize() {
 
 function animate() {
 
-  /*
-  * Here the mesh animation is updated
-  * the argument for update method should be delta time since
-  * last frame in miliseconds
-  * for simplicity I've sent 0.01 miliseconds value what
-  * should display the animation
-  */
-
-  //  renderer.render( scene, camera );
-
-  /////////////////////
-
   world.frameDelta = world.clock.getDelta();
 
   requestAnimationFrame(animate);
 
+
+	// update all animated objects
   var l = world.scene.map.animations.length;
   for (var i = 0; i < l; i++) {
     world.scene.map.animations[i].update(delta * 1.2);
   }
-
-  // if (t > 1)
-  // t = 0;
-
-  // if (skin) {
-  // for (var i = 0; i < skin.morphTargetInfluences.length; i++) {
-  //
-  // skin.morphTargetInfluences[i] = 0;
-  //
-  // }
-  //
-  // skin.morphTargetInfluences[ Math.floor(t * 30)] = 1;
-  //
-  // t += delta;
-  //
-  // }
 
   render();
   world.stats.update();
@@ -149,9 +123,6 @@ function animate() {
 
 function render() {
 
-  var delta = 5 * world.clock.getDelta();
-
-  world.water.update(world.frameDelta);
   world.renderer.render(world.scene, world.camera);
   controls.update();
 }

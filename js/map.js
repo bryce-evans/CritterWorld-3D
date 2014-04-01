@@ -31,6 +31,7 @@ Map = function(world) {
   this.center = new XYPoint();
 
   this.animations = new Array();
+  this.frameDelta = 0;
 }
 Map.prototype = {
   calculateSize : function() {
