@@ -29,6 +29,8 @@ Map = function(world) {
 
   this.size = new XYPoint();
   this.center = new XYPoint();
+
+  this.animations = new Array();
 }
 Map.prototype = {
   calculateSize : function() {
@@ -63,16 +65,12 @@ Hex = function(c, r) {
 
 Hex.prototype = {
   addCritter : function() {
-    var geometry = new THREE.SphereGeometry(1, 8, 8);
-    var material = new THREE.MeshBasicMaterial({
-      color : 0xff0000
-    });
-    var crit_mesh = new THREE.Mesh(geometry, material);
-    crit_mesh.position = new THREE.Vector3(this.getPosY(), 1, this.getPosX());
 
-    world.scene.add(crit_mesh);
+    critter = new Critter();
 
+    critter.add(this);
     this.type = 2;
+
   },
   hasCritter : function() {
 

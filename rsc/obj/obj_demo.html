@@ -212,13 +212,6 @@
 
         if (skin) {
 
-          // guess this can be done smarter...
-
-          // (Indeed, there are way more frames than needed and interpolation is not used at all
-          //  could be something like - one morph per each skinning pose keyframe, or even less,
-          //  animation could be resampled, morphing interpolation handles sparse keyframes quite well.
-          //  Simple animation cycles like this look ok with 10-15 frames instead of 100 ;)
-
           for (var i = 0; i < skin.morphTargetInfluences.length; i++) {
 
             skin.morphTargetInfluences[i] = 0;

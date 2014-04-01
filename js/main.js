@@ -109,33 +109,26 @@ function animate() {
 
   requestAnimationFrame(animate);
 
-  //animation_wing_left.update(delta * .9);
-  //animation_wing_right.update(delta * .9);
+  var l = world.scene.map.animations.length;
+  for (var i = 0; i < l; i++) {
+    world.scene.map.animations[i].update(delta * 1.2);
+  }
 
-  //if (t > 1)
+  // if (t > 1)
   // t = 0;
 
-  /* if (skin) {
-
-   // guess this can be done smarter...
-
-   // (Indeed, there are way more frames than needed and interpolation is not used at all
-   //  could be something like - one morph per each skinning pose keyframe, or even less,
-   //  animation could be resampled, morphing interpolation handles sparse keyframes quite well.
-   //  Simple animation cycles like this look ok with 10-15 frames instead of 100 ;)
-
-   for (var i = 0; i < skin.morphTargetInfluences.length; i++) {
-
-   skin.morphTargetInfluences[i] = 0;
-
-   }
-
-   skin.morphTargetInfluences[ Math.floor(t * 30)] = 1;
-
-   t += delta;
-
-   }
-   */
+  // if (skin) {
+  // for (var i = 0; i < skin.morphTargetInfluences.length; i++) {
+  //
+  // skin.morphTargetInfluences[i] = 0;
+  //
+  // }
+  //
+  // skin.morphTargetInfluences[ Math.floor(t * 30)] = 1;
+  //
+  // t += delta;
+  //
+  // }
 
   render();
   world.stats.update();
