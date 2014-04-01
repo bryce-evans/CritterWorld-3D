@@ -8,6 +8,8 @@
 
 THREE.OrbitControls = function(object, domElement) {
 
+  document.addEventListener('mouseup', onMouseUp, false);
+
   this.object = object;
   this.domElement = (domElement !== undefined ) ? domElement : document;
 
@@ -69,7 +71,7 @@ THREE.OrbitControls = function(object, domElement) {
   var scale = 1;
 
   var lastPosition = new THREE.Vector3()
-  
+
   var mousePosition = {
     x : -1,
     y : -1
@@ -84,6 +86,8 @@ THREE.OrbitControls = function(object, domElement) {
   var state = STATE.NONE;
 
   // events
+
+
 
   var changeEvent = {
     type : 'change'

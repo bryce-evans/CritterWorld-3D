@@ -4,6 +4,7 @@
 		<title>Critter World</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="js/lib/jquery-1.7.2.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css">
 
 		<script src="http://threejs.org/build/three.js"></script>
@@ -14,7 +15,22 @@
 	<body>
 		<div id="page">
 			<div id= "menubar">
-				Critter World
+				<div id="logo">
+					Critter World
+				</div>
+
+				<div id="menu-items" style="float:left; display:inline;">
+					<div class="menu-item">
+						World
+					</div>
+					<div class="menu-item">
+						File
+					</div>
+					<div class="menu-item">
+						View
+					</div>
+
+				</div>
 
 			</div>
 			<div id="main">
@@ -30,15 +46,17 @@
 							<span class="stat-label">Critter Count: </span><span class="stat" id="critter-count">0</span>
 						</div>
 						<br>
-						<div style="top: 45px;
-						position: absolute;
-						width: 200px;">
+						<div>
 							<span class="stat-label">Time:</span><span class="stat" id = "time-count">0</span>
 						</div>
 						<br>
 
 						<div>
 							<span class="stat-label">Current Hex: </span><span class="stat" id="current-hex">(0,0)</span>
+						</div>
+						<br>
+						<div>
+							<span class="stat-label">Type: </span><span class="stat" id="current-hex-type"> </span>
 						</div>
 					</div>
 

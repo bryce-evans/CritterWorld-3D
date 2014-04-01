@@ -11,8 +11,26 @@
   background-color: #005731;
   color: #fff;
   font-family: trebuchet ms, sans;
-  padding: 5px;
+  padding: 2px 5px 5px 5px;
   border-bottom: 2px solid #00331D;
+}
+#logo {
+  width: 120px;
+  float: left;
+  font-size: 18px;
+  color: #CCFF8B;
+}
+.menu-item {
+  width: 40px;
+  padding: 2px 12px 3px 12px;
+  text-align: center;
+  float: left;
+  -webkit-font-smoothing: antialiased;  
+  text-shadow: -1px -1px rgba(0, 0, 0, .3);
+}
+.menu-item:hover {
+  background-color: #92cc47;
+  border-radius: 5px 5px 0px 0px;
 }
 #world {
   position: relative;
@@ -50,8 +68,9 @@
   width: 200px;
 }
 .stat-label {
+  float: left;
   text-align: right;
-  top:-10px;
+  top: -10px;
 }
 .stat {
   float: right;
