@@ -110,7 +110,8 @@ Hex.prototype = {
   addWire : function() {
     var geometry = new THREE.Geometry();
     this.material = new THREE.LineBasicMaterial({
-      color : world.scene.map.hexColor
+      color : world.scene.map.hexColor,
+      linewidth: 3
     });
 
     var xyPoint = this.getRectCoord();
