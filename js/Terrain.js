@@ -18,7 +18,6 @@ Terrain = function() {
   this.terrain = new Array();
   this.border = false;
   this.info = false;
-  this.fog = 0.001;
   this.deepth = -80;
 
   this.geometry;
@@ -69,11 +68,10 @@ Terrain = function() {
 
   };
 
-  this.setFog = function(fog) {
-    this.fog = fog;
-    world.scene.fog = new THREE.FogExp2(0xffffff, this.fog);
+  this.setFog = function() {
+    world.scene.fog = new THREE.Fog(0xffffff, 10,300);
   };
-  this.setFog(this.fog);
+  this.setFog();
 }
 
 var terrain = new Terrain();
