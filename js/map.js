@@ -70,14 +70,15 @@ Hex = function(c, r) {
 
   this.addWire();
   this.addMesh();
-  //this.addScenery();
+  if(world.isVegetated){
+  	this.addScenery();
+  }
 
   if (!world.scene.map.hexes[c]) {
     world.scene.map.hexes[c] = new Array();
   }
   world.scene.map.hexes[c][r] = (this);
 }
-
 Hex.prototype = {
   addCritter : function() {
 
@@ -85,6 +86,34 @@ Hex.prototype = {
 
     critter.add(this);
     this.type = 2;
+
+  },
+  addRock : function() {
+  	this.type = 1;
+    var x = this.getPosX();
+    var y = this.getPosY();
+    //var size = .2;
+    var rotation = Math.PI / 3 * Math.floor((Math.random() * 5));
+
+    var rockTexture = new THREE.ImageUtils.loadTexture("../CritterWorld/rsc/obj/rock1/rock.jpg");
+
+    function onRockLoad(geometry, materials) {
+
+      var rockMaterial = new THREE.MeshBasicMaterial({
+        map : rockTexture,
+      });
+
+      var mesh = new THREE.Mesh(geometry, rockMaterial);
+      mesh.geometry.computeFaceNormals();
+      mesh.position = new THREE.Vector3(y, .1, x);
+      mesh.rotation.y = rotation;
+      //mesh.scale = new THREE.Vector3(size, size, size);
+      world.scene.add(mesh);
+
+    }
+
+
+    loader.load("../CritterWorld/rsc/obj/rock1/rock1.js", onRockLoad);
 
   },
   hasCritter : function() {
@@ -121,7 +150,6 @@ Hex.prototype = {
 
     return point;
   },
-
   updateStats : function() {
     if (this.type === 0) {
       document.getElementById("current-hex-type").innerHTML = (" ");
@@ -235,7 +263,5 @@ Hex.prototype = {
     loader.load("../CritterWorld/rsc/obj/tree1/branches.js", onBranchesLoad);
     loader.load("../CritterWorld/rsc/obj/tree1/trunk.js", onTrunkLoad);
   }
-  
-  
 }
 

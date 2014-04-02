@@ -82,7 +82,7 @@ world.scene.terrain = terrain;
 terrain.setTexture(terrain.texture);
 terrain.setFog(terrain.fog);
 
-terrain.mesh.position = new THREE.Vector3(map.center.x,-2,map.center.y) ;
+terrain.mesh.position = new THREE.Vector3(map.center.x,-1,map.center.y) ;
 
 world.scene.add(terrain.mesh);
 

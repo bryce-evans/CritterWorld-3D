@@ -29,6 +29,7 @@ World = function() {
   	timeStep : 0,
   }
   
+  this.isVegetated = true;
   this.isAnimated = true;
   this.animations = new Array();
   this.FRAMES_PER_TURN = 10;

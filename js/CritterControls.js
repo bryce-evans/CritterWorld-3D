@@ -14,14 +14,21 @@ CritterControls = function(world) {
 
   $(document).keypress( function(event) {
 
-    // add critter
     if (this.currentSelected) {
-      if (event.which === KEYS.C && this.currentSelected.type === 0) {
-        this.currentSelected.addCritter();
-        world.data.critterCount += 1;
-        this.currentSelected.updateStats();
-        world.updateStats();
 
+      // add objects
+      if (this.currentSelected.type === 0) {
+        // add critter
+        if (event.which === KEYS.C) {
+          this.currentSelected.addCritter();
+          world.data.critterCount += 1;
+          this.currentSelected.updateStats();
+          world.updateStats();
+
+          // add rock
+        } else if (event.which === KEYS.R) {
+          this.currentSelected.addRock();
+        }
         // move
       } else {
         if (this.currentSelected.type === 2) {

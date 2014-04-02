@@ -14,6 +14,7 @@ var KEYS = {
   DOWN : 115,
 
   C : 99,
+  R: 114,
   
   //ARROWS
   // LEFT : 37,
