@@ -70,7 +70,7 @@ Hex = function(c, r) {
 
   this.addWire();
   this.addMesh();
-  this.addScenery();
+  //this.addScenery();
 
   if (!world.scene.map.hexes[c]) {
     world.scene.map.hexes[c] = new Array();

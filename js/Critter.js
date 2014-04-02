@@ -25,6 +25,10 @@ Critter.prototype = {
       this.mesh.geometry.computeFaceNormals();
       enableSkinning(this.mesh);
 
+      for (var i = 0; i < this.mesh.bones; i++) {
+        this.mesh.bones[i].useQuaternion = false;
+      }
+
       this.setPosToHex(hex);
       this.mesh.scale = new THREE.Vector3(.2, .2, .2);
 
@@ -113,11 +117,13 @@ Critter.prototype = {
 
   turnRight : function() {
     this.incrementOrientation(1);
-    this.mesh.rotation -= Math.PI / 3;
+    this.mesh.quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), -Math.PI / 2 + -Math.PI / 3 * (this.orientation));
+    console.log(this.orientation);
   },
 
   turnLeft : function() {
     this.incrementOrientation(-1);
-    this.mesh.rotation -= Math.PI / 3;
+    this.mesh.quaternion.setFromAxisAngle(new THREE.Vector3(0, -1, 0), Math.PI / 2 + Math.PI / 3 * (this.orientation));
+    console.log(this.orientation);
   }
 }
