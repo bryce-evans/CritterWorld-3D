@@ -27,6 +27,10 @@ Critter.prototype = {
 
       this.setPosToHex(hex);
       this.mesh.scale = new THREE.Vector3(.2, .2, .2);
+
+      // random orientation
+      this.orientation = Math.floor((Math.random() * 6));
+      this.mesh.rotation.y -= Math.PI / 2 + Math.PI / 3 * this.orientation;
       world.scene.add(this.mesh);
 
       THREE.AnimationHandler.add(this.mesh.geometry.animation);
@@ -91,9 +95,29 @@ Critter.prototype = {
     this.hex.critter = null;
     this.hex = newHex;
     this.hex.critter = this;
-    
+
     this.setPosToHex(this.hex);
     world.critterControls.setSelected(this.hex);
 
+  },
+  moveBackward : function() {
+    this.incrementOrientation(3);
+    this.moveForward();
+    this.incrementOrientation(3);
+  },
+
+  // REQUIRES: i in range [-6,6]
+  incrementOrientation : function(i) {
+    this.orientation = (this.orientation + 6 + i) % 6;
+  },
+
+  turnRight : function() {
+    this.incrementOrientation(1);
+    this.mesh.rotation -= Math.PI / 3;
+  },
+
+  turnLeft : function() {
+    this.incrementOrientation(-1);
+    this.mesh.rotation -= Math.PI / 3;
   }
 }

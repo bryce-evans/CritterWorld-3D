@@ -1,8 +1,7 @@
 /**
- * Controls for operating the side panel and moving critters 
+ * Controls for operating the side panel and moving critters
  * @param {Object} world
  */
-
 
 CritterControls = function(world) {
   this.world = world;
@@ -20,8 +19,20 @@ CritterControls = function(world) {
       if (event.which === KEYS.C && this.currentSelected.type === 0) {
         this.currentSelected.addCritter();
         this.updateStats(this.currentSelected);
-      } else if (event.which === KEYS.UP && this.currentSelected.type === 2) {
-					this.currentSelected.critter.moveForward();
+        
+        // move
+      } else {
+        if (this.currentSelected.type === 2) {
+          if (event.which === KEYS.UP) {
+            this.currentSelected.critter.moveForward();
+          } else if (event.which === KEYS.DOWN ) {
+            this.currentSelected.critter.moveBackward();
+          }else if (event.which === KEYS.RIGHT ) {
+            this.currentSelected.critter.turnRight();
+          }else if (event.which === KEYS.LEFT ) {
+            this.currentSelected.critter.turnLeft();
+          }
+        }
       }
     }
   }.bind(this));
@@ -53,19 +64,17 @@ CritterControls.prototype = {
   },
 
   setSelected : function(hex) {
-  	
-  	// unselect previous
+
+    // unselect previous
     if (this.currentSelected) {
       this.currentSelected.wire.material.color.setHex(this.hexBaseColor);
     }
-    
+
     // change selected and update panel
     this.currentSelected = hex;
     this.currentSelected.wire.material.color.setHex(this.hexSelectedColor);
     document.getElementById("current-hex").innerHTML = ("(" + this.currentSelected.location.c + "," + this.currentSelected.location.r + ")");
     this.updateStats(hex);
-    
-    
 
   },
 
