@@ -63,26 +63,37 @@ Critter.prototype = {
   },
   moveForward : function() {
     var pos = this.hex.location;
+
+    var newHex = null;
+
     switch(this.orientation) {
       case 0:
-        this.setPosToHex(world.scene.map.getHex(pos.c, pos.r + 1));
+        newHex = world.scene.map.getHex(pos.c, pos.r + 1);
         break;
       case 1:
-        this.setPosToHex(world.scene.map.getHex(pos.c + 1, pos.r + 1));
+        newHex = world.scene.map.getHex(pos.c + 1, pos.r + 1);
         break;
       case 2:
-        this.setPosToHex(world.scene.map.getHex(pos.c + 1, pos.r));
+        newHex = world.scene.map.getHex(pos.c + 1, pos.r);
         break;
       case 3:
-        this.setPosToHex(world.scene.map.getHex(pos.c, pos.r - 1));
+        newHex = world.scene.map.getHex(pos.c, pos.r - 1);
         break;
       case 4:
-        this.setPosToHex(world.scene.map.getHex(pos.c - 1, pos.r - 1));
+        newHex = world.scene.map.getHex(pos.c - 1, pos.r - 1);
         break;
       case 5:
-        this.setPosToHex(world.scene.map.getHex(pos.c - 1, pos.r));
+        newHex = world.scene.map.getHex(pos.c - 1, pos.r);
         break;
     }
+
+    // update hex critter
+    this.hex.critter = null;
+    this.hex = newHex;
+    this.hex.critter = this;
+    
+    this.setPosToHex(this.hex);
+    world.critterControls.setSelected(this.hex);
 
   }
 }

@@ -53,14 +53,19 @@ CritterControls.prototype = {
   },
 
   setSelected : function(hex) {
+  	
+  	// unselect previous
     if (this.currentSelected) {
       this.currentSelected.wire.material.color.setHex(this.hexBaseColor);
     }
+    
+    // change selected and update panel
     this.currentSelected = hex;
     this.currentSelected.wire.material.color.setHex(this.hexSelectedColor);
     document.getElementById("current-hex").innerHTML = ("(" + this.currentSelected.location.c + "," + this.currentSelected.location.r + ")");
-
     this.updateStats(hex);
+    
+    
 
   },
 

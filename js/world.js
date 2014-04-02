@@ -22,8 +22,8 @@ World = function() {
   this.t = 0;
   this.clock = new THREE.Clock();
 
-  this.COLUMNS = 50;
-  this.ROWS = 50;
+  this.COLUMNS = 15;
+  this.ROWS = 15;
 
   this.SCREEN_WIDTH = window.innerWidth;
   this.SCREEN_HEIGHT = window.innerHeight;
