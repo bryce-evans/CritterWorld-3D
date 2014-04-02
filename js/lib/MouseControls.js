@@ -29,7 +29,7 @@ THREE.OrbitControls = function(object, domElement) {
   this.userRotateSpeed = 1.0;
 
   this.userPan = true;
-  this.userPanSpeed = .2;
+  this.userPanSpeed = 20;
 
   this.autoRotate = false;
   this.autoRotateSpeed = 2.0;
@@ -45,6 +45,7 @@ THREE.OrbitControls = function(object, domElement) {
 
   // 65 /*A*/, 83 /*S*/, 68 /*D*/
  
+
 
   // internals
 
@@ -170,7 +171,7 @@ THREE.OrbitControls = function(object, domElement) {
 
   this.pan = function(distance) {
 
-    this.userPanSpeed = 0.005 * this.object.position.y;
+    this.userPanSpeed = 0.01 * this.object.position.y;
     distance.transformDirection(this.object.matrix);
     distance.multiplyScalar(scope.userPanSpeed);
 

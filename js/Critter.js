@@ -101,6 +101,11 @@ Critter.prototype = {
         break;
     }
 
+		// return if hex is not empty
+		if(newHex.type !== 0){
+			return;
+		}
+		
     // set up movement
     if (world.isAnimated) {
       this.hasAnimation = true;

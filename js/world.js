@@ -5,7 +5,7 @@
 
 World = function() {
   this.container = document.getElementById('world');
-  this.stats
+  this.stats;
 
   this.scene = new THREE.Scene();
   this.camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 2000);
@@ -20,8 +20,14 @@ World = function() {
 	
   this.renderer;
   this.particleLight, this.pointLight;
+  // time step
   this.t = 0;
   this.clock = new THREE.Clock();
+  
+  this.data = {
+  	critterCount : 0,
+  	timeStep : 0,
+  }
   
   this.isAnimated = true;
   this.animations = new Array();
@@ -73,6 +79,10 @@ World.prototype = {
     zline = new THREE.Line(z, zmaterial);
     world.scene.add(zline);
 
+  },
+  updateStats : function(){
+  	document.getElementById("critter-count").innerHTML = (this.data.critterCount);
+  	document.getElementById("time-count").innerHTML = (this.data.timeStep);
   }
 }
 

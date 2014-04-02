@@ -122,6 +122,15 @@ Hex.prototype = {
     return point;
   },
 
+  updateStats : function() {
+    if (this.type === 0) {
+      document.getElementById("current-hex-type").innerHTML = (" ");
+    } else if (this.type === 1) {
+      document.getElementById("current-hex-type").innerHTML = ("Rock");
+    } else if (this.type === 2) {
+      document.getElementById("current-hex-type").innerHTML = ("Critter");
+    }
+  },
   //draws the wire around the hex
   addWire : function() {
     var geometry = new THREE.Geometry();
@@ -226,5 +235,7 @@ Hex.prototype = {
     loader.load("../CritterWorld/rsc/obj/tree1/branches.js", onBranchesLoad);
     loader.load("../CritterWorld/rsc/obj/tree1/trunk.js", onTrunkLoad);
   }
+  
+  
 }
 

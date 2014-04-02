@@ -18,26 +18,37 @@ CritterControls = function(world) {
     if (this.currentSelected) {
       if (event.which === KEYS.C && this.currentSelected.type === 0) {
         this.currentSelected.addCritter();
-        this.updateStats(this.currentSelected);
+        world.data.critterCount += 1;
+        this.currentSelected.updateStats();
+        world.updateStats();
 
         // move
       } else {
         if (this.currentSelected.type === 2) {
+          var moved = false;
+
           if (event.which === KEYS.UP) {
-            world.turnOccurring = true;
+            moved = true;
             this.currentSelected.critter.moveForward();
           } else if (event.which === KEYS.DOWN) {
-            world.turnOccurring = true;
+            moved = true;
             this.currentSelected.critter.moveBackward();
           } else if (event.which === KEYS.RIGHT) {
-            world.turnOccurring = true;
+            moved = true;
             this.currentSelected.critter.turnRight();
           } else if (event.which === KEYS.LEFT) {
-            world.turnOccurring = true;
+            moved = true;
             this.currentSelected.critter.turnLeft();
           }
+          if (moved) {
+            world.turnOccurring = true;
+            world.data.timeStep += 1;
+            world.updateStats();
+          }
+
         }
       }
+
     }
   }.bind(this));
 
@@ -78,18 +89,8 @@ CritterControls.prototype = {
     this.currentSelected = hex;
     this.currentSelected.wire.material.color.setHex(this.hexSelectedColor);
     document.getElementById("current-hex").innerHTML = ("(" + this.currentSelected.location.c + "," + this.currentSelected.location.r + ")");
-    this.updateStats(hex);
+    hex.updateStats();
 
-  },
-
-  updateStats : function(hex) {
-    if (hex.type === 0) {
-      document.getElementById("current-hex-type").innerHTML = (" ");
-    } else if (hex.type === 1) {
-      document.getElementById("current-hex-type").innerHTML = ("Rock");
-    } else if (hex.type === 2) {
-      document.getElementById("current-hex-type").innerHTML = ("Critter");
-    }
   }
 }
 
