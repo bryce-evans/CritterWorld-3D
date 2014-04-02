@@ -1,3 +1,8 @@
+/**
+ * WORLD
+ *  used for global variables and holding the entire program state 
+ */
+
 World = function() {
   this.container = document.getElementById('world');
   this.stats
@@ -17,8 +22,8 @@ World = function() {
   this.t = 0;
   this.clock = new THREE.Clock();
 
-  this.COLUMNS = 10;
-  this.ROWS = 10;
+  this.COLUMNS = 50;
+  this.ROWS = 50;
 
   this.SCREEN_WIDTH = window.innerWidth;
   this.SCREEN_HEIGHT = window.innerHeight;

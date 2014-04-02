@@ -1,3 +1,9 @@
+/**
+ * Controls for operating the side panel and moving critters 
+ * @param {Object} world
+ */
+
+
 CritterControls = function(world) {
   this.world = world;
   this.currentSelected = null;
@@ -8,11 +14,18 @@ CritterControls = function(world) {
   this.hexBaseColor = this.world.scene.map.hexColor;
 
   $(document).keypress( function(event) {
-    if (event.which == 97 && this.currentSelected && this.currentSelected.type === 0) {
-      this.currentSelected.addCritter();
-      this.updateStats(this.currentSelected);
+
+    // add critter
+    if (this.currentSelected) {
+      if (event.which === KEYS.C && this.currentSelected.type === 0) {
+        this.currentSelected.addCritter();
+        this.updateStats(this.currentSelected);
+      } else if (event.which === KEYS.UP && this.currentSelected.type === 2) {
+					this.currentSelected.critter.moveForward();
+      }
     }
   }.bind(this));
+
 }
 
 CritterControls.prototype = {
@@ -22,14 +35,19 @@ CritterControls.prototype = {
     if (hex === this.currentHovered) {
       return;
     }
-    // leaving a selected hex
+
     if (this.currentHovered) {
-      if (this.currentSelected === this.currentHovered) {
+
+      // highlighting selected
+      if (this.currentHovered === this.currentSelected) {
         this.currentHovered.wire.material.color.setHex(this.hexSelectedColor);
+
+        // leaving a selected hex
       } else {
         this.currentHovered.wire.material.color.setHex(this.hexBaseColor);
       }
     }
+
     this.currentHovered = hex;
     hex.wire.material.color.setHex(this.hexHoverColor);
   },

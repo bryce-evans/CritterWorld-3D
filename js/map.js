@@ -16,7 +16,12 @@ CRPoint = function() {
 }
 Map = function(world) {
   this.world = world;
+
+  // an array of arrays
+  // hexes[c][r] returns hex at (c,r)
   this.hexes = new Array();
+
+  // used strictly for selecting hex with mouse
   this.hexGeometries = new Array();
 
   this.hexSize = 3;
@@ -40,6 +45,11 @@ Map.prototype = {
 
     this.center.x = this.size.x / 2 - this.hexSize;
     this.center.y = this.size.y / 2 - this.hexSize;
+  },
+
+  // returns the hex at c,r
+  getHex : function(c, r) {
+    return this.hexes[c][r];
   }
 }
 world.scene.map = new Map(world);
@@ -54,7 +64,7 @@ Hex = function(c, r) {
 
   // 0 : empty, 1 : rock, 2 : critter
   this.type = 0;
-  this.contains
+  this.critter
 
   this.wire
 
@@ -62,7 +72,10 @@ Hex = function(c, r) {
   this.addMesh();
   this.addScenery();
 
-  world.scene.map.hexes.push(this);
+  if (!world.scene.map.hexes[c]) {
+    world.scene.map.hexes[c] = new Array();
+  }
+  world.scene.map.hexes[c][r] = (this);
 }
 
 Hex.prototype = {
@@ -176,7 +189,7 @@ Hex.prototype = {
 
     var branchTexture = new THREE.ImageUtils.loadTexture("../CritterWorld/rsc/obj/tree1/branch.png");
     var trunkTexture = new THREE.ImageUtils.loadTexture("../CritterWorld/rsc/obj/tree1/bark.jpg");
-    
+
     function onBranchesLoad(geometry, materials) {
 
       var branchMaterial = new THREE.MeshBasicMaterial({
@@ -194,13 +207,12 @@ Hex.prototype = {
     }
 
     function onTrunkLoad(geometry, materials) {
-    	var uniforms = {
+
+      var trunkMaterial = new THREE.MeshBasicMaterial({
         map : trunkTexture,
         opacity : opacity,
-      }
-      var trunkMaterial = new THREE.MeshBasicMaterial(uniforms);
-      
-      uniforms.map.wrapS = uniforms.map.wrapT = THREE.RepeatWrapping;
+      });
+
       var mesh = new THREE.Mesh(geometry, trunkMaterial);
       mesh.geometry.computeFaceNormals();
       mesh.position = new THREE.Vector3(y, .1, x);

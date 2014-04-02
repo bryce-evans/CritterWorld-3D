@@ -16,7 +16,7 @@ function init() {
 
   for (var c = 0; c != world.COLUMNS + 1; c++) {
     for (var r = Math.ceil(c / 2); 2 * r <= c + (2 * world.ROWS - world.COLUMNS) + (world.COLUMNS % 2 == 0 && c % 2 != 0 ? 1 : 0); r++) {
-      world.scene.map.hexes.push(new Hex(c, r));
+     new Hex(c, r);
     }
   }
 
@@ -68,19 +68,6 @@ function init() {
 
   window.addEventListener('resize', onWindowResize, false);
   controls = new THREE.OrbitControls(world.camera, world.renderer.domElement);
-
-  /* *************************************************************
-  * Here we are adding the skinned mesh to the scene
-  *
-  * It is required for the animation name to be recognisable to
-  * add animation data from the geometry to THREE.AnimationHandler
-  * (currently this is the only way i found animations possible)
-  * and probably this is the most efficient way to deal with animations
-  **************************************************************/
-  // scene.add(critter);
-  // THREE.AnimationHandler.add(critter.geometry.animations[0]);
-  // animation_wing_right = new THREE.Animation(wing_right, "WingFlap", THREE.AnimationHandler.CATMULLROM)
-  // animation_wing_right.play();
 
   /*
    * Run the animation loop

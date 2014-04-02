@@ -1,4 +1,7 @@
 /**
+ * Controls for controlling the camera 
+ * and navigating the world
+ * 
  * @author qiao / https://github.com/qiao
  * @author mrdoob / http://mrdoob.com
  * @author alteredq / http://alteredqualia.com/
@@ -41,15 +44,7 @@ THREE.OrbitControls = function(object, domElement) {
   this.maxDistance = Infinity;
 
   // 65 /*A*/, 83 /*S*/, 68 /*D*/
-  this.keys = {
-    LEFT : 37,
-    UP : 38,
-    RIGHT : 39,
-    BOTTOM : 40,
-    ROTATE : 65,
-    ZOOM : 83,
-    PAN : 68
-  };
+ 
 
   // internals
 
@@ -390,54 +385,7 @@ THREE.OrbitControls = function(object, domElement) {
 
   }
 
-  function onKeyDown(event) {
 
-    if (scope.enabled === false)
-      return;
-    if (scope.userPan === false)
-      return;
-
-    switch ( event.keyCode ) {
-
-      /*case scope.keys.UP:
-       scope.pan( new THREE.Vector3( 0, 1, 0 ) );
-       break;
-       case scope.keys.BOTTOM:
-       scope.pan( new THREE.Vector3( 0, - 1, 0 ) );
-       break;
-       case scope.keys.LEFT:
-       scope.pan( new THREE.Vector3( - 1, 0, 0 ) );
-       break;
-       case scope.keys.RIGHT:
-       scope.pan( new THREE.Vector3( 1, 0, 0 ) );
-       break;
-       */
-      case scope.keys.ROTATE:
-        state = STATE.ROTATE;
-        break;
-      case scope.keys.ZOOM:
-        state = STATE.ZOOM;
-        break;
-      case scope.keys.PAN:
-        state = STATE.PAN;
-        break;
-
-    }
-
-  }
-
-  function onKeyUp(event) {
-
-    switch ( event.keyCode ) {
-
-      case scope.keys.ROTATE:
-      case scope.keys.ZOOM:
-      case scope.keys.PAN:
-        state = STATE.NONE;
-        break;
-    }
-
-  }
 
   function getHitObject() {
     try {
@@ -467,8 +415,7 @@ THREE.OrbitControls = function(object, domElement) {
   this.domElement.addEventListener('mousewheel', onMouseWheel, false);
   this.domElement.addEventListener('DOMMouseScroll', onMouseWheel, false);
   // firefox
-  window.addEventListener('keydown', onKeyDown, false);
-  window.addEventListener('keyup', onKeyUp, false);
+
 
 };
 
