@@ -52,8 +52,8 @@ Map.prototype = {
     return this.hexes[c][r];
   }
 }
-world.scene.map = new Map(world);
-world.scene.map.calculateSize();
+world.map = new Map(world);
+world.map.calculateSize();
 
 Hex = function(c, r) {
 
@@ -74,10 +74,10 @@ Hex = function(c, r) {
   	this.addScenery();
   }
 
-  if (!world.scene.map.hexes[c]) {
-    world.scene.map.hexes[c] = new Array();
+  if (!world.map.hexes[c]) {
+    world.map.hexes[c] = new Array();
   }
-  world.scene.map.hexes[c][r] = (this);
+  world.map.hexes[c][r] = (this);
 }
 Hex.prototype = {
   addCritter : function() {
@@ -131,10 +131,10 @@ Hex.prototype = {
    * @param {Object} r
    */
   getPosY : function() {
-    return Math.sqrt(3) * (this.location.r - .5 * this.location.c) * world.scene.map.hexRadius;
+    return Math.sqrt(3) * (this.location.r - .5 * this.location.c) * world.map.hexRadius;
   },
   getPosX : function() {
-    return (this.location.c) * 1.5 * world.scene.map.hexRadius;
+    return (this.location.c) * 1.5 * world.map.hexRadius;
 
   },
 
@@ -163,19 +163,19 @@ Hex.prototype = {
   addWire : function() {
     var geometry = new THREE.Geometry();
     this.material = new THREE.LineBasicMaterial({
-      color : world.scene.map.hexColor,
+      color : world.map.hexColor,
       linewidth : 3
     });
 
     var xyPoint = this.getRectCoord();
 
-    var xoffset = (xyPoint.x * world.scene.map.hexRadius) * 1.5;
-    var yoffset = xyPoint.y * world.scene.map.hexHeight - world.scene.map.hexBuffer / 2;
+    var xoffset = (xyPoint.x * world.map.hexRadius) * 1.5;
+    var yoffset = xyPoint.y * world.map.hexHeight - world.map.hexBuffer / 2;
 
     for (var i = 0; i <= 6; i++) {
 
-      var xPoint = (xoffset + world.scene.map.hexSize / 2 * Math.cos(i * 2 * Math.PI / 6));
-      var yPoint = (yoffset + world.scene.map.hexSize / 2 * Math.sin(i * 2 * Math.PI / 6));
+      var xPoint = (xoffset + world.map.hexSize / 2 * Math.cos(i * 2 * Math.PI / 6));
+      var yPoint = (yoffset + world.map.hexSize / 2 * Math.sin(i * 2 * Math.PI / 6));
 
       geometry.vertices.push(new THREE.Vector3(yPoint, 0.04, xPoint));
     }
@@ -189,20 +189,20 @@ Hex.prototype = {
   addMesh : function() {
     var geometry = new THREE.Geometry();
     this.material = new THREE.MeshBasicMaterial({
-      color : world.scene.map.hexColor,
+      color : world.map.hexColor,
       transparent : true,
       opacity : 0.001
     });
 
     var xyPoint = this.getRectCoord();
     // xyPoint.print();
-    var xoffset = (xyPoint.x * world.scene.map.hexRadius) * 1.5;
-    var yoffset = xyPoint.y * world.scene.map.hexHeight - world.scene.map.hexBuffer / 2;
+    var xoffset = (xyPoint.x * world.map.hexRadius) * 1.5;
+    var yoffset = xyPoint.y * world.map.hexHeight - world.map.hexBuffer / 2;
 
     for (var i = 0; i < 6; i++) {
 
-      var xPoint = (xoffset + world.scene.map.hexRadius * Math.cos(i * 2 * Math.PI / 6));
-      var yPoint = (yoffset + world.scene.map.hexRadius * Math.sin(i * 2 * Math.PI / 6));
+      var xPoint = (xoffset + world.map.hexRadius * Math.cos(i * 2 * Math.PI / 6));
+      var yPoint = (yoffset + world.map.hexRadius * Math.sin(i * 2 * Math.PI / 6));
 
       geometry.vertices.push(new THREE.Vector3(yPoint, 0.02, xPoint));
     }
@@ -213,7 +213,7 @@ Hex.prototype = {
 
     var mesh = new THREE.Mesh(geometry, this.material);
     mesh.hex = this;
-    world.scene.map.hexGeometries.push(mesh);
+    world.map.hexGeometries.push(mesh);
     world.scene.add(mesh);
   },
   // add some shrubbery

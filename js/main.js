@@ -5,15 +5,7 @@ init();
 
 function init() {
 
-  // Grid
-
-  world.addAxes();
-
-  var geometry = new THREE.Geometry();
-  var material = new THREE.LineBasicMaterial({
-    color : 0x00ffff
-  });
-
+	// add Hex Grid to World
   for (var c = 0; c != world.COLUMNS + 1; c++) {
     for (var r = Math.ceil(c / 2); 2 * r <= c + (2 * world.ROWS - world.COLUMNS) + (world.COLUMNS % 2 == 0 && c % 2 != 0 ? 1 : 0); r++) {
       new Hex(c, r);
@@ -21,7 +13,6 @@ function init() {
   }
 
   // Lights
-
   world.scene.add(new THREE.AmbientLight(0xcccccc));
 
   spotLight = new THREE.SpotLight(0xaaaaaa);
@@ -34,6 +25,8 @@ function init() {
   spotLight.shadowMapHeight = 1024;
   world.scene.add(spotLight);
 
+
+/*
   var skyGeometry = new THREE.CubeGeometry(1500, 1500, 1500);
 
   var sky_path = "/CritterWorld/rsc/textures/sky2_ENV/cloudy_";
@@ -49,9 +42,10 @@ function init() {
     }));
   var skyMaterial = new THREE.MeshFaceMaterial(materialArray);
   var skyBox = new THREE.Mesh(skyGeometry, skyMaterial);
-  // world.scene.add(skyBox);
+  world.scene.add(skyBox);
 
-  // INSERT PLANE HERE
+*/
+
 
   world.renderer = new THREE.WebGLRenderer();
   world.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -97,9 +91,9 @@ function animate() {
   requestAnimationFrame(animate);
 
   // update all keyframed objects
-  var l = world.scene.map.animations.length;
+  var l = world.map.animations.length;
   for (var i = 0; i < l; i++) {
-    world.scene.map.animations[i].update(world.frameDelta * 1.2);
+    world.map.animations[i].update(world.frameDelta * 1.2);
   }
 
 // update positions if inbetween turn animations exist

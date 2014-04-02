@@ -395,7 +395,7 @@ THREE.OrbitControls = function(object, domElement) {
 
       var raycaster = new THREE.Raycaster(world.camera.position, vector.sub(world.camera.position).normalize());
 
-      var intersects = raycaster.intersectObjects(world.scene.map.hexGeometries);
+      var intersects = raycaster.intersectObjects(world.map.hexGeometries);
 
       if (intersects.length > 0) {
 

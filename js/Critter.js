@@ -43,7 +43,7 @@ Critter.prototype = {
       THREE.AnimationHandler.add(this.mesh.geometry.animation);
 
       animation_critter = new THREE.Animation(this.mesh, critteraction, THREE.AnimationHandler.CATMULLROM);
-      world.scene.map.animations.push(animation_critter);
+      world.map.animations.push(animation_critter);
 
       animation_critter.play();
     }.bind(this);
@@ -82,22 +82,22 @@ Critter.prototype = {
 
     switch(this.orientation) {
       case 0:
-        newHex = world.scene.map.getHex(pos.c, pos.r + 1);
+        newHex = world.map.getHex(pos.c, pos.r + 1);
         break;
       case 1:
-        newHex = world.scene.map.getHex(pos.c + 1, pos.r + 1);
+        newHex = world.map.getHex(pos.c + 1, pos.r + 1);
         break;
       case 2:
-        newHex = world.scene.map.getHex(pos.c + 1, pos.r);
+        newHex = world.map.getHex(pos.c + 1, pos.r);
         break;
       case 3:
-        newHex = world.scene.map.getHex(pos.c, pos.r - 1);
+        newHex = world.map.getHex(pos.c, pos.r - 1);
         break;
       case 4:
-        newHex = world.scene.map.getHex(pos.c - 1, pos.r - 1);
+        newHex = world.map.getHex(pos.c - 1, pos.r - 1);
         break;
       case 5:
-        newHex = world.scene.map.getHex(pos.c - 1, pos.r);
+        newHex = world.map.getHex(pos.c - 1, pos.r);
         break;
     }
 
@@ -137,12 +137,10 @@ Critter.prototype = {
   turnRight : function() {
     this.incrementOrientation(1);
     this.mesh.quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), -Math.PI / 2 + -Math.PI / 3 * (this.orientation));
-    console.log(this.orientation);
   },
 
   turnLeft : function() {
     this.incrementOrientation(-1);
     this.mesh.quaternion.setFromAxisAngle(new THREE.Vector3(0, -1, 0), Math.PI / 2 + Math.PI / 3 * (this.orientation));
-    console.log(this.orientation);
   }
 }

@@ -75,7 +75,7 @@ Terrain = function() {
 }
 
 var terrain = new Terrain();
-var map = world.scene.map;
+var map = world.map;
 terrain.updateTerrain(map.size.x,  map.size.y , terrain.segments, 3);
 
 world.scene.terrain = terrain;

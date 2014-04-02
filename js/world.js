@@ -15,6 +15,7 @@ World = function() {
 
 	this.projector = new THREE.Projector();
 	
+	this.map;
 	this.water;
 	this.mouseControls;
 	

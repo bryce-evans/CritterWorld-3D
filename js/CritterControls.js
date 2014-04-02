@@ -10,7 +10,7 @@ CritterControls = function(world) {
 
   this.hexHoverColor = 0xffffff;
   this.hexSelectedColor = 0xffbe10;
-  this.hexBaseColor = this.world.scene.map.hexColor;
+  this.hexBaseColor = this.world.map.hexColor;
 
   $(document).keypress( function(event) {
 
