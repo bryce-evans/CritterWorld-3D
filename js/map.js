@@ -60,6 +60,7 @@ Hex = function(c, r) {
 
   this.addWire();
   this.addMesh();
+  this.addScenery();
 
   world.scene.map.hexes.push(this);
 }
@@ -74,13 +75,13 @@ Hex.prototype = {
 
   },
   hasCritter : function() {
-
+    return this.type === 2;
   },
   hasRock : function() {
-
+    return this.type === 1;
   },
   isEmpty : function() {
-
+    return this.type === 0;
   },
   /**
    *  takes a row and column and translates to x,y coordinate space
@@ -95,6 +96,7 @@ Hex.prototype = {
 
   },
 
+  // gets the location of this hex
   getRectCoord : function() {
 
     var x = this.location.c;
@@ -107,6 +109,7 @@ Hex.prototype = {
     return point;
   },
 
+  //draws the wire around the hex
   addWire : function() {
     var geometry = new THREE.Geometry();
     this.material = new THREE.LineBasicMaterial({
@@ -132,6 +135,7 @@ Hex.prototype = {
     world.scene.add(mesh);
   },
 
+  // draws the hex mesh for mouse click collision detection
   addMesh : function() {
     var geometry = new THREE.Geometry();
     this.material = new THREE.MeshBasicMaterial({
@@ -161,6 +165,54 @@ Hex.prototype = {
     mesh.hex = this;
     world.scene.map.hexGeometries.push(mesh);
     world.scene.add(mesh);
+  },
+  // add some shrubbery
+  addScenery : function() {
+    var x = this.getPosX();
+    var y = this.getPosY();
+    var opacity = 1;
+    var size = Math.random() * .1 + .1;
+    var rotation = Math.PI / 3 * Math.floor((Math.random() * 5));
+
+    var branchTexture = new THREE.ImageUtils.loadTexture("../CritterWorld/rsc/obj/tree1/branch.png");
+    var trunkTexture = new THREE.ImageUtils.loadTexture("../CritterWorld/rsc/obj/tree1/bark.jpg");
+    
+    function onBranchesLoad(geometry, materials) {
+
+      var branchMaterial = new THREE.MeshBasicMaterial({
+        map : branchTexture,
+        opacity : opacity,
+        transparent : true
+      });
+      var mesh = new THREE.Mesh(geometry, branchMaterial);
+      mesh.geometry.computeFaceNormals();
+      mesh.position = new THREE.Vector3(y, .1, x);
+      mesh.rotation.y = rotation;
+      mesh.scale = new THREE.Vector3(size, size, size);
+      world.scene.add(mesh);
+
+    }
+
+    function onTrunkLoad(geometry, materials) {
+    	var uniforms = {
+        map : trunkTexture,
+        opacity : opacity,
+      }
+      var trunkMaterial = new THREE.MeshBasicMaterial(uniforms);
+      
+      uniforms.map.wrapS = uniforms.map.wrapT = THREE.RepeatWrapping;
+      var mesh = new THREE.Mesh(geometry, trunkMaterial);
+      mesh.geometry.computeFaceNormals();
+      mesh.position = new THREE.Vector3(y, .1, x);
+      mesh.rotation.y = rotation;
+      mesh.scale = new THREE.Vector3(size, size, size);
+      world.scene.add(mesh);
+
+    }
+
+
+    loader.load("../CritterWorld/rsc/obj/tree1/branches.js", onBranchesLoad);
+    loader.load("../CritterWorld/rsc/obj/tree1/trunk.js", onTrunkLoad);
   }
 }
 

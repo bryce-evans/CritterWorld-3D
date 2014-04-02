@@ -11,6 +11,8 @@ Critter = function() {
   this.orientation = 0;
   this.ruleset = "";
 
+  this.mesh
+
 }
 Critter.prototype = {
   add : function(hex) {
@@ -18,17 +20,17 @@ Critter.prototype = {
     this.hex = hex;
 
     function addToWorld(geometry, materials) {
-      critter = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
-      critter.geometry.computeFaceNormals();
-      enableSkinning(critter);
+      this.mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
+      this.mesh.geometry.computeFaceNormals();
+      enableSkinning(this.mesh);
 
-      critter.position = new THREE.Vector3(hex.getPosY(), .1, hex.getPosX());
-      critter.scale = new THREE.Vector3(.2,.2,.2);
-      world.scene.add(critter);
+      this.mesh.position = new THREE.Vector3(hex.getPosY(), .1, hex.getPosX());
+      this.mesh.scale = new THREE.Vector3(.2, .2, .2);
+      world.scene.add(this.mesh);
 
-      THREE.AnimationHandler.add(critter.geometry.animation);
+      THREE.AnimationHandler.add(this.mesh.geometry.animation);
 
-      animation_critter = new THREE.Animation(critter, critteraction, THREE.AnimationHandler.CATMULLROM);
+      animation_critter = new THREE.Animation(this.mesh, critteraction, THREE.AnimationHandler.CATMULLROM);
       world.scene.map.animations.push(animation_critter);
 
       animation_critter.play();
