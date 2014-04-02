@@ -16,11 +16,18 @@ World = function() {
 	this.projector = new THREE.Projector();
 	
 	this.water;
+	this.mouseControls;
 	
   this.renderer;
   this.particleLight, this.pointLight;
   this.t = 0;
   this.clock = new THREE.Clock();
+  
+  this.isAnimated = true;
+  this.animations = new Array();
+  this.FRAMES_PER_TURN = 10;
+  this.turnOccurring = false;
+  this.currentFrame = 0;
 
   this.COLUMNS = 15;
   this.ROWS = 15;

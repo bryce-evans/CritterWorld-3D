@@ -19,17 +19,21 @@ CritterControls = function(world) {
       if (event.which === KEYS.C && this.currentSelected.type === 0) {
         this.currentSelected.addCritter();
         this.updateStats(this.currentSelected);
-        
+
         // move
       } else {
         if (this.currentSelected.type === 2) {
           if (event.which === KEYS.UP) {
+            world.turnOccurring = true;
             this.currentSelected.critter.moveForward();
-          } else if (event.which === KEYS.DOWN ) {
+          } else if (event.which === KEYS.DOWN) {
+            world.turnOccurring = true;
             this.currentSelected.critter.moveBackward();
-          }else if (event.which === KEYS.RIGHT ) {
+          } else if (event.which === KEYS.RIGHT) {
+            world.turnOccurring = true;
             this.currentSelected.critter.turnRight();
-          }else if (event.which === KEYS.LEFT ) {
+          } else if (event.which === KEYS.LEFT) {
+            world.turnOccurring = true;
             this.currentSelected.critter.turnLeft();
           }
         }

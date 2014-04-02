@@ -16,7 +16,7 @@ function init() {
 
   for (var c = 0; c != world.COLUMNS + 1; c++) {
     for (var r = Math.ceil(c / 2); 2 * r <= c + (2 * world.ROWS - world.COLUMNS) + (world.COLUMNS % 2 == 0 && c % 2 != 0 ? 1 : 0); r++) {
-     new Hex(c, r);
+      new Hex(c, r);
     }
   }
 
@@ -96,11 +96,28 @@ function animate() {
 
   requestAnimationFrame(animate);
 
-
-	// update all animated objects
+  // update all keyframed objects
   var l = world.scene.map.animations.length;
   for (var i = 0; i < l; i++) {
     world.scene.map.animations[i].update(world.frameDelta * 1.2);
+  }
+
+// update positions if inbetween turn animations exist
+  if (world.isAnimated && world.turnOccurring) {
+    // update all map movement animated objects
+    var l = world.animations.length;
+    for (var i = 0; i < l; i++) {
+      world.animations[i].update();
+    }
+
+    world.currentFrame += 1;
+
+    // remove animations if turn is completed
+    if (world.currentFrame >= world.FRAMES_PER_TURN) {
+    	world.turnOccurring = false;
+      world.currentFrame = 0;
+      world.animations = new Array();
+    }
   }
 
   render();

@@ -13,6 +13,9 @@ Critter = function() {
 
   this.mesh
 
+  this.hasAnimation = false;
+  this.animation = null;
+
 }
 Critter.prototype = {
   add : function(hex) {
@@ -62,12 +65,15 @@ Critter.prototype = {
   setPosToHex : function(hex) {
     try {
       this.mesh.position = new THREE.Vector3(hex.getPosY(), .1, hex.getPosX());
-      this.hex.type = 0;
-      hex.type = 2;
-      world.critterControls.setSelected(hex);
+      this.updateHexToCritter(hex);
     } catch(err) {
       console.error("Hex unavailable");
     }
+  },
+  updateHexToCritter : function(hex) {
+    this.hex.type = 0;
+    hex.type = 2;
+    world.critterControls.setSelected(hex);
   },
   moveForward : function() {
     var pos = this.hex.location;
@@ -95,12 +101,20 @@ Critter.prototype = {
         break;
     }
 
-    // update hex critter
+    // set up movement
+    if (world.isAnimated) {
+      this.hasAnimation = true;
+      this.animation = new Animation(this, 0, new THREE.Vector3(this.hex.getPosY(), 0, this.hex.getPosX()), new THREE.Vector3(newHex.getPosY(), 0, newHex.getPosX()));
+      this.updateHexToCritter(newHex);
+    } else {
+      this.setPosToHex(newHex);
+    }
+
+    // update hex data
     this.hex.critter = null;
     this.hex = newHex;
     this.hex.critter = this;
 
-    this.setPosToHex(this.hex);
     world.critterControls.setSelected(this.hex);
 
   },
