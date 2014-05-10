@@ -29,11 +29,15 @@ Critter.prototype = {
       enableSkinning(this.mesh);
 
       // for (var i = 0; i < this.mesh.bones; i++) {
-        // this.mesh.bones[i].useQuaternion = false;
+      // this.mesh.bones[i].useQuaternion = false;
       // }
 
       this.setPosToHex(hex);
-      this.mesh.scale = new THREE.Vector3(.2, .2, .2);
+      this.mesh.scale.x = .2;
+      this.mesh.scale.y = .2;
+      this.mesh.scale.z = .2;
+
+      //this.mesh.scale = new THREE.Vector3(.2, .2, .2);
 
       // random orientation
       this.orientation = Math.floor((Math.random() * 6));
@@ -101,11 +105,11 @@ Critter.prototype = {
         break;
     }
 
-		// return if hex is not empty
-		if(newHex.type !== 0){
-			return;
-		}
-		
+    // return if hex is not empty
+    if (newHex.type !== 0) {
+      return;
+    }
+
     // set up movement
     if (world.isAnimated) {
       this.hasAnimation = true;

@@ -70,8 +70,8 @@ Hex = function(c, r) {
 
   this.addWire();
   this.addMesh();
-  if(world.isVegetated){
-  	this.addScenery();
+  if (world.isVegetated) {
+    this.addScenery();
   }
 
   if (!world.map.hexes[c]) {
@@ -89,7 +89,7 @@ Hex.prototype = {
 
   },
   addRock : function() {
-  	this.type = 1;
+    this.type = 1;
     var x = this.getPosX();
     var y = this.getPosY();
     //var size = .2;
@@ -238,7 +238,12 @@ Hex.prototype = {
       mesh.geometry.computeFaceNormals();
       mesh.position = new THREE.Vector3(y, .1, x);
       mesh.rotation.y = rotation;
-      mesh.scale = new THREE.Vector3(size, size, size);
+      mesh.scale.x = size;
+      mesh.scale.y = size;
+      mesh.scale.z = size;
+
+      //mesh.scale = new THREE.Vector3(size, size, size);
+      console.log(size);
       world.scene.add(mesh);
 
     }
@@ -254,7 +259,11 @@ Hex.prototype = {
       mesh.geometry.computeFaceNormals();
       mesh.position = new THREE.Vector3(y, .1, x);
       mesh.rotation.y = rotation;
-      mesh.scale = new THREE.Vector3(size, size, size);
+      //  mesh.scale = new THREE.Vector3(size, size, size);
+      mesh.scale.x = size;
+      mesh.scale.y = size;
+      mesh.scale.z = size;
+
       world.scene.add(mesh);
 
     }
