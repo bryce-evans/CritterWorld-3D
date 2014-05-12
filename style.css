@@ -1,6 +1,57 @@
-#page {
+body {
   font-family: trebuchet ms, sans;
+  margin: 0px;
+  background-color: #004426;
+  color: #FFFFFF;
+  overflow: hidden;
 }
+#start_menu {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 100;
+  background-color: #004426;
+}
+#right_menu {
+  position: absolute;
+  top: 50px;
+  left: 80px;
+}
+#main_logo {
+  font-size: 28pt;
+  color: #92CC47;
+  color: #FFC757;
+}
+.start_button {
+  margin-top: 20px;
+  padding: 10px;
+  padding-left: 25px;
+  border-radius: 12px;
+  font-size: 20px;
+  width: 120px;
+  background-color: #92CC47;
+  color: #FFFFFF;
+  -moz-box-shadow: 0px 3px 0px 0px #002917;
+  -webkit-box-shadow: 0px 3px 0px 0px #002917;
+  box-shadow: 0px 3px 0px 0px #002917;
+  cursor: pointer;
+}
+
+.start_button:hover {
+  background-color: #B3FA58;
+}
+
+.start_button:active {
+  position: relative;
+  top: 1px;
+  -moz-box-shadow: 0px 2px 0px 0px #002917;
+  -webkit-box-shadow: 0px 2px 0px 0px #002917;
+  box-shadow: 0px 2px 0px 0px #002917;
+}
+#page {
+
+}
+
 #menubar {
   position: absolute;
   top: 0px;
@@ -10,7 +61,6 @@
   display: block;
   background-color: #005731;
   color: #fff;
-  font-family: trebuchet ms, sans;
   padding: 2px 5px 5px 5px;
   border-bottom: 2px solid #00331D;
 }
@@ -34,7 +84,7 @@
   border-radius: 5px 5px 0px 0px;
 }
 .menu {
-	visibility: hidden;
+  visibility: hidden;
   position: absolute;
   top: 30px;
   background-color: #92CC47;
@@ -105,13 +155,6 @@
 #stats {
   top: 35px !important;
   left: 5px;
-}
-
-body {
-  font-family: Monospace;
-  background-color: #000000;
-  margin: 0px;
-  overflow: hidden;
 }
 
 #info {
