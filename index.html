@@ -21,7 +21,7 @@
           var response = $.ajax({
             url : "http://localhost:8080/server/world",
             type : "GET",
-            dataType : "jsonp",
+            dataType : "json",
             crossDomain : true,
             data : {
               update_since : "1"
@@ -38,22 +38,12 @@
         });
 
         $("#load_world").click(function() {
-          $.ajax({
-            url : "http://localhost:8080/server/step",
-            type : "POST",
-            data : {
-              count : 1
-            },
-          }).done(function(data, status) {
-            alert("Data: " + data + "\nStatus: " + status);
-          }).fail(function() {
-            alert("error");
+          $.post("http://localhost:8080/server/step?count=1", function() {
+            alert("success");
           });
         });
-        
         $("#multiplayer").click(function() {
-          var jqxhr = $.getJSON("http://localhost:8080/server/world?callback=?", function(data) {
-            console.log("success");
+          var jqxhr = $.getJSON("http://localhost:8080/server/world", function(data) {
             console.log(data);
           })
         });
