@@ -22,6 +22,9 @@ body {
   color: #92CC47;
   color: #FFC757;
 }
+#start_buttons {
+  margin-left: 50px;
+}
 .start_button {
   margin-top: 20px;
   padding: 10px;
