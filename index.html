@@ -16,20 +16,20 @@
 
 	<body>
 
-		<div class="popup_menu" id="world_menu">
+		<div class="popup_menu" id="world_menu" style="display: none;">
 			<div class="popup_menu_header">
 				New World
 			</div>
 			<ul class="popup_menu_tabs" id="world_add_options">
 				<li>
-					<div class="menu_tile selected">
+					<div id="world_defaults_button" class="menu_tile selected">
 						<p>
 							Defaults
 						</p>
 					</div>
 				</li>
 				<li>
-					<div class="menu_tile">
+					<div id="world_uploader_button" class="menu_tile">
 						<p>
 							Upload
 						</p>
@@ -39,14 +39,14 @@
 			<div id="world_defaults">
 				<ul>
 					<li>
-						<div class="menu_tile selected">
+						<div class="menu_tile lightbackground">
 							<p>
 								Empty World
 							</p>
 						</div>
 					</li>
 					<li>
-						<div class="menu_tile selected">
+						<div class="menu_tile lightbackground">
 							<p>
 								Random World
 							</p>
@@ -55,7 +55,7 @@
 				</ul>
 				
 			</div>
-			<div id="world_uploader">
+			<div id="world_uploader" style="display: none;">
 				<div id="world_drop_zone">
 					Drop files here
 
@@ -76,7 +76,7 @@
 				</button>
 		</div>
 
-		<div class="popup_menu" id="critter_menu">
+		<div class="popup_menu" id="critter_menu" style="display: none;">
 			<div class="popup_menu_header">
 				Add Critter
 			</div>
