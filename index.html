@@ -16,12 +16,11 @@
 
 	<body>
 		<script>
-		
-		/*
-		 *  TODO standardize URL into variable
-		 * port -> 8989
-		 *  check if file is invalid -> unneeded
-		 */
+      /*
+       *  TODO standardize URL into variable
+       * port -> 8989
+       *  check if file is invalid -> unneeded
+       */
       $(document).ready(function() {
         $("#run_world").click(function() {
           $.post("http://localhost:8080/server/run?rate=2.0", function() {
@@ -89,136 +88,180 @@
 
       });
 		</script>
-<div id="critter_menu">
-	Upload File <input type="file" id="file_upload">
-	
-<div id="drop_zone">Drop files here</div>
-<output id="list"> </output>
+		<div id="critter_menu">
+			Upload File
+			<input type="file" id="file_upload">
 
-<div id="byte_range"></div>
-<div id="byte_content"></div>
-<span class="readBytesButtons">
-<!--   <button data-startbyte="0" data-endbyte="4">1-5</button>
-  <button data-startbyte="5" data-endbyte="14">6-15</button>
-  <button data-startbyte="6" data-endbyte="7">7-8</button> -->
-  <button>entire file</button>
-</span>
-<script>
-  function readBlob(opt_startByte, opt_stopByte) {
+			<div id="drop_zone">
+				Drop files here
+			</div>
+			<output id="list"></output>
 
-    var files = document.getElementById('file_upload').files;
-    if (!files.length) {
-      alert('Please select a file!');
-      return;
-    }
+			<div id="byte_range"></div>
+			<div id="byte_content"></div>
+			<span class="readBytesButtons"> <!--   <button data-startbyte="0" data-endbyte="4">1-5</button>
+				<button data-startbyte="5" data-endbyte="14">6-15</button>
+				<button data-startbyte="6" data-endbyte="7">7-8</button> -->
+				<button>
+					entire file
+				</button> </span>
+			<script>
+        function readBlob(opt_startByte, opt_stopByte) {
 
-    var file = files[0];
-    var start = parseInt(opt_startByte) || 0;
-    var stop = parseInt(opt_stopByte) || file.size - 1;
+          var files = document.getElementById('file_upload').files;
+          if (!files.length) {
+            alert('Please select a file!');
+            return;
+          }
 
-    var reader = new FileReader();
+          var file = files[0];
+          var start = parseInt(opt_startByte) || 0;
+          var stop = parseInt(opt_stopByte) || file.size - 1;
 
-    // If we use onloadend, we need to check the readyState.
-    reader.onloadend = function(evt) {
-      if (evt.target.readyState == FileReader.DONE) { // DONE == 2
-        document.getElementById('byte_content').textContent = evt.target.result;
-        document.getElementById('byte_range').textContent = 
-            ['Read bytes: ', start + 1, ' - ', stop + 1,
-             ' of ', file.size, ' byte file'].join('');
-      }
-    };
+          var reader = new FileReader();
 
-    var blob = file.slice(start, stop + 1);
-    reader.readAsBinaryString(blob);
-  }
-  
-  document.querySelector('.readBytesButtons').addEventListener('click', function(evt) {
-    if (evt.target.tagName.toLowerCase() == 'button') {
-      var startByte = evt.target.getAttribute('data-startbyte');
-      var endByte = evt.target.getAttribute('data-endbyte');
-      readBlob(startByte, endByte);
-    }
-  }, false);
+          // If we use onloadend, we need to check the readyState.
+          reader.onloadend = function(evt) {
+            console.log(evt);
+            if (evt.target.readyState == FileReader.DONE) {// DONE == 2
+              document.getElementById('byte_content').textContent = evt.target.result;
+              var prog = (evt.target.result);
+              //console.log(prog);
 
-// $(document).bind('dragover', function (e) {
-    // var dropZone = $('#drop_zone'),
+              var myString = prog;
+              // var myRegexp = /[a-z]+: ([0-9]+)/g;//[\n]*(.)+");
+              var lines = myString.split('\n');
+              var mems = [];
+              var program = "";
+              for (var i in lines) {
+                var line = lines[i];
+                var match = /[a-z]+: ([0-9]+)/g.exec(line);
+                if (match === null) {
+                  // if null, then we are matching a program
+                  program += line + '\n';
+                } else {
+                  mems.push(parseInt(match[1]));
+                }
+              };
+
+              var fu1 = document.getElementById("file_upload");
+              specie_name = (fu1.value.split(/(\\|\/)/g).pop().split(".")[0]);
+
+              // console.log(match);
+              // for ( i = 0; i < match.length; i++) {
+              // console.log(i + ": " + match[i]);
+              // }
+              send_data = {
+                "program" : program,
+                "mem" : mems,
+                "species_id" : specie_name,
+                "positions" : [{
+                  "row" : 0,
+                  "col" : 0
+                }, {
+                  "row" : 0,
+                  "col" : 1
+                }]
+              };
+              console.log(send_data);
+
+              $.post("http://localhost:8080/server/critters", data = send_data, function() {
+                alert("success");
+              });
+              document.getElementById('byte_range').textContent = ['Read bytes: ', start + 1, ' - ', stop + 1, ' of ', file.size, ' byte file'].join('');
+            }
+          };
+
+          var blob = file.slice(start, stop + 1);
+          reader.readAsBinaryString(blob);
+        }
+
+
+        document.querySelector('.readBytesButtons').addEventListener('click', function(evt) {
+          if (evt.target.tagName.toLowerCase() == 'button') {
+            var startByte = evt.target.getAttribute('data-startbyte');
+            var endByte = evt.target.getAttribute('data-endbyte');
+            readBlob(startByte, endByte);
+          }
+        }, false);
+
+        // $(document).bind('dragover', function (e) {
+        // var dropZone = $('#drop_zone'),
         // timeout = window.dropZoneTimeout;
-    // if (!timeout) {
+        // if (!timeout) {
         // dropZone.addClass('in');
-    // } else {
+        // } else {
         // clearTimeout(timeout);
-    // }
-    // var found = false,
+        // }
+        // var found = false,
         // node = e.target;
-    // do {
+        // do {
         // if (node === dropZone[0]) {
-            // found = true;
-            // break;
+        // found = true;
+        // break;
         // }
         // node = node.parentNode;
-    // } while (node != null);
-    // if (found) {
+        // } while (node != null);
+        // if (found) {
         // dropZone.addClass('hover');
-    // } else {
+        // } else {
         // dropZone.removeClass('hover');
-    // }
-    // window.dropZoneTimeout = setTimeout(function () {
+        // }
+        // window.dropZoneTimeout = setTimeout(function () {
         // window.dropZoneTimeout = null;
         // dropZone.removeClass('in hover');
-    // }, 100);
-// });
+        // }, 100);
+        // });
 
-/////////////////////////////////////////////
-  function handleFileSelect(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
+        /////////////////////////////////////////////
+        function handleFileSelect(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
 
-    var files = evt.dataTransfer.files; // FileList object.
+          var files = evt.dataTransfer.files;
+          // FileList object.
 
-    // files is a FileList of File objects. List some properties.
-    var output = [];
-    for (var i = 0, f; f = files[i]; i++) {
-      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
-                  f.size, ' bytes, last modified: ',
-                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
-                  '</li>');
-    }
-    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-  }
+          // files is a FileList of File objects. List some properties.
+          var output = [];
+          for (var i = 0, f; f = files[i]; i++) {
+            output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ', f.size, ' bytes, last modified: ', f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a', '</li>');
+          }
+          document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+        }
 
-  function handleDragOver(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-  }
+        function handleDragOver(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          evt.dataTransfer.dropEffect = 'copy';
+          // Explicitly show this is a copy.
+        }
 
-  // Setup the dnd listeners.
-  var dropZone = document.getElementById('drop_zone');
-  dropZone.addEventListener('dragover', handleDragOver, false);
-  dropZone.addEventListener('drop', handleFileSelect, false);
-</script>
-	
-	<!--
-		{
-    "program": "a critter program",
-    "mem": [<memsize>, <defense>, <offense>,<size>,<energy>,<posture>],  // NOTE: first empty line marks end of mems
-    "species_id" : "attacker1", //name of file -> uneditable after upload
-    "positions": [
-        { "row": 2, "col": 3 },
-        { "row": 4, "col": 6 },
-        ...
-    ]
-    
-    OR
-    "num" : <int>
-}
+        // Setup the dnd listeners.
+        var dropZone = document.getElementById('drop_zone');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
+			</script>
 
-Choose File
+			<!--
+			{
+			"program": "a critter program",
+			"mem": [<memsize>, <defense>, <offense>,<size>,<energy>,<posture>],  // NOTE: first empty line marks end of mems
+			"species_id" : "attacker1", //name of file -> uneditable after upload
+			"positions": [
+			{ "row": 2, "col": 3 },
+			{ "row": 4, "col": 6 },
+			...
+			]
 
-	-->
-	
-	
-</div>
+			OR
+			"num" : <int>
+			}
+
+			Choose File
+
+			-->
+
+		</div>
 		<div id="start_menu">
 			<div id="init_canvas">
 
