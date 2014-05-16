@@ -21,22 +21,23 @@
        * port -> 8989
        *  check if file is invalid -> unneeded
        */
+      var SERVER_URL = "http://localhost:8989/server/";
       $(document).ready(function() {
         $("#run_world").click(function() {
-          $.post("http://localhost:8989/server/run?rate=2.0", function() {
+          $.post(SERVER_URL + "run?rate=2.0", function() {
             alert("success");
           });
         });
 
         $("#stop_world").click(function() {
-          $.post("http://localhost:8989/server/run?rate=0", function() {
+          $.post(SERVER_URL + "run?rate=0", function() {
             alert("success");
           });
         });
 
         //attacker1.crit is server side - INVALID
         // $("#run_world").click(function() {
-        // $.post("http://localhost:8989/server/world", data = {
+        // $.post(SERVER_URL + "world", data = {
         // "definition" : "rock 5 2\nrock 6 4\ncritter attacker1.crit 6 2 0\n"
         // }, function() {
         // alert("success");
@@ -46,7 +47,7 @@
         var since = 1;
         $("#get_world").click(function() {
           var response = $.ajax({
-            url : "http://localhost:8989/server/world?update_since=" + since,
+            url : SERVER_URL + "world?update_since=" + since,
             type : "GET",
             dataType : "json",
             crossDomain : true,
@@ -63,25 +64,25 @@
         });
 
         $("#load_world").click(function() {
-          $.post("http://localhost:8989/server/step?count=1", function() {
+          $.post(SERVER_URL + "step?count=1", function() {
             alert("success");
           });
         });
 
         $("#post_critter").click(function() {
-          $.post("http://localhost:8989/server/step?count=1", function() {
+          $.post(SERVER_URL + "step?count=1", function() {
             alert("success");
           });
         });
 
         $("#get_critter").click(function() {
-          var jqxhr = $.getJSON("http://localhost:8989/server/critters", function(data) {
+          var jqxhr = $.getJSON(SERVER_URL + "critters", function(data) {
             console.log(data);
           })
         });
 
         $("#get_critters").click(function() {
-          var jqxhr = $.getJSON("http://localhost:8989/server/critters", function(data) {
+          var jqxhr = $.getJSON(SERVER_URL + "critters", function(data) {
             console.log(data);
           })
         });
@@ -165,7 +166,7 @@
               };
               console.log(send_data);
 
-              $.post("http://localhost:8989/server/critters", data = send_data, function() {
+              $.post(SERVER_URL + "critters", data = send_data, function() {
                 alert("success");
               });
               document.getElementById('byte_range').textContent = ['Read bytes: ', start + 1, ' - ', stop + 1, ' of ', file.size, ' byte file'].join('');
