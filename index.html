@@ -80,9 +80,12 @@
             console.log(data);
           })
         });
-        
+
         $("#delete_critter").click(function() {
-          var jqxhr = $.getJSON(SERVER_URL + "critters/"+document.getElementById('input_row').value, function(data) {
+          var jqxhr = $.ajax({
+            url : SERVER_URL + "critters/" + document.getElementById('input_row').value,
+            type : "DELETE"
+          }).done(function(data) {
             console.log(data);
           })
         });
@@ -110,9 +113,12 @@
 				<button data-startbyte="5" data-endbyte="14">6-15</button>
 				<button data-startbyte="6" data-endbyte="7">7-8</button> -->
 				<form>
-Row: <input type="text" id="input_row" name="row"><br>
-Col: <input type="text" id="input_col" name="col">
-</form>
+					Row:
+					<input type="text" id="input_row" name="row">
+					<br>
+					Col:
+					<input type="text" id="input_col" name="col">
+				</form>
 				<button>
 					entire file
 				</button> </span>
