@@ -103,6 +103,10 @@
 			<span class="readBytesButtons"> <!--   <button data-startbyte="0" data-endbyte="4">1-5</button>
 				<button data-startbyte="5" data-endbyte="14">6-15</button>
 				<button data-startbyte="6" data-endbyte="7">7-8</button> -->
+				<form>
+Row: <input type="text" id="input_row" name="row"><br>
+Col: <input type="text" id="input_col" name="col">
+</form>
 				<button>
 					entire file
 				</button> </span>
@@ -157,26 +161,22 @@
                 "mem" : mems,
                 "species_id" : specie_name,
                 "positions" : [{
-                  "row" : 0,
-                  "col" : 0
-                }, {
-                  "row" : 0,
-                  "col" : 1
+                  "row" : document.getElementById('input_row').value,
+                  "col" : document.getElementById('input_col').value
                 }]
               };
               console.log(send_data);
 
               $.ajax({
-              url : SERVER_URL + "critters",
-              type:"POST"
-              data : JSON.stringify(send_data),
-              processData : false,
-              dataType : 'json'
-              }).
-              done(function() {
+                url : SERVER_URL + "critters",
+                type : "POST",
+                data : JSON.stringify(send_data),
+                processData : false,
+                dataType : 'json'
+              }).done(function() {
                 alert("success");
               }).fail(function() {
-                alert("failed")
+                alert("failed");
               });
               document.getElementById('byte_range').textContent = ['Read bytes: ', start + 1, ' - ', stop + 1, ' of ', file.size, ' byte file'].join('');
             }
