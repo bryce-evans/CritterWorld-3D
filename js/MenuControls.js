@@ -26,6 +26,7 @@ $(document).ready(function() {
     console.log(e);
     var code = e.keyCode || e.which;
     console.log(code);
+    // escape -> close current menu
     if (code == 27) {
       active_tab = "";
       if (active_pane === "world") {
@@ -34,8 +35,8 @@ $(document).ready(function() {
         $("#critter_menu").hide();
       } else {
         console.log("I don't know what I'm trying to close");
-      }
-    }
+
+    });
   });
 
   $("#world_defaults_button").click(function() {
@@ -343,6 +344,13 @@ function readCritterFile(opt_startByte, opt_stopByte) {
 
   // If we use onloadend, we need to check the readyState.
   reader.onloadend = function(evt) {
+
+    if (document.getElementById('input_count').value === "") {
+      alert("Please give a count and try again", function() {
+        return;
+      });
+    }
+
     console.log(evt);
     if (evt.target.readyState == FileReader.DONE) {// DONE == 2
       document.getElementById('byte_content').textContent = evt.target.result;
@@ -396,8 +404,8 @@ function readCritterFile(opt_startByte, opt_stopByte) {
                 dataType : 'json',
                 statusCode : {
                   200 : function(response) {
-                  	alert("200 399");
-                  	$("#critter_menu").hide();
+                    alert("200 399");
+                    $("#critter_menu").hide();
                     world.map.addToMap(response.state);
                   }
                 }
@@ -411,7 +419,7 @@ function readCritterFile(opt_startByte, opt_stopByte) {
                 dataType : 'json',
                 statusCode : {
                   200 : function(response) {
-                  	alert("200 - 413");
+                    alert("200 - 413");
                     world.map.addToMap(response.state);
                   }
                 }
@@ -420,8 +428,7 @@ function readCritterFile(opt_startByte, opt_stopByte) {
             }
           },
           400 : function(response) {
-            alert('<span style="color:Red;">Error While Saving Outage Entry Please Check</span>', function() {
-            });
+            alert("Please give a count and try again");
           },
           404 : function(response) {
             bootbox.alert('<span style="color:Red;">Server Not Responding</span>', function() {

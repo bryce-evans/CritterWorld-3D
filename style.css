@@ -83,6 +83,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-shadow: -1px -1px rgba(0, 0, 0, .3);
   padding: 2px 8px 3px 8px;
+  cursor: pointer;
 }
 .menu-item:hover {
   background-color: #92cc47;
@@ -219,8 +220,8 @@ body {
   margin: 8px 14px 8px 8px;
 }
 
-.menu_tile.selected.lightbackground{
-	border: 3px solid black;
+.menu_tile.selected.lightbackground {
+  border: 3px solid black;
 }
 
 .menu_tile p {
@@ -229,7 +230,7 @@ body {
   text-align: center;
 }
 #world_uploader {
-  
+
 }
 
 #world_defaults {
@@ -262,7 +263,7 @@ ul {
 
 }
 #critter_defaults li {
-float: left;
+  float: left;
 }
 #world_menu {
 
@@ -308,6 +309,26 @@ float: left;
   display: block;
 }
 
+#critter-data {
+top: 200px;
+position: absolute;
+margin: 25px;
+}
+#critter-data li span {
+  color: white;
+}
+.critter-datum {
+  color: #FFC757;
+}
+#critter-prog{
+	position: relative;
+top: 300px;
+margin-left: 25px;
+}
+#prog-area {
+  overflow: scroll;
+  height: 300px;
+}
 a {
   color: skyblue
 }

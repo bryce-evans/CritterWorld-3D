@@ -57,7 +57,7 @@ Map.prototype = {
     for (var i = 0; i < data.length; i++) {
       if (data[i].type === "rock") {
         hex = this.hexes[data[i].col][data[i].row].addRock();
-      }else if(data[i].type === "critter") {
+      } else if (data[i].type === "critter") {
         hex = this.hexes[data[i].col][data[i].row].addCritter(data);
       }
     }
@@ -162,11 +162,23 @@ Hex.prototype = {
   },
   updateStats : function() {
     if (this.type === 0) {
-      document.getElementById("current-hex-type").innerHTML = (" ");
+      $("#critter-data").hide();
+      $("#critter-prog").hide();
+      $("#current-hex-type").innerHTML = (" ");
     } else if (this.type === 1) {
-      document.getElementById("current-hex-type").innerHTML = ("Rock");
+      $("#current-hex-type").innerHTML = ("Rock");
+      $("#critter-data").hide();
+      $("#critter-prog").hide();
     } else if (this.type === 2) {
-      document.getElementById("current-hex-type").innerHTML = ("Critter");
+      $("#critter-data").show();
+      $("#critter-prog").show();
+
+      $("#current-hex-type").text("Critter");
+      $("#critter-species").text(this.critter.species);
+      // XXX
+      $("#critter-energy").text(this.critter.mem[4]);
+      $("#critter-size").text(this.critter.mem[3]);
+      $("#prog-area").text(this.critter.program);
     }
   },
   //draws the wire around the hex

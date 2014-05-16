@@ -11,7 +11,7 @@ Critter = function(data) {
     mem : data.mem,
     program : data.program,
     recent_rule : data.recently_executed_rule,
-    species_id : data.species_id
+    species : data.species_id
   };
 
   //this.energy = 100;
