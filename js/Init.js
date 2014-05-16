@@ -50,11 +50,6 @@ function init_game_server(data) {
     }
   }
 
-  var hex;
-  for (var i = 0; i < data.state.length; i++) {
-    if (data.state[i].type === "rock") {
-      hex = world.map.hexes[data.state[i].col][data.state[i].row].addRock();
-    }
-  }
+  world.map.addToMap(data.state);
   init();
 }

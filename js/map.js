@@ -50,9 +50,19 @@ Map.prototype = {
   // returns the hex at c,r
   getHex : function(c, r) {
     return this.hexes[c][r];
+  },
+  // adds a list of items to the world
+  addToMap : function(data) {
+    var hex;
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].type === "rock") {
+        hex = this.hexes[data[i].col][data[i].row].addRock();
+      }else if(data[i].type === "critter") {
+        hex = this.hexes[data[i].col][data[i].row].addCritter(data);
+      }
+    }
   }
 }
-
 
 Hex = function(c, r) {
 
@@ -79,9 +89,9 @@ Hex = function(c, r) {
   world.map.hexes[c][r] = (this);
 }
 Hex.prototype = {
-  addCritter : function() {
+  addCritter : function(data) {
 
-    critter = new Critter();
+    critter = new Critter(data);
 
     critter.add(this);
     this.type = 2;
@@ -115,6 +125,7 @@ Hex.prototype = {
     loader.load("../CritterWorld/rsc/obj/rock1/rock1.js", onRockLoad);
 
   },
+
   hasCritter : function() {
     return this.type === 2;
   },

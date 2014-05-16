@@ -4,10 +4,19 @@ var critteraction = "LemurAction";
 
 var loader = new THREE.JSONLoader();
 
-Critter = function() {
-  this.energy = 100;
+Critter = function(data) {
+  this.data = {
+    direction : data.direction,
+    id : data.id,
+    mem : data.mem,
+    program : data.program,
+    recent_rule : data.recently_executed_rule,
+    species_id : data.species_id
+  };
+
+  //this.energy = 100;
   this.hex = null;
-  this.size = 1;
+  //this.size = 1;
   this.orientation = 0;
   this.ruleset = "";
 

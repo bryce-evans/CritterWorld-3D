@@ -148,7 +148,6 @@ $(document).ready(function() {
     }
   });
 
-
   /*
    * ****************************** BEGIN MENU BAR LISTENERS
    */
@@ -191,7 +190,7 @@ $(document).ready(function() {
     $(current_option).removeClass("selected");
     current_option = e.currentTarget;
   });
-  
+
   /*
    * ****************************** BEGIN SERVER TESTS
    */
@@ -378,10 +377,6 @@ function readCritterFile(opt_startByte, opt_stopByte) {
         "mem" : mems,
         "species_id" : specie_name,
         "num" : parseInt(document.getElementById('input_count').value)
-        // "positions" : [{
-        // "row" : document.getElementById('input_row').value,
-        // "col" : document.getElementById('input_col').value
-        // }]
       };
       console.log(send_data);
 
@@ -390,11 +385,52 @@ function readCritterFile(opt_startByte, opt_stopByte) {
         type : "POST",
         data : JSON.stringify(send_data),
         processData : false,
-        dataType : 'json'
-      }).done(function() {
-        alert("success");
-      }).fail(function() {
-        alert("failed");
+        dataType : 'json',
+        statusCode : {
+          200 : function(response) {
+            if (world.data.timeStep == 0) {
+              $.ajax({
+                url : SERVER_URL + "world",
+                type : "GET",
+                processData : false,
+                dataType : 'json',
+                statusCode : {
+                  200 : function(response) {
+                  	alert("200 399");
+                  	$("#critter_menu").hide();
+                    world.map.addToMap(response.state);
+                  }
+                }
+              });
+
+            } else if (world.data.timeStep > 0) {
+              $.ajax({
+                url : SERVER_URL + "world?update_since=" + (world.data.timeStep - 1),
+                type : "GET",
+                processData : false,
+                dataType : 'json',
+                statusCode : {
+                  200 : function(response) {
+                  	alert("200 - 413");
+                    world.map.addToMap(response.state);
+                  }
+                }
+              });
+
+            }
+          },
+          400 : function(response) {
+            alert('<span style="color:Red;">Error While Saving Outage Entry Please Check</span>', function() {
+            });
+          },
+          404 : function(response) {
+            bootbox.alert('<span style="color:Red;">Server Not Responding</span>', function() {
+            });
+          },
+          500 : function(response) {
+            alert('server error');
+          }
+        }
       });
       document.getElementById('byte_range').textContent = ['Read bytes: ', start + 1, ' - ', stop + 1, ' of ', file.size, ' byte file'].join('');
     }
