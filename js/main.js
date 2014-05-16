@@ -1,12 +1,5 @@
 function init() {
 
-	// add Hex Grid to World
-  for (var c = 0; c != world.COLUMNS + 1; c++) {
-    for (var r = Math.ceil(c / 2); 2 * r <= c + (2 * world.ROWS - world.COLUMNS) + (world.COLUMNS % 2 == 0 && c % 2 != 0 ? 1 : 0); r++) {
-      new Hex(c, r);
-    }
-  }
-
   // Lights
   world.scene.add(new THREE.AmbientLight(0xcccccc));
 
@@ -44,7 +37,7 @@ function init() {
 
   world.renderer = new THREE.WebGLRenderer();
   world.renderer.setSize(window.innerWidth, window.innerHeight);
-  world.renderer.setClearColor(0xade0f4, 0.6)
+  world.renderer.setClearColor(world.map.skyColor, 0.6)
 
   world.container.appendChild(world.renderer.domElement);
 

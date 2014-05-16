@@ -77,12 +77,52 @@ $(document).ready(function() {
         dataType : 'json',
         statusCode : {
           200 : function(response) {
-            alert('success!');
+            alert('success! 200 no fn running');
           },
           201 : function(response) {
             $("#start_page").hide();
             $("#game_page").show();
-            init_game_server();
+            init_game_server({});
+          },
+          400 : function(response) {
+            alert('<span style="color:Red;">Error While Saving Outage Entry Please Check</span>', function() {
+            });
+          },
+          404 : function(response) {
+            alert('1');
+            bootbox.alert('<span style="color:Red;">Server Not Responding</span>', function() {
+            });
+          },
+          500 : function(response) {
+            alert('server error');
+          }
+        }
+      });
+    } else if (new_world === "Random World") {
+      $.ajax({
+        url : SERVER_URL + "world",
+        type : "POST",
+        processData : false,
+        dataType : 'json',
+        statusCode : {
+          200 : function(response) {
+            alert('success! 200- no fn running');
+          },
+          201 : function(response) {
+            $.ajax({
+              url : SERVER_URL + "world",
+              type : "GET",
+              processData : false,
+              dataType : 'json',
+              statusCode : {
+                200 : function(response) {
+                  $("#start_page").hide();
+                  $("#game_page").show();
+                  init_game_server(response);
+                }
+              }
+            });
+
           },
           400 : function(response) {
             alert('<span style="color:Red;">Error While Saving Outage Entry Please Check</span>', function() {

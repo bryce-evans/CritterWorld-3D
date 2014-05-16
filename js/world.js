@@ -31,11 +31,15 @@ World = function() {
   }
   
   this.isVegetated = true;
+  this.hasWater = false;
+  this.hasTerrain = false;
+  
   this.isAnimated = true;
   this.animations = new Array();
   this.FRAMES_PER_TURN = 10;
   this.turnOccurring = false;
   this.currentFrame = 0;
+
 
   this.COLUMNS = 49;
   this.ROWS = 67;
@@ -43,6 +47,7 @@ World = function() {
   this.SCREEN_WIDTH = window.innerWidth;
   this.SCREEN_HEIGHT = window.innerHeight;
 
+	this.skies = {"lightblue":0xade0f4, "black" : 0x000000};
 }
 
 World.prototype = {
