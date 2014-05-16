@@ -4,6 +4,11 @@ function init_game_server() {
   world.map = new Map(world);
   world.map.calculateSize();
 
+  // graphics params
+  world.isVegetated = false;
+  world.hasFog = false;
+  world.hasWater = false;
+
   // Add terrain (from Terrain.js)
   var terrain = new Terrain();
   var map = world.map;
@@ -11,15 +16,19 @@ function init_game_server() {
 
   world.scene.terrain = terrain;
   terrain.setTexture(terrain.texture);
-  terrain.setFog(terrain.fog);
 
   terrain.mesh.position = new THREE.Vector3(map.center.x, -1, map.center.y);
 
   world.scene.add(terrain.mesh);
 
+  if (world.hasFog) {
+    world.scene.fog = new THREE.Fog(0xffffff, 10, Math.max(Math.max(world.COLUMNS, world.ROWS) * 12, 300));
+  }
   // Add water (from Water.js)
-  water = new Water(world.map);
-  water.addWater(world.scene);
+  if (world.hasWater) {
+    water = new Water(world.map);
+    water.addWater(world.scene);
+  }
 
   // Add mouse controls (from MouseControls.js)
   THREE.OrbitControls.prototype = Object.create(THREE.EventDispatcher.prototype);

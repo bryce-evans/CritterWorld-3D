@@ -37,8 +37,8 @@ World = function() {
   this.turnOccurring = false;
   this.currentFrame = 0;
 
-  this.COLUMNS = 15;
-  this.ROWS = 15;
+  this.COLUMNS = 49;
+  this.ROWS = 67;
 
   this.SCREEN_WIDTH = window.innerWidth;
   this.SCREEN_HEIGHT = window.innerHeight;
