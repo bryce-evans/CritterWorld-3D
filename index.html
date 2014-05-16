@@ -80,6 +80,12 @@
             console.log(data);
           })
         });
+        
+        $("#delete_critter").click(function() {
+          var jqxhr = $.getJSON(SERVER_URL + "critters/"+document.getElementById('input_row').value, function(data) {
+            console.log(data);
+          })
+        });
 
         $("#get_critters").click(function() {
           var jqxhr = $.getJSON(SERVER_URL + "critters", function(data) {
