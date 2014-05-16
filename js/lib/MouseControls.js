@@ -420,4 +420,4 @@ THREE.OrbitControls = function(object, domElement) {
 
 };
 
-THREE.OrbitControls.prototype = Object.create(THREE.EventDispatcher.prototype);
+

@@ -5,7 +5,7 @@ body {
   color: #FFFFFF;
   overflow: hidden;
 }
-#start_menu {
+#start_page {
   height: 100%;
   width: 100%;
   position: relative;
@@ -13,7 +13,7 @@ body {
   z-index: 100;
   background-color: #004426;
 }
-#right_menu {
+#start_menu {
   position: relative;
   top: 50px;
   left: 80px;
@@ -52,7 +52,7 @@ body {
   -webkit-box-shadow: 0px 2px 0px 0px #002917;
   box-shadow: 0px 2px 0px 0px #002917;
 }
-#page {
+#game_page {
 
 }
 

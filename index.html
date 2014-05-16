@@ -16,7 +16,71 @@
 
 	<body>
 
-		<div class="popup_menu" id="world_menu" style="display: none;">
+	
+		<div id="start_page">
+			
+			<div id="init_canvas">
+
+			</div>
+			<div>
+				<div id="start_menu">
+					<div id="main_logo">
+						CritterWorld
+					</div>
+					<div id="start_buttons">
+						<!--	<div class="start_button" id="new_world">
+						New World
+						</div>
+
+						<div class="start_button" id="load_world">
+						Load World
+						</div>
+						<div class="start_button" id="multiplayer">
+						Multiplayer
+						</div>
+						<div class="start_button">
+						Options
+						</div>-->
+						<div class="start_button" id="multiplayer">
+							Multiplayer
+						</div>
+						<div class="start_button" id="run_world">
+							Run World
+						</div>
+						<div class="start_button" id="stop_world">
+							Stop World
+						</div>
+						<div class="start_button" id="post_world">
+							Post World
+						</div>
+						<div class="start_button" id="get_world">
+							Get World
+						</div>
+						<div class="start_button" id="step_world">
+							Step World
+						</div>
+						<div class="start_button" id="load_critter">
+							Load Critter
+						</div>
+						<div class="start_button" id="get_critters">
+							Get Critters
+						</div>
+						<div class="start_button" id="get_critter">
+							Get Critter
+						</div>
+						<div class="start_button" id="delete_critter">
+							Delete Critter
+						</div>
+
+						<div style="visibility: hidden;">
+							<span onclick="location.href='newUrl.php';">link</span>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			
+				<div class="popup_menu" id="world_menu" style="display: none;">
 			<div class="popup_menu_header">
 				New World
 			</div>
@@ -122,69 +186,9 @@
 				</button> </span>
 
 		</div>
-		<div id="start_menu">
-			<div id="init_canvas">
-
-			</div>
-			<div>
-				<div id="right_menu">
-					<div id="main_logo">
-						CritterWorld
-					</div>
-					<div id="start_buttons">
-						<!--	<div class="start_button" id="new_world">
-						New World
-						</div>
-
-						<div class="start_button" id="load_world">
-						Load World
-						</div>
-						<div class="start_button" id="multiplayer">
-						Multiplayer
-						</div>
-						<div class="start_button">
-						Options
-						</div>-->
-						<div class="start_button" id="multiplayer">
-							Multiplayer
-						</div>
-						<div class="start_button" id="run_world">
-							Run World
-						</div>
-						<div class="start_button" id="stop_world">
-							Stop World
-						</div>
-						<div class="start_button" id="post_world">
-							Post World
-						</div>
-						<div class="start_button" id="get_world">
-							Get World
-						</div>
-						<div class="start_button" id="step_world">
-							Step World
-						</div>
-						<div class="start_button" id="load_critter">
-							Load Critter
-						</div>
-						<div class="start_button" id="get_critters">
-							Get Critters
-						</div>
-						<div class="start_button" id="get_critter">
-							Get Critter
-						</div>
-						<div class="start_button" id="delete_critter">
-							Delete Critter
-						</div>
-
-						<div style="visibility: hidden;">
-							<span onclick="location.href='newUrl.php';">link</span>
-						</div>
-
-					</div>
-				</div>
-			</div>
+		
 		</div>
-		<div id="page">
+		<div id="game_page" style="display: none;">
 			<div id= "menubar">
 				<div id="logo">
 					Critter World
@@ -263,7 +267,7 @@
 		</div>
 		<script src="js/MenuControls.js"></script>
 
-		<!-- 		<script src="js/World.js"></script>
+		<script src="js/World.js"></script>
 		<script src="js/Map.js"></script>
 		<script src="js/Critter.js"></script>
 		<script src="js/Animation.js"></script>
@@ -273,7 +277,9 @@
 		<script src="js/Water.js"></script>
 		<script src="js/lib/MouseControls.js"></script>
 		<script src="js/CritterControls.js"></script>
-		<script src="js/Main.js"></script> -->
+		
+		<script src="js/Main.js"></script>
+		<script src="js/Init.js"></script>
 
 	</body>
 </html>

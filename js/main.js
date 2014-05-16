@@ -1,8 +1,3 @@
-if (!Detector.webgl)
-  Detector.addGetWebGLMessage();
-
-init();
-
 function init() {
 
 	// add Hex Grid to World

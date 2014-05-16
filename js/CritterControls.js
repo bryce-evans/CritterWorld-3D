@@ -101,4 +101,4 @@ CritterControls.prototype = {
   }
 }
 
-world.critterControls = new CritterControls(world);
+

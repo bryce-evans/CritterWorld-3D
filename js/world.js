@@ -88,4 +88,4 @@ World.prototype = {
   }
 }
 
-world = new World();
+

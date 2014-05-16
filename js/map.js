@@ -52,8 +52,7 @@ Map.prototype = {
     return this.hexes[c][r];
   }
 }
-world.map = new Map(world);
-world.map.calculateSize();
+
 
 Hex = function(c, r) {
 

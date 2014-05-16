@@ -98,5 +98,3 @@ Water.prototype = {
   }
 }
 
-water = new Water(world.map);
-water.addWater(world.scene); 
