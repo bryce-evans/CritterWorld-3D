@@ -1,0 +1,10 @@
+memsize: 9
+defense: 1
+offense: 1
+size: 1
+energy: 400
+posture: 0
+
+ENERGY = 401 --> serve [100];
+ENERGY = 300 --> serve [999];
+1 = 1 --> wait;

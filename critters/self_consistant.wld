@@ -1,0 +1,4 @@
+critter tests/self_consistant.ctr 6 6 0
+critter tests/self_consistant.ctr 6 3 0
+critter tests/self_consistant.ctr 8 6 0
+critter tests/self_consistant.ctr 7 2 0

@@ -1,0 +1,11 @@
+memsize: 9
+defense: 5
+offense: 10
+size: 5
+energy: 1600
+posture: 0
+
+ahead[1] > 0 --> attack;
+ahead[1] < 0 --> forward;
+ahead[0] < 0 --> eat;
+1=1 --> forward;

@@ -1,0 +1,16 @@
+memsize: 9
+defense: 1
+offense: 1
+size: 1
+energy: 500
+posture: 0
+
+ahead[0] < 0-1 and mem[4] < 500*mem[3] --> eat;
+ahead[0] < 0-1 --> wait;
+nearby[0] < 0-1 --> forward;
+nearby[3] < 0-1 --> backward;
+nearby[1] < 0-1 --> right;
+nearby[5] < 0-1 --> left;
+nearby[2] < 0-1 --> left;
+nearby[4] < 0-1 --> right;
+1=1 --> wait;

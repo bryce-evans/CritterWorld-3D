@@ -1,0 +1,9 @@
+memsize: 9
+defense: 1
+offense: 1
+size: 1
+energy: 500
+posture: 0
+	
+nearby[0] = ahead[1] --> right;
+0 = 0 --> left;

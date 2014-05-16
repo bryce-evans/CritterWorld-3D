@@ -1,0 +1,4 @@
+critter tests/att2.ctr 2 2 1
+critter tests/att.ctr 3 3 4
+critter tests/att.ctr 6 6 1
+critter tests/att2.ctr 7 7 4

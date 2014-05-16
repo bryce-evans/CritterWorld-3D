@@ -1,0 +1,3 @@
+critter tests/grass.ctr 4 3 0
+critter tests/grass.ctr 4 4 0
+critter tests/cow.ctr 3 3 0

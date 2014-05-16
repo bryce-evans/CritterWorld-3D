@@ -1,0 +1,8 @@
+memsize: 9
+defense: 1
+offense: 1
+size: 1
+energy: 500
+posture: 0
+5 > 4 and 4 > 5 --> left;
+5 > 4 or 4 > 5 --> forward;

@@ -1,0 +1,5 @@
+critter tests/mate.ctr 3 3 1
+critter tests/mate.ctr 4 4 4
+rock 5 5
+critter tests/mate.ctr 6 3 1
+critter tests/mate.ctr 7 4 4

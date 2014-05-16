@@ -1,0 +1,9 @@
+memsize: 10
+defense: 2
+offense: 2
+size: 2
+energy: 1000
+posture: 1
+0 = 0 --> mem[1-2] := 2;
+1 = 1 --> mem[mem[0] + 2] := mem[(0-mem[0]) - 5];
+2 = 2 --> wait;

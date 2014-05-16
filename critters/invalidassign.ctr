@@ -1,0 +1,16 @@
+memsize: 10
+defense: 1
+offense: 1
+size: 1
+energy: 100
+posture: 2
+0 = 0 --> mem[0] := 100
+ mem[1] := 100
+ mem[2] := 100
+ mem[3] := 100
+ mem[4] := 100
+ mem[5] := 0-1
+ mem[6] := 99
+ mem[7] := 99
+ mem[8] := 99;
+9 = 9 --> wait;

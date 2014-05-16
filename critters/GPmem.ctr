@@ -1,0 +1,11 @@
+memsize: 11
+offense: 1
+defense: 1
+size: 1
+energy: 500
+posture: 0
+
+mem[10] mod 3 = 0 --> mem[10] := mem[10]+1 right;
+mem[10] < 25 --> mem[10] := mem[10]+1 forward;
+mem[10] < 50 --> mem[10] := mem[10]+1 backward;
+1=1 --> mem[10] := mem[10]+1 wait;
