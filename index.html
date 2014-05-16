@@ -166,8 +166,15 @@
               };
               console.log(send_data);
 
-              $.post(SERVER_URL + "critters", data = send_data, function() {
+              $.ajax({
+                url : SERVER_URL + "critters",
+                data : JSON.stringify(send_data),
+                processData : false,
+                dataType : 'json'
+              }).done(function() {
                 alert("success");
+              }).fail(function() {
+                alert("failed")
               });
               document.getElementById('byte_range').textContent = ['Read bytes: ', start + 1, ' - ', stop + 1, ' of ', file.size, ' byte file'].join('');
             }
