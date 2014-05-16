@@ -35,8 +35,27 @@ $(document).ready(function() {
         $("#critter_menu").hide();
       } else {
         console.log("I don't know what I'm trying to close");
+      }
+      // p -> play simulation
+    } else if (code == 80) {
+      $.post(SERVER_URL + "run?rate=2.0", function() {
+        console.log("running server at 2 turns/sec");
+        getUpdates = setTimeout(function() {
+          alert("Hello")
+        }, 3000);
+      });
 
-    });
+      // s -> step simulation
+    } else if (code == 83) {
+      $.post(SERVER_URL + "step?count=1", function() {
+        console.log("stepped 1");
+
+        // h -> simulation
+      });
+    } else if (code == 72) {
+      clearTimeout(myVar);
+      console.log("halted sim");
+    }
   });
 
   $("#world_defaults_button").click(function() {
@@ -404,7 +423,6 @@ function readCritterFile(opt_startByte, opt_stopByte) {
                 dataType : 'json',
                 statusCode : {
                   200 : function(response) {
-                    alert("200 399");
                     $("#critter_menu").hide();
                     world.map.addToMap(response.state);
                   }

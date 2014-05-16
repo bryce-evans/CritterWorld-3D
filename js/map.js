@@ -174,11 +174,11 @@ Hex.prototype = {
       $("#critter-prog").show();
 
       $("#current-hex-type").text("Critter");
-      $("#critter-species").text(this.critter.species);
+      $("#critter-species").text(this.critter.data.species);
       // XXX
-      $("#critter-energy").text(this.critter.mem[4]);
-      $("#critter-size").text(this.critter.mem[3]);
-      $("#prog-area").text(this.critter.program);
+      $("#critter-energy").text(this.critter.data.mem[4]);
+      $("#critter-size").text(this.critter.data.mem[3]);
+      $("#prog-area").text(this.critter.data.program);
     }
   },
   //draws the wire around the hex
