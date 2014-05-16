@@ -261,6 +261,9 @@ ul {
 #critter_menu {
 
 }
+#critter_defaults li {
+float: left;
+}
 #world_menu {
 
 }

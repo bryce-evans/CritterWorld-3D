@@ -16,9 +16,141 @@
 
 	<body>
 
-	
+		<div id="popups">
+			<div class="popup_menu" id="world_menu" style="display: none;">
+				<div class="popup_menu_header">
+					New World
+				</div>
+				<ul class="popup_menu_tabs" id="world_add_options">
+					<li>
+						<div id="world_defaults_button" class="menu_tile selected">
+							<p>
+								Defaults
+							</p>
+						</div>
+					</li>
+					<li>
+						<div id="world_uploader_button" class="menu_tile">
+							<p>
+								Upload
+							</p>
+						</div>
+					</li>
+				</ul>
+				<div id="world_defaults">
+					<ul>
+						<li>
+							<div class="menu_tile lightbackground">
+								<p>
+									Empty World
+								</p>
+							</div>
+						</li>
+						<li>
+							<div class="menu_tile lightbackground">
+								<p>
+									Random World
+								</p>
+							</div>
+						</li>
+					</ul>
+
+				</div>
+				<div id="world_uploader" style="display: none;">
+					<div id="world_drop_zone">
+						Drop files here
+
+						Choose World
+						<input type="file" id="world_upload">
+						<output id="list"></output>
+
+						<div id="byte_range"></div>
+						<div id="byte_content"></div>
+						<span class="readWorldButtons">
+							<button>
+								Upload World
+							</button></span>
+
+					</div>
+				</div>
+				<button id="choose_world">
+					Okay
+				</button>
+			</div>
+
+			<div class="popup_menu" id="critter_menu" style="display: none;">
+				<div class="popup_menu_header">
+					Add Critter
+				</div>
+				<ul class="popup_menu_tabs" id="critter_add_options">
+					<li>
+						<div class="menu_tile selected" id="critter_defaults_button">
+							<p>
+								Defaults
+							</p>
+						</div>
+					</li>
+					<li>
+						<div class="menu_tile" id="critter_uploader_button">
+							<p>
+								Upload
+							</p>
+						</div>
+					</li>
+				</ul>
+				<div id="critter_defaults">
+					<ul>
+						<li>
+							<div class="menu_tile lightbackground">
+								<p>
+									Basic
+								</p>
+							</div>
+						</li>
+						<li>
+							<div class="menu_tile lightbackground">
+								<p>
+									Mate
+								</p>
+							</div>
+						</li>
+						<li>
+							<div class="menu_tile lightbackground">
+								<p>
+									Cow
+								</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div id="critter_uploader" style="display:none;">
+					<div id="drop_zone">
+						Drop files here
+					</div>
+
+					Upload Critter
+					<input type="file" id="critter_upload">
+
+					<output id="list"></output>
+
+					<div id="byte_range"></div>
+					<div id="byte_content"></div>
+
+					<span class="readCritterButtons">
+						<form>
+							Count:
+							<input type="text" id="input_count" name="count">
+						</form>
+						<button>
+							Upload Critter
+						</button> </span>
+				</div>
+			</div>
+
+		</div>
+
 		<div id="start_page">
-			
+
 			<div id="init_canvas">
 
 			</div>
@@ -79,114 +211,7 @@
 					</div>
 				</div>
 			</div>
-			
-				<div class="popup_menu" id="world_menu" style="display: none;">
-			<div class="popup_menu_header">
-				New World
-			</div>
-			<ul class="popup_menu_tabs" id="world_add_options">
-				<li>
-					<div id="world_defaults_button" class="menu_tile selected">
-						<p>
-							Defaults
-						</p>
-					</div>
-				</li>
-				<li>
-					<div id="world_uploader_button" class="menu_tile">
-						<p>
-							Upload
-						</p>
-					</div>
-				</li>
-			</ul>
-			<div id="world_defaults">
-				<ul>
-					<li>
-						<div class="menu_tile lightbackground">
-							<p>
-								Empty World
-							</p>
-						</div>
-					</li>
-					<li>
-						<div class="menu_tile lightbackground">
-							<p>
-								Random World
-							</p>
-						</div>
-					</li>
-				</ul>
-				
-			</div>
-			<div id="world_uploader" style="display: none;">
-				<div id="world_drop_zone">
-					Drop files here
 
-					Choose World
-					<input type="file" id="world_upload">
-					<output id="list"></output>
-
-					<div id="byte_range"></div>
-					<div id="byte_content"></div>
-					<span class="readWorldButtons">
-						<button>
-							Upload World
-						</button></span>
-
-				</div>
-			</div>
-<button id="choose_world"> Okay
-				</button>
-		</div>
-
-		<div class="popup_menu" id="critter_menu" style="display: none;">
-			<div class="popup_menu_header">
-				Add Critter
-			</div>
-			<ul class="popup_menu_tabs" id="critter_add_options">
-				<li>
-					<div class="menu_tile selected">
-						<p>
-							Defaults
-						</p>
-					</div>
-				</li>
-				<li>
-					<div class="menu_tile">
-						<p>
-							Upload
-						</p>
-					</div>
-				</li>
-			</ul>
-
-			<div id="drop_zone">
-				Drop files here
-			</div>
-
-			Upload Critter
-			<input type="file" id="critter_upload">
-
-			<output id="list"></output>
-
-			<div id="byte_range"></div>
-			<div id="byte_content"></div>
-
-			<span class="readCritterButtons">
-				<form>
-					Row:
-					<input type="text" id="input_row" name="row">
-					<br>
-					Col:
-					<input type="text" id="input_col" name="col">
-				</form>
-				<button>
-					Upload Critter
-				</button> </span>
-
-		</div>
-		
 		</div>
 		<div id="game_page" style="display: none;">
 			<div id= "menubar">
@@ -195,7 +220,7 @@
 				</div>
 
 				<div id="menu-items" style="float:left; display:inline;">
-					<div class="menu-item">
+					<div class="menu-item" id="menu-bar-world">
 						World
 					</div>
 					<div class = "menu" id="menu-world">
@@ -212,6 +237,9 @@
 						<div>
 							Add Critter
 						</div>
+					</div>
+					<div class="menu-item" id="menu-bar-editor">
+						Editor
 					</div>
 					<div class="menu-item">
 						View
@@ -277,7 +305,7 @@
 		<script src="js/Water.js"></script>
 		<script src="js/lib/MouseControls.js"></script>
 		<script src="js/CritterControls.js"></script>
-		
+
 		<script src="js/Main.js"></script>
 		<script src="js/Init.js"></script>
 

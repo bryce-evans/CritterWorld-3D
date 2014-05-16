@@ -27,9 +27,11 @@ $(document).ready(function() {
     var code = e.keyCode || e.which;
     console.log(code);
     if (code == 27) {
-
+      active_tab = "";
       if (active_pane === "world") {
         $("#world_menu").hide();
+      } else if (active_pane === "critter") {
+        $("#critter_menu").hide();
       } else {
         console.log("I don't know what I'm trying to close");
       }
@@ -82,7 +84,11 @@ $(document).ready(function() {
           201 : function(response) {
             $("#start_page").hide();
             $("#game_page").show();
-            init_game_server({});
+            $("#world_menu").hide();
+            init_game_server({
+              "state" : []
+            });
+
           },
           400 : function(response) {
             alert('<span style="color:Red;">Error While Saving Outage Entry Please Check</span>', function() {
@@ -118,6 +124,7 @@ $(document).ready(function() {
                 200 : function(response) {
                   $("#start_page").hide();
                   $("#game_page").show();
+                  $("#world_menu").hide();
                   init_game_server(response);
                 }
               }
@@ -141,6 +148,50 @@ $(document).ready(function() {
     }
   });
 
+
+  /*
+   * ****************************** BEGIN MENU BAR LISTENERS
+   */
+
+  $("#menu-bar-world").click(function() {
+    console.log("world clicked");
+    $("#world_menu").show();
+  });
+
+  $("#menu-bar-editor").click(function() {
+    $("#critter_menu").show();
+    active_pane = "critter";
+    active_tab = "defaults";
+  });
+
+  $("#critter_defaults_button").click(function() {
+    if (active_tab !== "defaults") {
+      $("#critter_defaults_button").addClass("selected");
+      $("#critter_uploader_button").removeClass("selected");
+      active_tab = "defaults";
+      $("#critter_defaults_button").show();
+      $("#critter_uploader").hide();
+    }
+  });
+
+  $("#critter_uploader_button").click(function() {
+    if (active_tab !== "uploader") {
+      $("#critter_uploader_button").addClass("selected");
+      $("#critter_defaults_button").removeClass("selected");
+      active_tab = "uploader";
+      $("#critter_defaults").hide();
+      $("#critter_uploader").show();
+    }
+  });
+
+  $("#critter_defaults li div").click(function(e) {
+    console.log(e);
+
+    $(e.currentTarget).addClass("selected");
+    $(current_option).removeClass("selected");
+    current_option = e.currentTarget;
+  });
+  
   /*
    * ****************************** BEGIN SERVER TESTS
    */
@@ -326,10 +377,11 @@ function readCritterFile(opt_startByte, opt_stopByte) {
         "program" : program,
         "mem" : mems,
         "species_id" : specie_name,
-        "positions" : [{
-          "row" : document.getElementById('input_row').value,
-          "col" : document.getElementById('input_col').value
-        }]
+        "num" : parseInt(document.getElementById('input_count').value)
+        // "positions" : [{
+        // "row" : document.getElementById('input_row').value,
+        // "col" : document.getElementById('input_col').value
+        // }]
       };
       console.log(send_data);
 
