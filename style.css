@@ -157,10 +157,10 @@ body {
 
 /*box-shadow: inset 2px 2px 10px black; */
 
-#critter_menu {
-  background: rgb(251, 255, 207);
-  border-radius: 15px;
-  border: solid 2px #001A00;
+.popup_menu {
+  background: #E4FFC1;
+  border-radius: 16px;
+  border: solid 1px rgba(86, 124, 86, 1);
   z-index: 101;
   clear: left;
   float: left;
@@ -174,7 +174,62 @@ body {
   margin-top: -100px;
   margin-left: -249px;
   width: 500px;
-  height: 200px;
+  height: 224px;
+  color: #096F00;
+}
+
+.popup_menu_header {
+  background-color: #004426;
+  font-size: 22px;
+  padding: 5px;
+  border-radius: 15px 15px 0 0;
+  border-bottom: solid 3px #002917;
+  color: white;
+}
+.popup_menu_tabs {
+    float: left;
+    width: 100px;
+    background: #2C7914;
+    border-radius: 0 0 0 15px;
+}
+.popup_menu_tab {
+  width: 80px;
+  height: 80px;
+  background-color: #97DA42;
+  color: white;
+  margin: 8px;
+  border-radius: 8px;
+}
+
+.popup_menu_tab:hover{
+  border: 2px solid #BBFF65;
+  height: 76px;
+  width: 76px;
+}
+
+.popup_menu_tab.selected {
+  border: 3px solid #D8FFA7;
+  height: 74px;
+  width: 74px;
+}
+
+
+.centered {
+  display: table;
+}
+
+.centered p {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+#critter_menu {
+
 }
 #drop_zone {
   border: 2px dashed #bbb;
@@ -185,20 +240,21 @@ body {
   text-align: center;
   font: 20pt bold;
   color: #bbb;
+  margin: 10px;
 }
 #drop_zone.in {
-    background:black;
+  background: black;
 }
 #drop_zone.hover {
-    background: white;
+  background: white;
 }
 #drop_zone.fade {
-    -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -ms-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
-    opacity: 1;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  opacity: 1;
 }
 #stats {
   top: 35px !important;
