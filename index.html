@@ -167,11 +167,27 @@
               type : "POST",
               data : JSON.stringify(send_data),
               processData : false,
-              dataType : 'json'
-            }).done(function() {
-              alert("success");
-            }).fail(function() {
-              alert("failed");
+              dataType : 'json',
+              statusCode : {
+                200 : function(response) {
+                  alert('success!');
+                },
+                201 : function(response) {
+                  alert("success!")
+                },
+                400 : function(response) {
+                  alert('<span style="color:Red;">Error While Saving Outage Entry Please Check</span>', function() {
+                  });
+                },
+                404 : function(response) {
+                  alert('1');
+                  bootbox.alert('<span style="color:Red;">Server Not Responding</span>', function() {
+                  });
+                },
+                500 : function(response) {
+                  alert('server error');
+                }
+              }
             });
             document.getElementById('byte_range').textContent = ['Read bytes: ', start + 1, ' - ', stop + 1, ' of ', file.size, ' byte file'].join('');
 
