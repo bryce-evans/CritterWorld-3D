@@ -16,16 +16,42 @@
 
 	<body>
 		<script>
+		
+		/*
+		 *  TODO standardize URL into variable
+		 * port -> 8989
+		 *  check if file is invalid -> unneeded
+		 */
       $(document).ready(function() {
-        $("#new_world").click(function() {
+        $("#run_world").click(function() {
+          $.post("http://localhost:8080/server/run?rate=2.0", function() {
+            alert("success");
+          });
+        });
+
+        $("#stop_world").click(function() {
+          $.post("http://localhost:8080/server/run?rate=0", function() {
+            alert("success");
+          });
+        });
+
+        //attacker1.crit is server side - INVALID
+        // $("#run_world").click(function() {
+        // $.post("http://localhost:8080/server/world", data = {
+        // "definition" : "rock 5 2\nrock 6 4\ncritter attacker1.crit 6 2 0\n"
+        // }, function() {
+        // alert("success");
+        // });
+        // });
+
+        var since = 1;
+        $("#get_world").click(function() {
           var response = $.ajax({
-            url : "http://localhost:8080/server/world",
+            url : "http://localhost:8080/server/world?update_since=" + since,
             type : "GET",
             dataType : "json",
             crossDomain : true,
-            data : {
-              update_since : "1"
-            }
+
           }).done(function(data, status) {
             console.log(data);
             //alert("Data: " + data + "\nStatus: " + status);
@@ -42,14 +68,157 @@
             alert("success");
           });
         });
-        $("#multiplayer").click(function() {
-          var jqxhr = $.getJSON("http://localhost:8080/server/world", function(data) {
+
+        $("#post_critter").click(function() {
+          $.post("http://localhost:8080/server/step?count=1", function() {
+            alert("success");
+          });
+        });
+
+        $("#get_critter").click(function() {
+          var jqxhr = $.getJSON("http://localhost:8080/server/critters", function(data) {
             console.log(data);
           })
         });
+
+        $("#get_critters").click(function() {
+          var jqxhr = $.getJSON("http://localhost:8080/server/critters", function(data) {
+            console.log(data);
+          })
+        });
+
       });
 		</script>
+<div id="critter_menu">
+	Upload File <input type="file" id="file_upload">
+	
+<div id="drop_zone">Drop files here</div>
+<output id="list"> </output>
 
+<div id="byte_range"></div>
+<div id="byte_content"></div>
+<span class="readBytesButtons">
+<!--   <button data-startbyte="0" data-endbyte="4">1-5</button>
+  <button data-startbyte="5" data-endbyte="14">6-15</button>
+  <button data-startbyte="6" data-endbyte="7">7-8</button> -->
+  <button>entire file</button>
+</span>
+<script>
+  function readBlob(opt_startByte, opt_stopByte) {
+
+    var files = document.getElementById('file_upload').files;
+    if (!files.length) {
+      alert('Please select a file!');
+      return;
+    }
+
+    var file = files[0];
+    var start = parseInt(opt_startByte) || 0;
+    var stop = parseInt(opt_stopByte) || file.size - 1;
+
+    var reader = new FileReader();
+
+    // If we use onloadend, we need to check the readyState.
+    reader.onloadend = function(evt) {
+      if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+        document.getElementById('byte_content').textContent = evt.target.result;
+        document.getElementById('byte_range').textContent = 
+            ['Read bytes: ', start + 1, ' - ', stop + 1,
+             ' of ', file.size, ' byte file'].join('');
+      }
+    };
+
+    var blob = file.slice(start, stop + 1);
+    reader.readAsBinaryString(blob);
+  }
+  
+  document.querySelector('.readBytesButtons').addEventListener('click', function(evt) {
+    if (evt.target.tagName.toLowerCase() == 'button') {
+      var startByte = evt.target.getAttribute('data-startbyte');
+      var endByte = evt.target.getAttribute('data-endbyte');
+      readBlob(startByte, endByte);
+    }
+  }, false);
+
+// $(document).bind('dragover', function (e) {
+    // var dropZone = $('#drop_zone'),
+        // timeout = window.dropZoneTimeout;
+    // if (!timeout) {
+        // dropZone.addClass('in');
+    // } else {
+        // clearTimeout(timeout);
+    // }
+    // var found = false,
+        // node = e.target;
+    // do {
+        // if (node === dropZone[0]) {
+            // found = true;
+            // break;
+        // }
+        // node = node.parentNode;
+    // } while (node != null);
+    // if (found) {
+        // dropZone.addClass('hover');
+    // } else {
+        // dropZone.removeClass('hover');
+    // }
+    // window.dropZoneTimeout = setTimeout(function () {
+        // window.dropZoneTimeout = null;
+        // dropZone.removeClass('in hover');
+    // }, 100);
+// });
+
+/////////////////////////////////////////////
+  function handleFileSelect(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    var files = evt.dataTransfer.files; // FileList object.
+
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                  f.size, ' bytes, last modified: ',
+                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                  '</li>');
+    }
+    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+  }
+
+  function handleDragOver(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+  }
+
+  // Setup the dnd listeners.
+  var dropZone = document.getElementById('drop_zone');
+  dropZone.addEventListener('dragover', handleDragOver, false);
+  dropZone.addEventListener('drop', handleFileSelect, false);
+</script>
+	
+	<!--
+		{
+    "program": "a critter program",
+    "mem": [<memsize>, <defense>, <offense>,<size>,<energy>,<posture>],  // NOTE: first empty line marks end of mems
+    "species_id" : "attacker1", //name of file -> uneditable after upload
+    "positions": [
+        { "row": 2, "col": 3 },
+        { "row": 4, "col": 6 },
+        ...
+    ]
+    
+    OR
+    "num" : <int>
+}
+
+Choose File
+
+	-->
+	
+	
+</div>
 		<div id="start_menu">
 			<div id="init_canvas">
 
@@ -60,19 +229,47 @@
 						CritterWorld
 					</div>
 					<div id="start_buttons">
-						<div class="start_button" id="new_world">
-							New World
+						<!--	<div class="start_button" id="new_world">
+						New World
 						</div>
 
 						<div class="start_button" id="load_world">
-							Load World
+						Load World
 						</div>
 						<div class="start_button" id="multiplayer">
-							Multiplayer
+						Multiplayer
 						</div>
 						<div class="start_button">
-							Options
+						Options
+						</div>-->
+						<div class="start_button" id="run_world">
+							Run World
 						</div>
+						<div class="start_button" id="stop_world">
+							Stop World
+						</div>
+						<div class="start_button" id="post_world">
+							Post World
+						</div>
+						<div class="start_button" id="get_world">
+							Get World
+						</div>
+						<div class="start_button" id="step_world">
+							Step World
+						</div>
+						<div class="start_button" id="load_critter">
+							Load Critter
+						</div>
+						<div class="start_button" id="get_critters">
+							Get Critters
+						</div>
+						<div class="start_button" id="get_critter">
+							Get Critter
+						</div>
+						<div class="start_button" id="delete_critter">
+							Delete Critter
+						</div>
+
 						<div style="visibility: hidden;">
 							<span onclick="location.href='newUrl.php';">link</span>
 						</div>
