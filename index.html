@@ -167,11 +167,13 @@
               console.log(send_data);
 
               $.ajax({
-                url : SERVER_URL + "critters",
-                data : JSON.stringify(send_data),
-                processData : false,
-                dataType : 'json'
-              }).done(function() {
+              url : SERVER_URL + "critters",
+              type:"POST"
+              data : JSON.stringify(send_data),
+              processData : false,
+              dataType : 'json'
+              }).
+              done(function() {
                 alert("success");
               }).fail(function() {
                 alert("failed")
