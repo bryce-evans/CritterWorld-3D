@@ -245,6 +245,9 @@ button {
   border-radius: 3px;
   border: none;
   padding: 5px 8px 5px 8px;
+  cursor: pointer;
+  float: right;
+  margin-right: 15px;
 }
 button:hover {
   background-color: #B3FA58;
@@ -265,11 +268,14 @@ ul {
 #critter_defaults li {
   float: left;
 }
+#input_count {
+  width: 50px;
+}
 #world_menu {
 
 }
 
-#drop_zone {
+.drop_zone {
   border: 2px dashed #bbb;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -279,20 +285,33 @@ ul {
   font: 20pt bold;
   color: #bbb;
   margin: 10px;
+  width: 326px;
+  float: right;
 }
-#drop_zone.in {
+.drop_zone.in {
   background: black;
 }
-#drop_zone.hover {
+.drop_zone.hover {
   background: white;
 }
-#drop_zone.fade {
+.drop_zone.fade {
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -ms-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
   opacity: 1;
+}
+input[type="file"]::-webkit-file-upload-button {
+  background-color: #92CC47;
+  color: white;
+  border-radius: 3px;
+  border: none;
+  padding: 5px 8px 5px 8px;
+  cursor: pointer;
+}
+input[type="file"]::-webkit-file-upload-button:hover {
+  background-color: #B3FA58;
 }
 #stats {
   top: 35px !important;
@@ -310,9 +329,9 @@ ul {
 }
 
 #critter-data {
-top: 200px;
-position: absolute;
-margin: 25px;
+  top: 200px;
+  position: absolute;
+  margin: 25px;
 }
 #critter-data li span {
   color: white;
@@ -320,10 +339,10 @@ margin: 25px;
 .critter-datum {
   color: #FFC757;
 }
-#critter-prog{
-	position: relative;
-top: 300px;
-margin-left: 25px;
+#critter-prog {
+  position: relative;
+  top: 300px;
+  margin-left: 25px;
 }
 #prog-area {
   overflow: scroll;

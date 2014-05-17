@@ -188,7 +188,7 @@ $(document).ready(function() {
       $("#critter_defaults_button").addClass("selected");
       $("#critter_uploader_button").removeClass("selected");
       active_tab = "defaults";
-      $("#critter_defaults_button").show();
+      $("#critter_defaults").show();
       $("#critter_uploader").hide();
     }
   });
