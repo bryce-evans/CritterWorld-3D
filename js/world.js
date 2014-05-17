@@ -19,7 +19,6 @@ World = function() {
   this.camera.position.set(-15, 15, 15);
   this.lookAt = (new THREE.Vector3(5, 0, 15));
   
-
 	this.projector = new THREE.Projector();
 	
 	this.map;
@@ -32,8 +31,11 @@ World = function() {
   this.t = 0;
   this.clock = new THREE.Clock();
   
+  // all fields shown in the UI 
   this.data = {
-  	critterCount : 0,
+  	// number of critters in the world
+  	population : 0,
+  	// current step within the sim
   	timeStep : 0,
   }
   
@@ -95,7 +97,7 @@ World.prototype = {
 
   },
   updateStats : function(){
-  	document.getElementById("critter-count").innerHTML = (this.data.critterCount);
+  	document.getElementById("critter-count").innerHTML = (this.data.population);
   	document.getElementById("time-count").innerHTML = (this.data.timeStep);
   }
 }

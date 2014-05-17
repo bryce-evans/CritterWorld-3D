@@ -14,6 +14,11 @@ Critter = function(data) {
     species : data.species_id
   };
 
+	// if interacting with a server, keep id for querying data and making updates.
+	if(world.server){
+		world.critters[data.id] = this;
+	}
+	
   //this.energy = 100;
   this.hex = null;
   //this.size = 1;

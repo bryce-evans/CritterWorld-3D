@@ -16,6 +16,7 @@ CritterControls = function(world) {
 
 CritterControls.prototype = {
 
+	// sets hex to be the current hovered hex 
   setHovered : function(hex) {
     //on same hex
     if (hex === this.currentHovered) {
@@ -38,6 +39,10 @@ CritterControls.prototype = {
     hex.wire.material.color.setHex(this.hexHoverColor);
   },
 
+/*
+ *  updates the UI to show hex as being selected
+ *  updates pane to show hex contents
+ */
   setSelected : function(hex) {
 
     // unselect previous

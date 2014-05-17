@@ -67,7 +67,16 @@ $(document).ready(function() {
         statusCode : {
           200 : function(response) {
             console.log(response);
-            world.t = response.current_timestep;
+            world.data.timeStep = response.current_timestep;
+            world.data.population = response.population;
+            var updates = response.state;
+            var update;
+       			for(var i =0; i<updates.length; i++){
+       				update = updates[i];
+       				if(update.type === "critter"){
+       					world.critters[update.id].setPosToHex(world.map.hexes[update.col][update.row]);
+       				}
+       			}
           }
         }
       });
