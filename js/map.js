@@ -58,7 +58,7 @@ Map.prototype = {
       if (data[i].type === "rock") {
         hex = this.hexes[data[i].col][data[i].row].addRock();
       } else if (data[i].type === "critter") {
-        hex = this.hexes[data[i].col][data[i].row].addCritter(data);
+        hex = this.hexes[data[i].col][data[i].row].addCritter(data[i]);
       }
     }
   }

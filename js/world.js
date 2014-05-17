@@ -6,6 +6,13 @@
 World = function() {
   this.container = document.getElementById('world');
   this.stats;
+  
+  // if multiplayer
+  this.server = true;
+  if(this.server){
+  	// {critter_id : critter}
+  	this.critters = {};
+  }
 
   this.scene = new THREE.Scene();
   this.camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 2000);

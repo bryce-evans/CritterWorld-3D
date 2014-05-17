@@ -47,11 +47,35 @@ $(document).ready(function() {
 
       // s -> step simulation
     } else if (code == 83) {
-      $.post(SERVER_URL + "step?count=1", function() {
-        console.log("stepped 1");
+      // $.post(SERVER_URL + "step?count=1", function() {
+        // console.log("stepped 1");
+        // alert("success in step!");
+      // });
 
-        // h -> simulation
+      $.ajax({
+        url : SERVER_URL + "step?count=1",
+        type : "POST",
+        processData : false,
+        dataType : 'json',
+        statusCode : {
+          200 : function(response) {
+                  $.ajax({
+        url : SERVER_URL + "world?update_since="+world.t,
+        type : "GET",
+        processData : false,
+        dataType : 'json',
+        statusCode : {
+          200 : function(response) {
+            console.log(response);
+            world.t = response.current_timestep;
+          }
+        }
       });
+          }
+        }
+      });
+
+      // h -> halt simulation
     } else if (code == 72) {
       clearTimeout(myVar);
       console.log("halted sim");
@@ -424,6 +448,7 @@ function readCritterFile(opt_startByte, opt_stopByte) {
                 statusCode : {
                   200 : function(response) {
                     $("#critter_menu").hide();
+                    // add critters to the world
                     world.map.addToMap(response.state);
                   }
                 }
@@ -534,6 +559,6 @@ function handleDragOver(evt) {
 }
 
 // Setup the dnd listeners.
-var dropZone = document.getElementById('drop_zone');
+var dropZone = document.getElementById('critter_drop_zone');
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', handleFileSelect, false);
