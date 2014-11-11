@@ -40,8 +40,9 @@ World = function() {
   }
   
   this.isVegetated = true;
-  this.hasWater = false;
-  this.hasTerrain = false;
+  this.hasWater = true;
+  this.hasTerrain = true;
+  this.hasFog = true;
   
   this.isAnimated = true;
   this.animations = new Array();
@@ -50,8 +51,8 @@ World = function() {
   this.currentFrame = 0;
 
 
-  this.COLUMNS = 49;
-  this.ROWS = 67;
+  this.COLUMNS = 8; //49;
+  this.ROWS = 8; //67;
 
   this.SCREEN_WIDTH = window.innerWidth;
   this.SCREEN_HEIGHT = window.innerHeight;

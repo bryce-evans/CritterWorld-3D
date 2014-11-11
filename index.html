@@ -269,24 +269,23 @@
 					<div id="header">
 						World Stats:
 					</div>
-					<div id= "world-stats">
-						<div class="stat">
+					<ul id= "world-stats">
+						<li>
 							<span class="stat-label">Critter Count: </span><span class="stat-data" id="critter-count">0</span>
-						</div>
-						<br>
-						<div class="stat">
-							<span class="stat-label">Time:</span><span class="stat-data" id = "time-count">0</span>
-						</div>
-						<br>
+						</li>
 
-						<div class="stat">
+						<li>
+							<span class="stat-label">Time:</span><span class="stat-data" id = "time-count">0</span>
+						</li>
+<!-- class stat -> world-stats > li  -->
+						<li>
 							<span class="stat-label">Current Hex: </span><span class="stat-data" id="current-hex">(0,0)</span>
-						</div>
-						<br>
-						<div class="stat">
+						</li>
+
+						<li>
 							<span class="stat-label">Type: </span><span class="stat-data" id="current-hex-type"> </span>
-						</div>
-					</div>
+						</li>
+					</ul>
 
 					<ul id="critter-data" style="display: none;">
 						<li>
@@ -308,6 +307,7 @@
 				</div>
 			</div>
 		</div>
+		<script src='js/constants.js'></script>
 		<script src="js/MenuControls.js"></script>
 
 		<script src="js/World.js"></script>

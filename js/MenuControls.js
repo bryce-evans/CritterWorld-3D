@@ -6,7 +6,6 @@
  * BEGIN BUTTON LISTENERS
  */
 
-var SERVER_URL = "http://localhost:8989/CritterWorld/";
 
 $(document).ready(function() {
   var active_pane = "";

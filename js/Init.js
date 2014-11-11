@@ -5,10 +5,10 @@ function init_game_server(data) {
   world.map.calculateSize();
 
   // graphics params
-  world.isVegetated = false;
-  world.hasFog = false;
-  world.hasWater = false;
-  world.hasTerrain = false;
+  // world.isVegetated = false;
+  // world.hasFog = false;
+  // world.hasWater = false;
+  // world.hasTerrain = false;
   world.map.skyColor = world.skies.black;
 
   // Add terrain (from Terrain.js)

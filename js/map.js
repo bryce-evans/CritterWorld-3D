@@ -258,12 +258,15 @@ Hex.prototype = {
       });
       var mesh = new THREE.Mesh(geometry, branchMaterial);
       mesh.geometry.computeFaceNormals();
-      mesh.position = new THREE.Vector3(y, .1, x);
+      //mesh.position = new THREE.Vector3(y, .1, x);
+      mesh.position.x = y;
+      mesh.position.y = .1;
+      mesh.position.z = x;
+
       mesh.rotation.y = rotation;
       mesh.scale.x = size;
       mesh.scale.y = size;
       mesh.scale.z = size;
-
       //mesh.scale = new THREE.Vector3(size, size, size);
       console.log(size);
       world.scene.add(mesh);
@@ -279,7 +282,10 @@ Hex.prototype = {
 
       var mesh = new THREE.Mesh(geometry, trunkMaterial);
       mesh.geometry.computeFaceNormals();
-      mesh.position = new THREE.Vector3(y, .1, x);
+      //mesh.position = new THREE.Vector3(y, .1, x);
+      mesh.position.x = y;
+      mesh.position.y = .1;
+      mesh.position.z = x;
       mesh.rotation.y = rotation;
       //  mesh.scale = new THREE.Vector3(size, size, size);
       mesh.scale.x = size;

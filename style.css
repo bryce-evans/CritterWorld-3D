@@ -136,7 +136,7 @@ body {
   padding: 20px;
   width: 200px;
 }
-.stat {
+#world-stats > li {
   height: 1px;
 }
 .stat-label {

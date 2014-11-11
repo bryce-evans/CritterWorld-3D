@@ -391,7 +391,7 @@ THREE.OrbitControls = function(object, domElement) {
   function getHitObject() {
     try {
       var vector = new THREE.Vector3((mousePosition.x / world.SCREEN_WIDTH ) * 2 - 1, -(mousePosition.y / world.SCREEN_HEIGHT ) * 2 + 1, 0.5);
-      world.projector.unprojectVector(vector, world.camera);
+      vector.unproject(world.camera);
 
       var raycaster = new THREE.Raycaster(world.camera.position, vector.sub(world.camera.position).normalize());
 
