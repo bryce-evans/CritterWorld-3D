@@ -114,7 +114,7 @@ Hex.prototype = {
 
       var mesh = new THREE.Mesh(geometry, rockMaterial);
       mesh.geometry.computeFaceNormals();
-      mesh.position = new THREE.Vector3(y, .1, x);
+      mesh.position.copy(new THREE.Vector3(y, .1, x));
       mesh.rotation.y = rotation;
       //mesh.scale = new THREE.Vector3(size, size, size);
       world.scene.add(mesh);

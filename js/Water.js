@@ -22,10 +22,10 @@ Water.prototype = {
 
     /////////////////////////////////////////////////
 
-    var bmp = THREE.ImageUtils.loadTexture("cloud.png");
-    var dif = THREE.ImageUtils.loadTexture("water_DIF.jpg");
-    var nrm1 = THREE.ImageUtils.loadTexture("water_NRM.png");
-    var nrm2 = THREE.ImageUtils.loadTexture("water2_NRM.jpg");
+    var bmp = THREE.ImageUtils.loadTexture("/rsc/cloud.png");
+    var dif = THREE.ImageUtils.loadTexture("/rsc/water_DIF.jpg");
+    var nrm1 = THREE.ImageUtils.loadTexture("/rsc/water_NRM.png");
+    var nrm2 = THREE.ImageUtils.loadTexture("/rsc/water2_NRM.jpg");
 
     this.uniforms = {
       color : 0x00ead7,
@@ -92,7 +92,7 @@ Water.prototype = {
     
     var plane = new THREE.Mesh(geometry, material);
     plane.rotation.x = -Math.PI / 2;
-    plane.position = new THREE.Vector3(this.map.center.x, -2, this.map.center.y);
+    plane.position.copy(new THREE.Vector3(this.map.center.x, -2, this.map.center.y));
 
     scene.add(plane);
   }

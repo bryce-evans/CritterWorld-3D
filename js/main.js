@@ -13,27 +13,25 @@ function init() {
   spotLight.shadowMapHeight = 1024;
   world.scene.add(spotLight);
 
+  /*
+   var skyGeometry = new THREE.CubeGeometry(1500, 1500, 1500);
 
-/*
-  var skyGeometry = new THREE.CubeGeometry(1500, 1500, 1500);
+   var sky_path = "/CritterWorld/rsc/textures/sky2_ENV/cloudy_";
+   var directions = ["xp", "xn", "yp", "yn", "zp", "zn"];
+   var extension = ".png";
 
-  var sky_path = "/CritterWorld/rsc/textures/sky2_ENV/cloudy_";
-  var directions = ["xp", "xn", "yp", "yn", "zp", "zn"];
-  var extension = ".png";
+   var materialArray = [];
+   for (var i = 0; i < 6; i++)
+   materialArray.push(new THREE.MeshBasicMaterial({
+   map : THREE.ImageUtils.loadTexture(sky_path + directions[i] + extension),
+   side : THREE.BackSide,
+   // fog: new THREE.fog(0xffffff,1000,1600)
+   }));
+   var skyMaterial = new THREE.MeshFaceMaterial(materialArray);
+   var skyBox = new THREE.Mesh(skyGeometry, skyMaterial);
+   world.scene.add(skyBox);
 
-  var materialArray = [];
-  for (var i = 0; i < 6; i++)
-    materialArray.push(new THREE.MeshBasicMaterial({
-      map : THREE.ImageUtils.loadTexture(sky_path + directions[i] + extension),
-      side : THREE.BackSide,
-      // fog: new THREE.fog(0xffffff,1000,1600)
-    }));
-  var skyMaterial = new THREE.MeshFaceMaterial(materialArray);
-  var skyBox = new THREE.Mesh(skyGeometry, skyMaterial);
-  world.scene.add(skyBox);
-
-*/
-
+   */
 
   world.renderer = new THREE.WebGLRenderer();
   world.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -84,8 +82,9 @@ function animate() {
     world.map.animations[i].update(world.frameDelta * 1.2);
   }
 
-// update positions if inbetween turn animations exist
+  // update positions if inbetween turn animations exist
   if (world.isAnimated && world.turnOccurring) {
+
     // update all map movement animated objects
     var l = world.animations.length;
     for (var i = 0; i < l; i++) {
@@ -96,7 +95,7 @@ function animate() {
 
     // remove animations if turn is completed
     if (world.currentFrame >= world.FRAMES_PER_TURN) {
-    	world.turnOccurring = false;
+      world.turnOccurring = false;
       world.currentFrame = 0;
       world.animations = new Array();
     }

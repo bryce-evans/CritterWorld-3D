@@ -14,11 +14,11 @@ Critter = function(data) {
     species : data.species_id
   };
 
-	// if interacting with a server, keep id for querying data and making updates.
-	if(world.server){
-		world.critters[data.id] = this;
-	}
-	
+  // if interacting with a server, keep id for querying data and making updates.
+  if (world.server) {
+    world.critters[data.id] = this;
+  }
+
   //this.energy = 100;
   this.hex = null;
   //this.size = 1;
@@ -27,8 +27,7 @@ Critter = function(data) {
 
   this.mesh
 
-  this.hasAnimation = false;
-  this.animation = null;
+  this.animation_handler = undefined;
 
 }
 Critter.prototype = {
@@ -37,11 +36,29 @@ Critter.prototype = {
     this.hex = hex;
     hex.critter = this;
 
+    function ensureLoop(animation) {
+
+      for (var i = 0; i < animation.hierarchy.length; i++) {
+
+        var bone = animation.hierarchy[i];
+
+        var first = bone.keys[0];
+        var last = bone.keys[bone.keys.length - 1];
+
+        last.pos = first.pos;
+        last.rot = first.rot;
+        last.scl = first.scl;
+
+      }
+
+    }
+
     addToWorld = function(geometry, materials) {
       this.mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
       this.mesh.geometry.computeFaceNormals();
       enableSkinning(this.mesh);
 
+      ensureLoop(geometry.animation);
       // for (var i = 0; i < this.mesh.bones; i++) {
       // this.mesh.bones[i].useQuaternion = false;
       // }
@@ -54,16 +71,11 @@ Critter.prototype = {
       //this.mesh.scale = new THREE.Vector3(.2, .2, .2);
 
       // random orientation
-      this.orientation = Math.floor((Math.random() * 6));
+      //this.orientation = Math.floor((Math.random() * 6));
       this.mesh.rotation.y -= Math.PI / 2 + Math.PI / 3 * this.orientation;
       world.scene.add(this.mesh);
 
-      THREE.AnimationHandler.add(this.mesh.geometry.animation);
-
-      animation_critter = new THREE.Animation(this.mesh, critteraction, THREE.AnimationHandler.CATMULLROM);
-      world.map.animations.push(animation_critter);
-
-      animation_critter.play();
+      this.animation_handler = new AnimationHandler(this);
     }.bind(this);
 
     function enableSkinning(skinnedMesh) {
@@ -82,7 +94,8 @@ Critter.prototype = {
   // REQUIRES: hex is empty (.type == 2)
   setPosToHex : function(hex) {
     try {
-      this.mesh.position = new THREE.Vector3(hex.getPosY(), .1, hex.getPosX());
+      var new_pos = new THREE.Vector3(hex.getPosY(), .1, hex.getPosX());
+      this.mesh.position.copy(new_pos);
       this.updateHexToCritter(hex);
     } catch(err) {
       console.error("Hex unavailable");
@@ -126,8 +139,7 @@ Critter.prototype = {
 
     // set up movement
     if (world.isAnimated) {
-      this.hasAnimation = true;
-      this.animation = new Animation(this, 0, new THREE.Vector3(this.hex.getPosY(), 0, this.hex.getPosX()), new THREE.Vector3(newHex.getPosY(), 0, newHex.getPosX()));
+      this.animation_handler.create(0, new THREE.Vector3(this.hex.getPosY(), 0, this.hex.getPosX()), new THREE.Vector3(newHex.getPosY(), 0, newHex.getPosX()));
       this.updateHexToCritter(newHex);
     } else {
       this.setPosToHex(newHex);

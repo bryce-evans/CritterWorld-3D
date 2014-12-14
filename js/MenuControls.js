@@ -6,7 +6,6 @@
  * BEGIN BUTTON LISTENERS
  */
 
-
 $(document).ready(function() {
   var active_pane = "";
   var active_tab = "";
@@ -15,7 +14,7 @@ $(document).ready(function() {
   $("#world_menu").hide();
   $("#critter_menu").hide();
 
-  $("#multiplayer").click(function() {
+  $("#new_world").click(function() {
     $("#world_menu").show();
     active_pane = "world";
     active_tab = "defaults";
@@ -47,8 +46,8 @@ $(document).ready(function() {
       // s -> step simulation
     } else if (code == 83) {
       // $.post(SERVER_URL + "step?count=1", function() {
-        // console.log("stepped 1");
-        // alert("success in step!");
+      // console.log("stepped 1");
+      // alert("success in step!");
       // });
 
       $.ajax({
@@ -58,27 +57,27 @@ $(document).ready(function() {
         dataType : 'json',
         statusCode : {
           200 : function(response) {
-                  $.ajax({
-        url : SERVER_URL + "world?update_since="+world.t,
-        type : "GET",
-        processData : false,
-        dataType : 'json',
-        statusCode : {
-          200 : function(response) {
-            console.log(response);
-            world.data.timeStep = response.current_timestep;
-            world.data.population = response.population;
-            var updates = response.state;
-            var update;
-       			for(var i =0; i<updates.length; i++){
-       				update = updates[i];
-       				if(update.type === "critter"){
-       					world.critters[update.id].setPosToHex(world.map.hexes[update.col][update.row]);
-       				}
-       			}
-          }
-        }
-      });
+            $.ajax({
+              url : SERVER_URL + "world?update_since=" + world.t,
+              type : "GET",
+              processData : false,
+              dataType : 'json',
+              statusCode : {
+                200 : function(response) {
+                  console.log(response);
+                  world.data.timeStep = response.current_timestep;
+                  world.data.population = response.population;
+                  var updates = response.state;
+                  var update;
+                  for (var i = 0; i < updates.length; i++) {
+                    update = updates[i];
+                    if (update.type === "critter") {
+                      world.critters[update.id].setPosToHex(world.map.hexes[update.col][update.row]);
+                    }
+                  }
+                }
+              }
+            });
           }
         }
       });
@@ -134,11 +133,20 @@ $(document).ready(function() {
             alert('success! 200 no fn running');
           },
           201 : function(response) {
-            $("#start_page").hide();
-            $("#game_page").show();
-            $("#world_menu").hide();
-            init_game_server({
-              "state" : []
+
+            $.ajax({
+              url : SERVER_URL + "world",
+              type : "GET",
+              data : JSON.stringify({
+                "update_since" : 0
+              }),
+              processData : false,
+              dataType : 'json'
+            }).done(function(data) {
+              $("#start_page").hide();
+              $("#game_page").show();
+              $("#world_menu").hide();
+              init_game_server(data);
             });
 
           },
@@ -242,84 +250,6 @@ $(document).ready(function() {
     $(current_option).removeClass("selected");
     current_option = e.currentTarget;
   });
-
-  /*
-   * ****************************** BEGIN SERVER TESTS
-   */
-
-  $("#run_world").click(function() {
-    $.post(SERVER_URL + "run?rate=2.0", function() {
-      alert("success");
-    });
-  });
-
-  $("#stop_world").click(function() {
-    $.post(SERVER_URL + "run?rate=0", function() {
-      alert("success");
-    });
-  });
-
-  //attacker1.crit is server side - INVALID
-  // $("#run_world").click(function() {
-  // $.post(SERVER_URL + "world", data = {
-  // "definition" : "rock 5 2\nrock 6 4\ncritter attacker1.crit 6 2 0\n"
-  // }, function() {
-  // alert("success");
-  // });
-  // });
-
-  var since = 1;
-  $("#get_world").click(function() {
-    var response = $.ajax({
-      url : SERVER_URL + "world?update_since=" + since,
-      type : "GET",
-      dataType : "json",
-      crossDomain : true,
-
-    }).done(function(data, status) {
-      console.log(data);
-      //alert("Data: " + data + "\nStatus: " + status);
-    }).fail(function(error, status) {
-      console.log("error");
-      console.log(error);
-      console.log(status);
-      alert("error");
-    });
-  });
-
-  $("#load_world").click(function() {
-    $.post(SERVER_URL + "step?count=1", function() {
-      alert("success");
-    });
-  });
-
-  $("#step_world").click(function() {
-    $.post(SERVER_URL + "step?count=1", function() {
-      alert("success");
-    });
-  });
-
-  $("#get_critter").click(function() {
-    var jqxhr = $.getJSON(SERVER_URL + "critters", function(data) {
-      console.log(data);
-    })
-  });
-
-  $("#delete_critter").click(function() {
-    var jqxhr = $.ajax({
-      url : SERVER_URL + "critters/" + document.getElementById('input_row').value,
-      type : "DELETE"
-    }).done(function(data) {
-      console.log(data);
-    })
-  });
-
-  $("#get_critters").click(function() {
-    var jqxhr = $.getJSON(SERVER_URL + "critters", function(data) {
-      console.log(data);
-    })
-  });
-
 });
 
 ///////////////////////////////////// FILE READING
@@ -432,10 +362,10 @@ function readCritterFile(opt_startByte, opt_stopByte) {
       // console.log(i + ": " + match[i]);
       // }
       send_data = {
-        "program" : program,
-        "mem" : mems,
-        "species_id" : specie_name,
-        "num" : parseInt(document.getElementById('input_count').value)
+        program : program,
+        mem : mems,
+        species_id : specie_name,
+        num : parseInt(document.getElementById('input_count').value),
       };
       console.log(send_data);
 
@@ -498,7 +428,7 @@ function readCritterFile(opt_startByte, opt_stopByte) {
   reader.readAsBinaryString(blob);
 }
 
-
+// uploading critters
 document.querySelector('.readCritterButtons').addEventListener('click', function(evt) {
   if (evt.target.tagName.toLowerCase() == 'button') {
     var startByte = evt.target.getAttribute('data-startbyte');

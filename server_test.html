@@ -6,11 +6,14 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<script src="js/lib/jquery-1.7.2.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css">
+		<style>
+      .start_button {
+        float: left;
+        margin-left: 30px;
+      }
+		</style>
 
 		<script src="js/utils.js"></script>
-		<script src="http://threejs.org/build/three.js"></script>
-		<script src="http://threejs.org/examples/js/Detector.js"></script>
-		<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
 
 	</head>
 
@@ -156,7 +159,7 @@
 			<div>
 				<div id="start_menu">
 					<div id="main_logo">
-						CritterWorld
+						CritterWorld Console
 					</div>
 					<div id="start_buttons">
 						<!--	<div class="start_button" id="new_world">
@@ -172,14 +175,40 @@
 						<div class="start_button">
 						Options
 						</div>-->
-						<div class="start_button" id="new_world">
-							New
+						<div style = 'height: 70px;'>
+							<div class="start_button" id="new_world">
+								New World
+							</div>
+							<div class="start_button" id="run_world">
+								Run World
+							</div>
+							<div class="start_button" id="stop_world">
+								Stop World
+							</div>
+							<div class="start_button" id="post_world">
+								Post World
+							</div>
+							<div class="start_button" id="get_world">
+								Get World
+							</div>
+							<div class="start_button" id="step_world">
+								Step World
+							</div>
 						</div>
-						<div class="start_button" id="join_world">
-							Join
+						<div >
+							<div class="start_button" id="load_critter">
+								Load Critter
+							</div>
+							<div class="start_button" id="get_critters">
+								Get Critters
+							</div>
+							<div class="start_button" id="get_critter">
+								Get Critter
+							</div>
+							<div class="start_button" id="delete_critter">
+								Delete Critter
+							</div>
 						</div>
-						
-
 						<div style="visibility: hidden;">
 							<span onclick="location.href='newUrl.php';">link</span>
 						</div>
@@ -254,7 +283,7 @@
 						<li>
 							<span class="stat-label">Time:</span><span class="stat-data" id = "time-count">0</span>
 						</li>
-<!-- class stat -> world-stats > li  -->
+						<!-- class stat -> world-stats > li  -->
 						<li>
 							<span class="stat-label">Current Hex: </span><span class="stat-data" id="current-hex">(0,0)</span>
 						</li>
@@ -285,21 +314,95 @@
 			</div>
 		</div>
 		<script src='js/constants.js'></script>
-		<script src="js/MenuControls.js"></script>
 
-		<script src="js/World.js"></script>
-		<script src="js/Map.js"></script>
-		<script src="js/Critter.js"></script>
-		<script src="js/AnimationHandler.js"></script>
-		<script src="js/lib/TerrainGeneration.js"></script>
-		<script src="js/Terrain.js"></script>
+		<script>
+      /*
+       * ****************************** BEGIN SERVER TESTS
+       */
+      $(document).ready(function() {
 
-		<script src="js/Water.js"></script>
-		<script src="js/lib/MouseControls.js"></script>
-		<script src="js/CritterControls.js"></script>
+        $('#new_world').click(function() {
+          console.log('starting new world');
+          $.post(SERVER_URL + "world", function(res) {
+            console.log(res);
+          });
+        });
 
-		<script src="js/Main.js"></script>
-		<script src="js/Init.js"></script>
+        $("#run_world").click(function() {
+          $.post(SERVER_URL + "run?rate=2.0", function() {
+            alert("success");
+          });
+        });
 
+        $("#stop_world").click(function() {
+          $.post(SERVER_URL + "run?rate=0", function() {
+            alert("success");
+          });
+        });
+
+        //attacker1.crit is server side - INVALID
+        // $("#run_world").click(function() {
+        // $.post(SERVER_URL + "world", data = {
+        // "definition" : "rock 5 2\nrock 6 4\ncritter attacker1.crit 6 2 0\n"
+        // }, function() {
+        // alert("success");
+        // });
+        // });
+
+        var since = 1;
+
+        $("#get_world").click(function() {
+          var response = $.ajax({
+            url : SERVER_URL + "world?update_since=" + since,
+            type : "GET",
+            dataType : "json",
+            crossDomain : true,
+
+          }).done(function(data, status) {
+            console.log(data);
+            //alert("Data: " + data + "\nStatus: " + status);
+          }).fail(function(error, status) {
+            console.log("error");
+            console.log(error);
+            console.log(status);
+            alert("error");
+          });
+        });
+
+        $("#load_world").click(function() {
+          $.post(SERVER_URL + "step?count=1", function() {
+            alert("success");
+          });
+        });
+
+        $("#step_world").click(function() {
+          $.post(SERVER_URL + "step?count=1", function() {
+            alert("success");
+          });
+        });
+
+        $("#get_critter").click(function() {
+          var jqxhr = $.getJSON(SERVER_URL + "critters", function(data) {
+            console.log(data);
+          })
+        });
+
+        $("#delete_critter").click(function() {
+          var jqxhr = $.ajax({
+            url : SERVER_URL + "critters/" + document.getElementById('input_row').value,
+            type : "DELETE"
+          }).done(function(data) {
+            console.log(data);
+          })
+        });
+
+        $("#get_critters").click(function() {
+          var jqxhr = $.getJSON(SERVER_URL + "critters", function(data) {
+            console.log(data);
+          })
+        });
+
+      });
+		</script>
 	</body>
 </html>

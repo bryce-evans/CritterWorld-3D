@@ -1,8 +1,13 @@
 function init_game_server(data) {
   // add world and create map (from World, Map. js)
-  world = new World();
+  world = new World(data);
   world.map = new Map(world);
+
   world.map.calculateSize();
+  // world.lookAt(new THREE.Vector3(world.map.center.x / 2, 0, world.map.center.y);
+  world.camera.lookAt(new THREE.Vector3(world.map.center.x / 2, 0, world.map.center.y));
+  world.lookAt = (new THREE.Vector3(world.map.center.x / 2, 0, world.map.center.y));
+  world.camera.position.copy(new THREE.Vector3(world.map.center.x / 2, 250, world.map.center.y));
 
   // graphics params
   // world.isVegetated = false;
@@ -20,7 +25,7 @@ function init_game_server(data) {
     world.scene.terrain = terrain;
     terrain.setTexture(terrain.texture);
 
-    terrain.mesh.position = new THREE.Vector3(map.center.x, -1, map.center.y);
+    terrain.mesh.position.copy(new THREE.Vector3(map.center.x, -1, map.center.y));
 
     world.scene.add(terrain.mesh);
   }
