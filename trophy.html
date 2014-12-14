@@ -80,13 +80,26 @@
 
         function addLight(h, s, v, x, y, z) {
 
+          var spotLight = new THREE.SpotLight(0xFFAA88);
+          spotLight.target.position.copy(new THREE.Vector3(-20, 0, 20));
+          spotLight.position.copy(new THREE.Vector3(120, 50, 60));
+          spotLight.shadowCameraNear = 0.01;
+          spotLight.castShadow = true;
+          spotLight.shadowDarkness = 0.5;
+          spotLight.shadowCameraVisible = false;
+          // console.dir(spotLight)
+          // spotLight.shadowMapWidth	= 1024;
+          // spotLight.shadowMapHeight	= 1024;
+          scene.add(spotLight);
+
           var light = new THREE.PointLight(0xffffff, 5, 400);
-          light.position.set(x, y, z);
+          light.position.set(-20, -15, 20);
           scene.add(light);
-
-          light.color.setHSL(h, s, v);
-
+          
+          light.color.setHSL(0,0,.3);
+          
           var blending = THREE.AdditiveBlending;
+          
 
         }
 
@@ -96,13 +109,23 @@
         document.body.appendChild(loader.statusDomElement);
 
         loader.load(" rsc/obj/trophy/statue.js", function(geometry) {
-          var ambient = 0x888, diffuse = 0xbbbbbb, specular = 0x000000, shininess = .5;
+          var ambient = 0x888, diffuse = 0x8e8600, specular = 0xd6e576, shininess = .5;
 
           var shader = THREE.ShaderLib.normalmap;
           var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
 
+          var path = "rsc/textures/gold_ENV/gold_";
+          var format = '.jpg';
+          var urls = [path + 'px' + format, path + 'nx' + format, path + 'py' + format, path + 'ny' + format, path + 'pz' + format, path + 'nz' + format];
+
+          var reflectionCube = THREE.ImageUtils.loadTextureCube(urls);
+
+          uniforms.envMap = reflectionCube;
+          uniforms.combine = THREE.MixOperation;
+          uniforms.reflectivity = 0.1;
+
           uniforms.tNormal.value = THREE.ImageUtils.loadTexture("rsc/obj/trophy/lemur_DIF_n2.jpg");
-          uniforms.uNormalScale.value.set(1, 1);
+          uniforms.uNormalScale.value.set(.2, .2);
 
           uniforms.tDiffuse.value = THREE.ImageUtils.loadTexture("rsc/obj/trophy/lemur_gold_DIF.jpg");
 
@@ -126,6 +149,18 @@
           };
           var material = new THREE.ShaderMaterial(parameters);
 
+          var material = new THREE.MeshPhongMaterial({
+            color : diffuse,
+            specular : specular,
+            ambient : ambient,
+            shininess : shininess,
+            normalMap : uniforms["tNormal"].value,
+            normalScale : uniforms["uNormalScale"].value,
+            envMap : reflectionCube,
+            combine : THREE.MixOperation,
+            reflectivity : 0.6
+          });
+
           material.wrapAround = true;
 
           geometry.computeTangents();
@@ -140,9 +175,48 @@
 
           scene.add(mesh);
 
+          mesh.receiveShadow = true;
+          mesh.castShadow = true;
+
           loader.statusDomElement.style.display = "none";
         });
 
+        var geometry = new THREE.PlaneGeometry(5, 20, 32);
+        var material = new THREE.MeshBasicMaterial({
+          color : 0x111111,
+          side : THREE.DoubleSide
+        });
+
+        var plane = new THREE.Mesh(geometry, material);
+
+        plane.receiveShadow = true;
+        plane.castShadow = false;
+        plane.rotation.x = Math.PI / 2;
+
+        plane.position.x = 20;
+        plane.position.y = -20;
+        plane.scale.x = plane.scale.y = 50;
+        scene.add(plane);
+
+        // var material = new THREE.MeshPhongMaterial({
+        // color : 0xaaaaaa,
+        // specular : 0xffffff,
+        // ambient : 0x888888,
+        // });
+        //
+        // material.wrapAround = true;
+        //
+        // geometry.computeTangents();
+        //
+        // var mesh = new THREE.Mesh(geometry, material);
+        //
+        // mesh.position.y = -20;
+        // mesh.position.x = 20;
+        // mesh.position.z = 10;
+        //
+        // mesh.scale.x = mesh.scale.y = mesh.scale.z = 1000;
+        //
+        // scene.add(mesh);
         loader.load(" rsc/obj/trophy/base.js", function(geometry) {
           var ambient = 0x888, diffuse = 0xbbbbbb, specular = 0x000000, shininess = .5;
 
@@ -186,6 +260,9 @@
           mesh.scale.x = mesh.scale.y = mesh.scale.z = 5;
 
           scene.add(mesh);
+
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
 
           loader.statusDomElement.style.display = "none";
         });
@@ -241,8 +318,11 @@
         renderer = new THREE.WebGLRenderer({
           antialias : true,
           clearColor : 0x508ab7,
-          clearAlpha : 1
+          clearAlpha : 1,
         });
+
+        renderer.shadowMapEnabled = true;
+        renderer.shadowMapType = THREE.PCFSoftShadowMap;
         renderer.setSize(window.innerWidth, window.innerHeight);
         container.appendChild(renderer.domElement);
 
@@ -260,7 +340,7 @@
         // Post Processing
 
         var renderModel = new THREE.RenderPass(scene, camera);
-        var effectBloom = new THREE.BloomPass(.5, 20, 4, 256);
+        var effectBloom = new THREE.BloomPass(.5, 20, 4, 128);
         //strength, kernelSize, sigma, resolution
         var effectScreen = new THREE.ShaderPass(THREE.CopyShader);
         effectScreen.renderToScreen = true;
@@ -268,8 +348,6 @@
         composer.addPass(renderModel);
         composer.addPass(effectBloom);
         composer.addPass(effectScreen);
-
-
 
         // EVENTS
 
@@ -339,7 +417,7 @@
         renderer.render(scene, camera);
 
         if (postprocessing.enabled) {
-        	
+
           renderer.clear();
           composer.render(0.1);
         } else {
