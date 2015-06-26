@@ -18,6 +18,11 @@ CritterControls.prototype = {
 
 	// sets hex to be the current hovered hex 
   setHovered : function(hex) {
+  	
+  	if(!world.selectable){
+  		return;
+  	}
+  	
     //on same hex
     if (hex === this.currentHovered) {
       return;
@@ -44,6 +49,8 @@ CritterControls.prototype = {
  *  updates pane to show hex contents
  */
   setSelected : function(hex) {
+  	
+  	if(!world.selectable){return;}
 
     // unselect previous
     if (this.currentSelected) {

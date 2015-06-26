@@ -55,6 +55,17 @@ function init_game_server(data) {
     }
   }
 
-  world.map.addToMap(data.state);
+  world.map.update(data.state);
   init();
+
+  window.start = function() {
+    world.interval_id = window.setInterval(function() {
+      $.post(SERVER_URL + "step?count=1");
+      world.updateToServer();
+    }, 1000);
+  }
+
+  window.stop = function() {
+    window.clearInterval(world.interval_id);
+  }
 }

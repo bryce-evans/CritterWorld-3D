@@ -20,6 +20,66 @@ $(document).ready(function() {
     active_tab = "defaults";
   });
 
+  $("#join_world").click(function() {
+    joinCurrentWorld();
+  });
+
+  joinCurrentWorld = function() {
+    $.ajax({
+      url : SERVER_URL + "world",
+      type : "GET",
+      data : JSON.stringify({
+        "update_since" : 0
+      }),
+      processData : false,
+      dataType : 'json'
+    }).done(function(data) {
+      $("#start_page").hide();
+      $("#game_page").show();
+      $("#world_menu").hide();
+      init_game_server(data);
+    });
+  }
+  newEmptyWorld = function() {
+    newWorldHelper("");
+  }
+  newRandomWorld = function() {
+    newWorldHelper(undefined);
+  }
+  newWorldHelper = function(definition) {
+    $.ajax({
+      url : SERVER_URL + "world",
+      type : "POST",
+      data : definition ? {
+        definition : ""
+      } : undefined,
+      processData : false,
+      dataType : 'json',
+      statusCode : {
+        200 : function(response) {
+          alert('success! 200 no fn running');
+        },
+        201 : function(response) {
+
+          joinCurrentWorld();
+
+        },
+        400 : function(response) {
+          alert('<span style="color:Red;">Error While Saving Outage Entry Please Check</span>', function() {
+          });
+        },
+        404 : function(response) {
+          alert('1');
+          bootbox.alert('<span style="color:Red;">Server Not Responding</span>', function() {
+          });
+        },
+        500 : function(response) {
+          alert('server error');
+        }
+      }
+    });
+  }
+
   $(document).keydown(function(e) {
     console.log(e);
     var code = e.keyCode || e.which;
@@ -118,94 +178,14 @@ $(document).ready(function() {
   });
 
   $("#choose_world").click(function(e) {
-    new_world = current_option.innerText;
+
+    var new_world = current_option.innerText;
     if (new_world === "Empty World") {
-      $.ajax({
-        url : SERVER_URL + "world",
-        type : "POST",
-        data : JSON.stringify({
-          "definition" : ""
-        }),
-        processData : false,
-        dataType : 'json',
-        statusCode : {
-          200 : function(response) {
-            alert('success! 200 no fn running');
-          },
-          201 : function(response) {
-
-            $.ajax({
-              url : SERVER_URL + "world",
-              type : "GET",
-              data : JSON.stringify({
-                "update_since" : 0
-              }),
-              processData : false,
-              dataType : 'json'
-            }).done(function(data) {
-              $("#start_page").hide();
-              $("#game_page").show();
-              $("#world_menu").hide();
-              init_game_server(data);
-            });
-
-          },
-          400 : function(response) {
-            alert('<span style="color:Red;">Error While Saving Outage Entry Please Check</span>', function() {
-            });
-          },
-          404 : function(response) {
-            alert('1');
-            bootbox.alert('<span style="color:Red;">Server Not Responding</span>', function() {
-            });
-          },
-          500 : function(response) {
-            alert('server error');
-          }
-        }
-      });
+      newEmptyWorld();
     } else if (new_world === "Random World") {
-      $.ajax({
-        url : SERVER_URL + "world",
-        type : "POST",
-        processData : false,
-        dataType : 'json',
-        statusCode : {
-          200 : function(response) {
-            alert('success! 200- no fn running');
-          },
-          201 : function(response) {
-            $.ajax({
-              url : SERVER_URL + "world",
-              type : "GET",
-              processData : false,
-              dataType : 'json',
-              statusCode : {
-                200 : function(response) {
-                  $("#start_page").hide();
-                  $("#game_page").show();
-                  $("#world_menu").hide();
-                  init_game_server(response);
-                }
-              }
-            });
-
-          },
-          400 : function(response) {
-            alert('<span style="color:Red;">Error While Saving Outage Entry Please Check</span>', function() {
-            });
-          },
-          404 : function(response) {
-            alert('1');
-            bootbox.alert('<span style="color:Red;">Server Not Responding</span>', function() {
-            });
-          },
-          500 : function(response) {
-            alert('server error');
-          }
-        }
-      });
+      newRandomWorld();
     }
+
   });
 
   /*
@@ -214,11 +194,22 @@ $(document).ready(function() {
 
   $("#menu-bar-world").click(function() {
     console.log("world clicked");
+    
+    if (active_pane === "critter") {
+      $("#critter_menu").hide();
+    }
+    
     $("#world_menu").show();
+    active_pane = "world";
+    
+
   });
 
   $("#menu-bar-editor").click(function() {
     $("#critter_menu").show();
+     if (active_pane === "world") {
+      $("#world_menu").hide();
+    }
     active_pane = "critter";
     active_tab = "defaults";
   });
@@ -332,7 +323,6 @@ function readCritterFile(opt_startByte, opt_stopByte) {
       });
     }
 
-    console.log(evt);
     if (evt.target.readyState == FileReader.DONE) {// DONE == 2
       document.getElementById('byte_content').textContent = evt.target.result;
       var prog = (evt.target.result);
@@ -367,7 +357,6 @@ function readCritterFile(opt_startByte, opt_stopByte) {
         species_id : specie_name,
         num : parseInt(document.getElementById('input_count').value),
       };
-      console.log(send_data);
 
       $.ajax({
         url : SERVER_URL + "critters",
@@ -387,7 +376,8 @@ function readCritterFile(opt_startByte, opt_stopByte) {
                   200 : function(response) {
                     $("#critter_menu").hide();
                     // add critters to the world
-                    world.map.addToMap(response.state);
+                    //world.map.addAll(response.state);
+                    world.map.update(response.state);
                   }
                 }
               });
@@ -401,7 +391,8 @@ function readCritterFile(opt_startByte, opt_stopByte) {
                 statusCode : {
                   200 : function(response) {
                     alert("200 - 413");
-                    world.map.addToMap(response.state);
+                    //world.map.addAll(response.state);
+                    world.map.update(response.state);
                   }
                 }
               });

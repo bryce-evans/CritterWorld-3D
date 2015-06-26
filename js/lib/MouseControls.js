@@ -29,7 +29,7 @@ THREE.OrbitControls = function(object, domElement) {
   this.userRotateSpeed = 1.0;
 
   this.userPan = true;
-  this.userPanSpeed = 20;
+  this.userPanSpeed = 60;
 
   this.autoRotate = false;
   this.autoRotateSpeed = 2.0;
@@ -40,7 +40,7 @@ THREE.OrbitControls = function(object, domElement) {
   this.maxPolarAngle = Math.PI;
   // radians
 
-  this.minDistance = 0;
+  this.minDistance = -50;
   this.maxDistance = Infinity;
 
   // 65 /*A*/, 83 /*S*/, 68 /*D*/

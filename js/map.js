@@ -52,7 +52,7 @@ Map.prototype = {
     return this.hexes[c][r];
   },
   // adds a list of items to the world
-  addToMap : function(data) {
+  addAll : function(data) {
     var hex;
     for (var i = 0; i < data.length; i++) {
       if (data[i].type === "rock") {
@@ -61,7 +61,59 @@ Map.prototype = {
         hex = this.hexes[data[i].col][data[i].row].addCritter(data[i]);
       }
     }
-  }
+  },
+  update : function(state) {
+    console.log(state);
+
+    var new_pieces = [];
+
+    // hashset of already existing but valid ids
+    var cur_ids = {};
+
+    for (var i = 0; i < state.length; i++) {
+
+      var obj = state[i];
+
+      if (obj.type == "rock") {
+        this.hexes[obj.col][obj.row].addRock();
+        continue;
+      }
+
+      var c = world.critters[obj.id];
+
+      // new!
+      if (!c) {
+        new_pieces.push(obj);
+      } else {
+        cur_ids[obj.id] = {
+          row : obj.row,
+          col : obj.col,
+          direction : obj.direction,
+        };
+      }
+    }
+    var critter_keys = Object.keys(world.critters);
+    for (var i = 0; i < critter_keys.length; i++) {
+      var key = critter_keys[i];
+
+      var c = world.critters[key];
+      var update = cur_ids[key];
+
+      // updated!
+      if (update) {
+
+        c.update(update.col, update.row, update.direction);
+
+        // dead! delete!
+      } else { debugger;
+        world.scene.remove(c.mesh);
+        delete world.critters[key];
+      }
+
+    }
+    this.addAll(new_pieces);
+
+  },
 }
 
 Hex = function(c, r) {
@@ -78,7 +130,9 @@ Hex = function(c, r) {
   this.wire
 
   this.addWire();
-  this.addMesh();
+  if (world.selectable) {
+    this.addMesh();
+  }
   if (world.isVegetated) {
     this.addScenery();
   }
@@ -98,18 +152,24 @@ Hex.prototype = {
 
   },
   addRock : function() {
+    // already a rock
+    // TODO should not be adding multiple rocks on map update
+    if (this.type == 1) {
+      return;
+    }
     this.type = 1;
     var x = this.getPosX();
     var y = this.getPosY();
     //var size = .2;
     var rotation = Math.PI / 3 * Math.floor((Math.random() * 5));
 
-    var rockTexture = new THREE.ImageUtils.loadTexture("../CritterWorld/rsc/obj/rock1/rock.jpg");
+    var rockTexture = true ? new THREE.ImageUtils.loadTexture("../CritterWorld/rsc/obj/rock1/rock.jpg") : undefined;
 
     function onRockLoad(geometry, materials) {
 
       var rockMaterial = new THREE.MeshBasicMaterial({
         map : rockTexture,
+        color : 0x888888,
       });
 
       var mesh = new THREE.Mesh(geometry, rockMaterial);
@@ -121,11 +181,31 @@ Hex.prototype = {
 
     }
 
-
-    loader.load("../CritterWorld/rsc/obj/rock1/rock1.js", onRockLoad);
+    var model_path = world.hi_res ? "../CritterWorld/rsc/obj/rock1/rock1.js" : "../CritterWorld/rsc/obj/rock1/rock1_simple.js"
+    loader.load(model_path, onRockLoad);
 
   },
+  addFood : function() {
+    var geometry = new THREE.SphereGeometry(5, 8, 8);
+    var material = new THREE.MeshBasicMaterial({
+      color : world.stringToColorCode(this.data.species),
+      shading : THREE.FlatShading,
+    });
+    var mesh = new THREE.Mesh(geometry, material);
 
+    mesh.setPosToHex(hex);
+    mesh.mesh.scale.x = .5;
+    mesh.mesh.scale.y = .5;
+    mesh.mesh.scale.z = .5;
+
+    mesh.position.copy(new THREE.Vector3(y, .1, x));
+
+    this.type = 0;
+    var x = this.getPosX();
+    var y = this.getPosY();
+
+    world.scene.add(this.mesh);
+  },
   hasCritter : function() {
     return this.type === 2;
   },

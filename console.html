@@ -11,9 +11,30 @@
         float: left;
         margin-left: 30px;
       }
+      .double_size {
+        width: 305px;
+      }
+      input.input_data {
+        width: 120px;
+        border-radius: 10px;
+        border: none;
+        float: right;
+        line-height: 20px;
+        margin-right: 6px;
+        font-size: 18px;
+        font-weight: 700;
+        font-family: trebuchet ms;
+        color: darkgreen;
+        text-align: center;
+        box-shadow: inset 1px 1px rgba(0,0,0,.4);
+      }
+      .input_data:hover + .menu_tile {
+        background-color: #92CC47
+      }
 		</style>
 
 		<script src="js/utils.js"></script>
+		<script src="js/CWConsole.js"></script>
 
 	</head>
 
@@ -202,11 +223,13 @@
 							<div class="start_button" id="get_critters">
 								Get Critters
 							</div>
-							<div class="start_button" id="get_critter">
+							<div class="start_button double_size" id="get_critter">
 								Get Critter
+								<input type="text" class="input_data" />
 							</div>
-							<div class="start_button" id="delete_critter">
+							<div class="start_button double_size" id="delete_critter">
 								Delete Critter
+								<input type="text" class="input_data"/>
 							</div>
 						</div>
 						<div style="visibility: hidden;">
@@ -319,90 +342,62 @@
       /*
        * ****************************** BEGIN SERVER TESTS
        */
-      $(document).ready(function() {
 
-        $('#new_world').click(function() {
-          console.log('starting new world');
-          $.post(SERVER_URL + "world", function(res) {
-            console.log(res);
-          });
-        });
-
-        $("#run_world").click(function() {
-          $.post(SERVER_URL + "run?rate=2.0", function() {
-            alert("success");
-          });
-        });
-
-        $("#stop_world").click(function() {
-          $.post(SERVER_URL + "run?rate=0", function() {
-            alert("success");
-          });
-        });
-
-        //attacker1.crit is server side - INVALID
-        // $("#run_world").click(function() {
-        // $.post(SERVER_URL + "world", data = {
-        // "definition" : "rock 5 2\nrock 6 4\ncritter attacker1.crit 6 2 0\n"
-        // }, function() {
-        // alert("success");
-        // });
-        // });
-
-        var since = 1;
-
-        $("#get_world").click(function() {
-          var response = $.ajax({
-            url : SERVER_URL + "world?update_since=" + since,
-            type : "GET",
-            dataType : "json",
-            crossDomain : true,
-
-          }).done(function(data, status) {
-            console.log(data);
-            //alert("Data: " + data + "\nStatus: " + status);
-          }).fail(function(error, status) {
-            console.log("error");
-            console.log(error);
-            console.log(status);
-            alert("error");
-          });
-        });
-
-        $("#load_world").click(function() {
-          $.post(SERVER_URL + "step?count=1", function() {
-            alert("success");
-          });
-        });
-
-        $("#step_world").click(function() {
-          $.post(SERVER_URL + "step?count=1", function() {
-            alert("success");
-          });
-        });
-
-        $("#get_critter").click(function() {
-          var jqxhr = $.getJSON(SERVER_URL + "critters", function(data) {
-            console.log(data);
-          })
-        });
-
-        $("#delete_critter").click(function() {
-          var jqxhr = $.ajax({
-            url : SERVER_URL + "critters/" + document.getElementById('input_row').value,
-            type : "DELETE"
-          }).done(function(data) {
-            console.log(data);
-          })
-        });
-
-        $("#get_critters").click(function() {
-          var jqxhr = $.getJSON(SERVER_URL + "critters", function(data) {
-            console.log(data);
-          })
-        });
-
+      $('#new_world').click(function() {
+        console.log('starting new world');
+        newWorld();
       });
+
+      $("#run_world").click(function() {
+        console.log('running world');
+        runWorld(2);
+      });
+
+      $("#stop_world").click(function() {
+        $.post(SERVER_URL + "run?rate=0", function() {
+          alert("success");
+        });
+      });
+
+      //attacker1.crit is server side - INVALID
+      // $("#run_world").click(function() {
+      // $.post(SERVER_URL + "world", data = {
+      // "definition" : "rock 5 2\nrock 6 4\ncritter attacker1.crit 6 2 0\n"
+      // }, function() {
+      // alert("success");
+      // });
+      // });
+
+      $("#get_world").click(function() {
+        getWorld(0, true);
+      });
+
+      $("#load_world").click(function() {
+        $.post(SERVER_URL + "step?count=1", function() {
+          alert("success");
+        });
+      });
+
+      $("#step_world").click(function() {
+        step();
+      });
+
+      $("#get_critter").click(function() {
+        var jqxhr = $.getJSON(SERVER_URL + "critters", function(data) {
+          console.log(data);
+        })
+      });
+
+      $("#delete_critter").click(function() {
+        deleteCritter(id, true);
+      });
+
+      $("#get_critters").click(function() {
+        var jqxhr = $.getJSON(SERVER_URL + "critters", function(data) {
+          console.log(data);
+        })
+      });
+
 		</script>
 	</body>
 </html>

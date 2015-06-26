@@ -137,7 +137,7 @@ body {
   width: 200px;
 }
 #world-stats > li {
-  height: 1px;
+  height: 25px;
 }
 .stat-label {
   float: left;

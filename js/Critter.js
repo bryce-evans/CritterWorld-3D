@@ -1,5 +1,5 @@
 // LEMURS!!
-var critterpath = "../CritterWorld/rsc/obj/lemur_run1.js";
+var critterpath = false ? "../CritterWorld/rsc/obj/lemur/lemur_run1.js" : "../CritterWorld/rsc/obj/lemur/lemur_run1_simple.js";
 var critteraction = "LemurAction";
 
 var loader = new THREE.JSONLoader();
@@ -64,10 +64,10 @@ Critter.prototype = {
       // }
 
       this.setPosToHex(hex);
-      this.mesh.scale.x = .2;
-      this.mesh.scale.y = .2;
-      this.mesh.scale.z = .2;
-
+      this.mesh.scale.x = .5;
+      this.mesh.scale.y = .5;
+      this.mesh.scale.z = .5;
+      this.mesh.material.materials[0].color = world.stringToColorCode(this.data.species);
       //this.mesh.scale = new THREE.Vector3(.2, .2, .2);
 
       // random orientation
@@ -75,7 +75,9 @@ Critter.prototype = {
       this.mesh.rotation.y -= Math.PI / 2 + Math.PI / 3 * this.orientation;
       world.scene.add(this.mesh);
 
-      this.animation_handler = new AnimationHandler(this);
+      if (world.animated) {
+        this.animation_handler = new AnimationHandler(this)
+      };
     }.bind(this);
 
     function enableSkinning(skinnedMesh) {
@@ -86,21 +88,53 @@ Critter.prototype = {
       }
     }
 
+    if (true) {
+      loader.load(critterpath, addToWorld);
 
-    loader.load(critterpath, addToWorld);
+    } else {
+      loader.load(critterpath, function(geometry) {
 
+        var material = new THREE.MeshBasicMaterial({
+          color : world.stringToColorCode(this.data.species),
+          shading : THREE.FlatShading,
+        });
+        this.mesh = new THREE.Mesh(geometry, material);
+
+        this.setPosToHex(hex);
+        this.mesh.scale.x = .5;
+        this.mesh.scale.y = .5;
+        this.mesh.scale.z = .5;
+
+        world.scene.add(this.mesh);
+      }.bind(this));
+    }
+
+  },
+
+  // updates loc, rot
+  update : function(col, row, direction) {
+    this.setPosToHex(world.map.hexes[col][row]);
+    this.setOrientation(direction);
+  },
+  setOrientation : function(orientation) {
+    this.orientation = orientation;
+    this.mesh.quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), -Math.PI / 2 + -Math.PI / 3 * (this.orientation));
+  },
+  setPosition : function(c, r) {
+    this.setPosToHex(world.map.hexes[c][r])
   },
   // moves the critter to the input hex
   // REQUIRES: hex is empty (.type == 2)
   setPosToHex : function(hex) {
-    try {
-      var new_pos = new THREE.Vector3(hex.getPosY(), .1, hex.getPosX());
+    var new_pos = new THREE.Vector3(hex.getPosY(), .1, hex.getPosX());
+    if (world.animated) {
+      this.animation_handler.create(0, new_pos, new THREE.Vector3(hex.getPosY(), 0.1, hex.getPosX()));
+    } else {
       this.mesh.position.copy(new_pos);
-      this.updateHexToCritter(hex);
-    } catch(err) {
-      console.error("Hex unavailable");
     }
+    this.updateHexToCritter(hex);
   },
+
   updateHexToCritter : function(hex) {
     this.hex.type = 0;
     hex.type = 2;
@@ -138,12 +172,7 @@ Critter.prototype = {
     }
 
     // set up movement
-    if (world.isAnimated) {
-      this.animation_handler.create(0, new THREE.Vector3(this.hex.getPosY(), 0, this.hex.getPosX()), new THREE.Vector3(newHex.getPosY(), 0, newHex.getPosX()));
-      this.updateHexToCritter(newHex);
-    } else {
-      this.setPosToHex(newHex);
-    }
+    this.setPosToHex(newHex);
 
     // update hex data
     this.hex.critter = null;
