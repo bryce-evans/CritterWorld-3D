@@ -12,10 +12,15 @@
 		<script src="http://threejs.org/examples/js/Detector.js"></script>
 		<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
 		
-		<script src="../shared/thirdparty/es5-shim.min.js"></script>
-	    <script src="../shared/thirdparty/es5-sham.min.js"></script>
-	    <script src="../shared/thirdparty/console-polyfill.js"></script>
-	    <script src="../../build/react.js"></script>
+		<script src="js/lib/es5-shim.min.js"></script>
+	    <script src="js/lib//es5-sham.min.js"></script>
+	    <script src="js/lib/console-polyfill.js"></script>
+	    <script src="js/lib/react-with-addons.js"></script>
+	     <script src="js/lib/JSXTransformer.js"></script>
+	    
+	    <script src="js/react/Button.react.js" type="text/jsx"></script>
+	    <script src="js/react/MenuBarDropDown.react.js" type="text/jsx"></script>
+	    <script src="js/react/MenuBarItem.react.js" type="text/jsx"></script>
 
 	</head>
 
@@ -82,7 +87,7 @@
 				</button>
 
 			</div>
-
+			
 			<div class="popup_menu" id="critter_menu" style="display: none;">
 				<div class="popup_menu_header">
 					Add Critter
@@ -183,6 +188,7 @@
 						<div class="start_button" id="join_world">
 							Join
 						</div>
+						<div id="test-button"></div>
 
 						<div style="visibility: hidden;">
 							<span onclick="location.href='newUrl.php';">link</span>
@@ -306,6 +312,17 @@
 		<script src="js/Init.js"></script>
 
 <!-- 		<script src="js/CWConsole.js"></script> -->
+       <script type='text/jsx'>
+	     handleClick = function() {
+	       $("#world_menu").show();
+		    active_pane = "world";
+		    active_tab = "defaults";
+		  }
+        React.render(
+		  <Button text="test" onClick={handleClick}/>,
+		  document.getElementById('test-button')
+		);
+		</script>
 
 	</body>
 </html>

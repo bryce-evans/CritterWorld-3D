@@ -4,7 +4,7 @@ var MenuBarDropDown = React.createClass({
 			parentMenuBarItem : React.PropTypes.instanceOf(MenuBarItem).isRequired,
 			items : React.PropTypes.array.isRequired,
 	  };
-	}
+	},
 	getInitialState: function() {
   },
   render: function() {

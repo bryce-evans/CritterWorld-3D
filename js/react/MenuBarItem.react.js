@@ -3,7 +3,7 @@ var MenuBarItem = React.createClass({
 		return {
 			text : React.PropTypes.string.isRequired,
 	  };
-	}
+	},
 	getInitialState: function() {
   },
   render: function() {
