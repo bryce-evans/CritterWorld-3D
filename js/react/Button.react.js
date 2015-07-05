@@ -2,6 +2,7 @@ var Button = React.createClass({
 	getDefaultProps: function() {
     return {
       onClick : function(){}, 
+      className : ''
     };
  },
 	propTypes : function() {
@@ -11,14 +12,23 @@ var Button = React.createClass({
 	  };
 	},
 	getInitialState: function() {
-		return {};
+		return {
+			selected : false,
+		};
   },
   handleClick : function() {
   	this.props.onClick();  	
   },
-  render: function() {
-    return   <div className="start_button" onClick={this.handleClick}>
-					{this.props.text}
-			</div>;
+  render : function() {
+  	var cx = React.addons.classSet;
+	  var classes = cx({
+	    'selected': this.state.isSelected,
+	    'menu_tile': this.props.type == 'square',
+	    'start_button': this.props.type == 'long',
+	  });
+	  
+    return <div className={classes} onClick={this.handleClick}>
+					   {this.props.text}
+			     </div>;
   },
 });

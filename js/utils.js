@@ -17,10 +17,11 @@ var KEYS = {
   R: 114,
   
   //ARROWS
-  // LEFT : 37,
-  // UP : 38,
-  // RIGHT : 39,
-  // DOWN : 40,
+  A_LEFT : 37,
+  A_UP : 38,
+  A_RIGHT : 39,
+  A_DOWN : 40,
+  
   ROTATE : 65,
   ZOOM : 83,
   PAN : 68

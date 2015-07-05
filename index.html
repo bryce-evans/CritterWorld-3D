@@ -19,6 +19,7 @@
 	     <script src="js/lib/JSXTransformer.js"></script>
 	    
 	    <script src="js/react/Button.react.js" type="text/jsx"></script>
+	    <script src="js/react/MainMenu.react.js" type="text/jsx"></script>
 	    <script src="js/react/MenuBarDropDown.react.js" type="text/jsx"></script>
 	    <script src="js/react/MenuBarItem.react.js" type="text/jsx"></script>
 
@@ -169,30 +170,7 @@
 						CritterWorld
 					</div>
 					<div id="start_buttons">
-						<!--	<div class="start_button" id="new_world">
-						New World
-						</div>
-
-						<div class="start_button" id="load_world">
-						Load World
-						</div>
-						<div class="start_button" id="multiplayer">
-						Multiplayer
-						</div>
-						<div class="start_button">
-						Options
-						</div>-->
-						<div class="start_button" id="new_world">
-							New
-						</div>
-						<div class="start_button" id="join_world">
-							Join
-						</div>
-						<div id="test-button"></div>
-
-						<div style="visibility: hidden;">
-							<span onclick="location.href='newUrl.php';">link</span>
-						</div>
+			
 
 					</div>
 				</div>
@@ -313,14 +291,9 @@
 
 <!-- 		<script src="js/CWConsole.js"></script> -->
        <script type='text/jsx'>
-	     handleClick = function() {
-	       $("#world_menu").show();
-		    active_pane = "world";
-		    active_tab = "defaults";
-		  }
         React.render(
-		  <Button text="test" onClick={handleClick}/>,
-		  document.getElementById('test-button')
+		  <MainMenu/>,
+		  document.getElementById('start_buttons')
 		);
 		</script>
 
