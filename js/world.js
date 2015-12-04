@@ -66,6 +66,7 @@ World = function(options) {
   this.hasFog = this.hi_res;
   this.selectable = this.hi_res;
   this.animated = this.hi_res;
+  this.thickHexes = this.hi_res;
 
   this.SCREEN_WIDTH = window.innerWidth;
   this.SCREEN_HEIGHT = window.innerHeight;

@@ -49,8 +49,8 @@ function init_game_server(data) {
   console.log(data);
 
   // add Hex Grid to World
-  for (var c = 0; c != world.COLUMNS + 1; c++) {
-    for (var r = Math.ceil(c / 2); 2 * r <= c + (2 * world.ROWS - world.COLUMNS) + (world.COLUMNS % 2 == 0 && c % 2 != 0 ? 1 : 0); r++) {
+  for (var c = 0; c < world.COLUMNS; c++) {
+    for (var r = Math.ceil(c / 2); 2 * r < c + (2 * world.ROWS - world.COLUMNS) + (world.COLUMNS % 2 == 0 && c % 2 != 0 ? 1 : 0); r++) {
       new Hex(c, r);
     }
   }
