@@ -60,7 +60,7 @@ function init_game_server(data) {
 
   window.start = function() {
     world.interval_id = window.setInterval(function() {
-      $.post(SERVER_URL + "step?count=1");
+      $.post(SERVER_URL + "step?count=1" + SESSION);
       world.updateToServer();
     }, 1000);
   }
