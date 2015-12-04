@@ -5,7 +5,7 @@ $(document).ready(function() {
       definition : def
     } : undefined;
     $.ajax({
-      url : SERVER_URL + "world",
+      url : SERVER_URL + "world" + SESSION,
       type : "POST",
       data : data,
     }).done(function(res) {
@@ -19,7 +19,7 @@ $(document).ready(function() {
     newWorld();
   }
   runWorld = function(rate, callback) {
-    $.post(SERVER_URL + "run?rate=" + rate, function() {
+    $.post(SERVER_URL + "run?rate=" + rate + SESSION, function() {
     });
   }
   getWorld = function(s, a) {
@@ -35,11 +35,11 @@ $(document).ready(function() {
 
     var response = $.ajax({
       async : async,
-      url : SERVER_URL + "world",
-      type : "GET",
-      data : {
+      url : SERVER_URL + "world" + SESSION,
+      type : "POST",
+      data : JSON.stringify({
         update_since : since
-      },
+      }),
       dataType : "json",
       crossDomain : true,
 
@@ -57,13 +57,13 @@ $(document).ready(function() {
       return JSON.parse(response.responseText);
   }
   step = function() {
-    $.post(SERVER_URL + "step?count=1", function() {
+    $.post(SERVER_URL + "step?count=1" + SESSION, function() {
       alert("success");
     });
   }
   deleteCritter = function(id, async) {
     var response = $.ajax({
-      url : SERVER_URL + "critters/" + document.getElementById('input_row').value,
+      url : SERVER_URL + "critters/" + document.getElementById('input_row').value + SESSION,
       type : "DELETE"
     }).done(function(data) {
       console.log(data);

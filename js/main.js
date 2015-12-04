@@ -16,7 +16,7 @@ function init() {
   /*
    var skyGeometry = new THREE.CubeGeometry(1500, 1500, 1500);
 
-   var sky_path = "/CritterWorld/rsc/textures/sky2_ENV/cloudy_";
+   var sky_path = "/rsc/textures/sky2_ENV/cloudy_";
    var directions = ["xp", "xn", "yp", "yn", "zp", "zn"];
    var extension = ".png";
 

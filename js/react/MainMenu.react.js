@@ -37,11 +37,8 @@ var MainMenu = React.createClass({
    
    clickJoinWorld: function() {
    	$.ajax({
-	      url : SERVER_URL + "world",
+	      url : SERVER_URL + "world" + SESSION,
 	      type : "GET",
-	      data : JSON.stringify({
-	        "update_since" : 0
-	      }),
 	      processData : false,
 	      dataType : 'json'
 	    }).done(function(data) {
@@ -56,7 +53,7 @@ var MainMenu = React.createClass({
   render: function() {
     return <div>
       <Button id='new_world' type="long" text="New" onClick={this.clickNewWorld}/>
-      <Button id='join_world' type="long" text="Join" onClick={this.clickNewWorld}/>
+      <Button id='join_world' type="long" text="Join" onClick={this.clickJoinWorld}/>
 		</div>;
 		
 		      // <PopUp>
@@ -82,7 +79,7 @@ $(document).ready(function() {
   }
   newWorldHelper = function(definition) {
     $.ajax({
-      url : SERVER_URL + "world",
+      url : SERVER_URL + "world" + SESSION,
       type : "POST",
       data : definition ? {
         definition : ""
@@ -130,7 +127,7 @@ $(document).ready(function() {
       }
       // p -> play simulation
     } else if (code == 80) {
-      $.post(SERVER_URL + "run?rate=2.0", function() {
+      $.post(SERVER_URL + "run?rate=2.0" + SESSION, function() {
         console.log("running server at 2 turns/sec");
         getUpdates = setTimeout(function() {
           alert("Hello")
@@ -139,20 +136,20 @@ $(document).ready(function() {
 
       // s -> step simulation
     } else if (code == 83) {
-      // $.post(SERVER_URL + "step?count=1", function() {
+      // $.post(SERVER_URL + "step?count=1" + SESSION, function() {
       // console.log("stepped 1");
       // alert("success in step!");
       // });
 
       $.ajax({
-        url : SERVER_URL + "step?count=1",
+        url : SERVER_URL + "step?count=1" + SESSION,
         type : "POST",
         processData : false,
         dataType : 'json',
         statusCode : {
           200 : function(response) {
             $.ajax({
-              url : SERVER_URL + "world?update_since=" + world.t,
+              url : SERVER_URL + "world?update_since=" + world.t + SESSION,
               type : "GET",
               processData : false,
               dataType : 'json',

@@ -21,7 +21,7 @@ function readWorldFile(opt_startByte, opt_stopByte) {
     console.log(send_data);
 
     $.ajax({
-      url : SERVER_URL + "world",
+      url : SERVER_URL + "world" + SESSION,
       type : "POST",
       data : JSON.stringify(send_data),
       processData : false,
@@ -113,7 +113,7 @@ function readCritterFile(opt_startByte, opt_stopByte) {
       };
 
       $.ajax({
-        url : SERVER_URL + "critters",
+        url : SERVER_URL + "critters", + SESSION
         type : "POST",
         data : JSON.stringify(send_data),
         processData : false,
@@ -122,7 +122,7 @@ function readCritterFile(opt_startByte, opt_stopByte) {
           200 : function(response) {
             if (world.data.timeStep == 0) {
               $.ajax({
-                url : SERVER_URL + "world",
+                url : SERVER_URL + "world" + SESSION,
                 type : "GET",
                 processData : false,
                 dataType : 'json',
@@ -138,7 +138,7 @@ function readCritterFile(opt_startByte, opt_stopByte) {
 
             } else if (world.data.timeStep > 0) {
               $.ajax({
-                url : SERVER_URL + "world?update_since=" + (world.data.timeStep - 1),
+                url : SERVER_URL + "world?update_since=" + (world.data.timeStep - 1) + SESSION,
                 type : "GET",
                 processData : false,
                 dataType : 'json',

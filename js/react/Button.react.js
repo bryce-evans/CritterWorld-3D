@@ -27,7 +27,7 @@ var Button = React.createClass({
 	    'start_button': this.props.type == 'long',
 	  });
 	  
-    return <div className={classes} onClick={this.handleClick}>
+      return <div id={this.props.id} className={classes} onClick={this.handleClick}>
 					   {this.props.text}
 			     </div>;
   },

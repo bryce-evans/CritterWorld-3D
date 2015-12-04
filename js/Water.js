@@ -22,10 +22,10 @@ Water.prototype = {
 
     /////////////////////////////////////////////////
 
-    var bmp = THREE.ImageUtils.loadTexture("/rsc/cloud.png");
-    var dif = THREE.ImageUtils.loadTexture("/rsc/water_DIF.jpg");
-    var nrm1 = THREE.ImageUtils.loadTexture("/rsc/water_NRM.png");
-    var nrm2 = THREE.ImageUtils.loadTexture("/rsc/water2_NRM.jpg");
+    var bmp = THREE.ImageUtils.loadTexture("/rsc/textures/cloud.png");
+    var dif = THREE.ImageUtils.loadTexture("/rsc/textures/water_DIF.jpg");
+    var nrm1 = THREE.ImageUtils.loadTexture("/rsc/textures/water_NRM.png");
+    var nrm2 = THREE.ImageUtils.loadTexture("/rsc/textures/water2_NRM.jpg");
 
     this.uniforms = {
       color : 0x00ead7,

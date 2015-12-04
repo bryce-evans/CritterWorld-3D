@@ -1,5 +1,5 @@
 // LEMURS!!
-var critterpath = false ? "../CritterWorld/rsc/obj/lemur/lemur_run1.js" : "../CritterWorld/rsc/obj/lemur/lemur_run1_simple.js";
+var critterpath = false ? "/rsc/obj/lemur/lemur_run1.js" : "/rsc/obj/lemur/lemur_run1_simple.js";
 var critteraction = "LemurAction";
 
 var loader = new THREE.JSONLoader();

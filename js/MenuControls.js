@@ -26,11 +26,8 @@ $(document).ready(function() {
 
   joinCurrentWorld = function() {
     $.ajax({
-      url : SERVER_URL + "world",
+      url : SERVER_URL + "world" + SESSION,
       type : "GET",
-      data : JSON.stringify({
-        "update_since" : 0
-      }),
       processData : false,
       dataType : 'json'
     }).done(function(data) {
@@ -48,7 +45,7 @@ $(document).ready(function() {
   }
   newWorldHelper = function(definition) {
     $.ajax({
-      url : SERVER_URL + "world",
+      url : SERVER_URL + "world" + SESSION,
       type : "POST",
       data : definition ? {
         definition : ""
@@ -96,7 +93,7 @@ $(document).ready(function() {
       // }
       // // p -> play simulation
     // } else if (code == 80) {
-      // $.post(SERVER_URL + "run?rate=2.0", function() {
+      // $.post(SERVER_URL + "run?rate=2.0" + SESSION, function() {
         // console.log("running server at 2 turns/sec");
         // getUpdates = setTimeout(function() {
           // alert("Hello")
@@ -111,14 +108,14 @@ $(document).ready(function() {
       // // });
 // 
       // $.ajax({
-        // url : SERVER_URL + "step?count=1",
+        // url : SERVER_URL + "step?count=1" + SESSION,
         // type : "POST",
         // processData : false,
         // dataType : 'json',
         // statusCode : {
           // 200 : function(response) {
             // $.ajax({
-              // url : SERVER_URL + "world?update_since=" + world.t,
+              // url : SERVER_URL + "world?update_since=" + world.t + SESSION,
               // type : "GET",
               // processData : false,
               // dataType : 'json',
@@ -267,7 +264,7 @@ function readWorldFile(opt_startByte, opt_stopByte) {
     console.log(send_data);
 
     $.ajax({
-      url : SERVER_URL + "world",
+      url : SERVER_URL + "world" + SESSION,
       type : "POST",
       data : JSON.stringify(send_data),
       processData : false,
@@ -359,7 +356,7 @@ function readCritterFile(opt_startByte, opt_stopByte) {
       };
 
       $.ajax({
-        url : SERVER_URL + "critters",
+        url : SERVER_URL + "critters" + SESSION,
         type : "POST",
         data : JSON.stringify(send_data),
         processData : false,
@@ -368,7 +365,7 @@ function readCritterFile(opt_startByte, opt_stopByte) {
           200 : function(response) {
             if (world.data.timeStep == 0) {
               $.ajax({
-                url : SERVER_URL + "world",
+                url : SERVER_URL + "world" + SESSION,
                 type : "GET",
                 processData : false,
                 dataType : 'json',
@@ -384,7 +381,7 @@ function readCritterFile(opt_startByte, opt_stopByte) {
 
             } else if (world.data.timeStep > 0) {
               $.ajax({
-                url : SERVER_URL + "world?update_since=" + (world.data.timeStep - 1),
+                url : SERVER_URL + "world?update_since=" + (world.data.timeStep - 1) + SESSION,
                 type : "GET",
                 processData : false,
                 dataType : 'json',
