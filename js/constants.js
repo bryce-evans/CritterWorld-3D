@@ -1,4 +1,4 @@
-var SERVER_URL = "http://localhost:8080/CritterWorld/";
+var SERVER_URL = "/CritterWorld/";
 
 var SESSION = "?session_id=0"
 
