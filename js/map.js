@@ -163,7 +163,7 @@ Hex.prototype = {
     //var size = .2;
     var rotation = Math.PI / 3 * Math.floor((Math.random() * 5));
 
-    var rockTexture = true ? new THREE.ImageUtils.loadTexture("../CritterWorld/rsc/obj/rock1/rock.jpg") : undefined;
+    var rockTexture = true ? new THREE.ImageUtils.loadTexture("/rsc/obj/rock1/rock.jpg") : undefined;
 
     function onRockLoad(geometry, materials) {
 
@@ -181,7 +181,7 @@ Hex.prototype = {
 
     }
 
-    var model_path = world.hi_res ? "../CritterWorld/rsc/obj/rock1/rock1.js" : "../CritterWorld/rsc/obj/rock1/rock1_simple.js"
+    var model_path = world.hi_res ? "/rsc/obj/rock1/rock1.js" : "/rsc/obj/rock1/rock1_simple.js"
     loader.load(model_path, onRockLoad);
 
   },
@@ -326,8 +326,8 @@ Hex.prototype = {
     var size = Math.random() * .1 + .1;
     var rotation = Math.PI / 3 * Math.floor((Math.random() * 5));
 
-    var branchTexture = new THREE.ImageUtils.loadTexture("../CritterWorld/rsc/obj/tree1/branch.png");
-    var trunkTexture = new THREE.ImageUtils.loadTexture("../CritterWorld/rsc/obj/tree1/bark.jpg");
+    var branchTexture = new THREE.ImageUtils.loadTexture("/rsc/obj/tree1/branch.png");
+    var trunkTexture = new THREE.ImageUtils.loadTexture("/rsc/obj/tree1/bark.jpg");
 
     function onBranchesLoad(geometry, materials) {
 
@@ -377,8 +377,8 @@ Hex.prototype = {
     }
 
 
-    loader.load("../CritterWorld/rsc/obj/tree1/branches.js", onBranchesLoad);
-    loader.load("../CritterWorld/rsc/obj/tree1/trunk.js", onTrunkLoad);
+    loader.load("/rsc/obj/tree1/branches.js", onBranchesLoad);
+    loader.load("/rsc/obj/tree1/trunk.js", onTrunkLoad);
   }
 }
 

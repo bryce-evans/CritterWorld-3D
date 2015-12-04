@@ -65,7 +65,7 @@ World = function(options) {
   this.hasTerrain = true;
   this.hasFog = this.hi_res;
   this.selectable = this.hi_res;
-  this.animated = this.hi_res;
+  this.animated = false;
   this.thickHexes = this.hi_res;
 
   this.SCREEN_WIDTH = window.innerWidth;
@@ -129,9 +129,11 @@ World.prototype = {
 
   },
   updateToServer : function() {
-    $.ajax({
-      url : SERVER_URL + 'world',
-      data : ( {
+    $.post({
+      url : SERVER_URL + 'world' + SESSION,
+      type: "POST",
+      contentType: "application/json",
+      data : JSON.stringify( {
         update_since : this.current_timestep
       })
     }).done( function(response) {
