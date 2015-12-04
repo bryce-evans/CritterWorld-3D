@@ -266,7 +266,7 @@ Hex.prototype = {
     var geometry = new THREE.Geometry();
     this.material = new THREE.LineBasicMaterial({
       color : world.map.hexColor,
-      linewidth : world.thickHexes;
+      linewidth : world.thickHexes ? 3 : 1,
     });
 
     var xyPoint = this.getRectCoord();
