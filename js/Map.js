@@ -254,11 +254,13 @@ Hex.prototype = {
       $("#critter-prog").show();
 
       $("#current-hex-type").text("Critter");
-      $("#critter-species").text(this.critter.data.species);
-      // XXX
-      $("#critter-energy").text(this.critter.data.mem[4]);
-      $("#critter-size").text(this.critter.data.mem[3]);
-      $("#prog-area").text(this.critter.data.program);
+      if (this.critter != undefined) {
+        $("#critter-species").text(this.critter.data.species);
+        // XXX
+        $("#critter-energy").text(this.critter.data.mem[4]);
+        $("#critter-size").text(this.critter.data.mem[3]);
+        $("#prog-area").text(this.critter.data.program);
+      }
     }
   },
   //draws the wire around the hex

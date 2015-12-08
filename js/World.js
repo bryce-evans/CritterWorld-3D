@@ -32,7 +32,7 @@ World = function(options) {
 
   this.renderer
   this.particleLight, this.pointLight;
-  // time step
+  // version number
   this.t = 0;
   this.clock = new THREE.Clock();
 

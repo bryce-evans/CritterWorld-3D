@@ -62,7 +62,7 @@ $(document).ready(function() {
 
         },
         400 : function(response) {
-          alert('<span style="color:Red;">Error While Saving Outage Entry Please Check</span>', function() {
+          bootbox.alert('<span style="color:Red;">Error While Saving Outage Entry Please Check</span>', function() {
           });
         },
         404 : function(response) {
@@ -71,80 +71,56 @@ $(document).ready(function() {
           });
         },
         500 : function(response) {
-          alert('server error');
+          bootbox.alert('server error');
         }
       }
     });
   }
 
-  // $(document).keydown(function(e) {
-    // console.log(e);
-    // var code = e.keyCode || e.which;
-    // console.log(code);
-    // // escape -> close current menu
-    // if (code == 27) {
-      // active_tab = "";
-      // if (active_pane === "world") {
-        // $("#world_menu").hide();
-      // } else if (active_pane === "critter") {
-        // $("#critter_menu").hide();
-      // } else {
-        // console.log("I don't know what I'm trying to close");
-      // }
-      // // p -> play simulation
-    // } else if (code == 80) {
-      // $.post(SERVER_URL + "run?rate=2.0" + SESSION, function() {
-        // console.log("running server at 2 turns/sec");
-        // getUpdates = setTimeout(function() {
-          // alert("Hello")
-        // }, 3000);
+  $(document).keydown(function(e) {
+    console.log(e);
+    var code = e.keyCode || e.which;
+    console.log(code);
+    // escape -> close current menu
+    if (code == 27) {
+      active_tab = "";
+      if (active_pane === "world") {
+        $("#world_menu").hide();
+      } else if (active_pane === "critter") {
+        $("#critter_menu").hide();
+      } else {
+        console.log("I don't know what I'm trying to close");
+      }
+      // p -> play simulation
+    } else if (code == 80) {
+      $.post(SERVER_URL + "run?rate=2.0" + SESSION, function() {
+        console.log("running server at 2 turns/sec");
+      });
+
+      // s -> step simulation
+    } else if (code == 83) {
+      // $.post(SERVER_URL + "step?count=1", function() {
+      // console.log("stepped 1");
+      // alert("success in step!");
       // });
-// 
-      // // s -> step simulation
-    // } else if (code == 83) {
-      // // $.post(SERVER_URL + "step?count=1", function() {
-      // // console.log("stepped 1");
-      // // alert("success in step!");
-      // // });
-// 
-      // $.ajax({
-        // url : SERVER_URL + "step?count=1" + SESSION,
-        // type : "POST",
-        // processData : false,
-        // dataType : 'json',
-        // statusCode : {
-          // 200 : function(response) {
-            // $.ajax({
-              // url : SERVER_URL + "world?update_since=" + world.t + SESSION,
-              // type : "GET",
-              // processData : false,
-              // dataType : 'json',
-              // statusCode : {
-                // 200 : function(response) {
-                  // console.log(response);
-                  // world.data.timeStep = response.current_timestep;
-                  // world.data.population = response.population;
-                  // var updates = response.state;
-                  // var update;
-                  // for (var i = 0; i < updates.length; i++) {
-                    // update = updates[i];
-                    // if (update.type === "critter") {
-                      // world.critters[update.id].setPosToHex(world.map.hexes[update.col][update.row]);
-                    // }
-                  // }
-                // }
-              // }
-            // });
-          // }
-        // }
-      // });
-// 
-      // // h -> halt simulation
-    // } else if (code == 72) {
-      // clearTimeout(myVar);
-      // console.log("halted sim");
-    // }
-  // });
+
+      $.ajax({
+        url : SERVER_URL + "step" + SESSION,
+        type : "POST",
+        contentType: "application/json",
+        data : JSON.stringify( {
+            "count": 1
+        } ),
+        processData : false,
+        dataType : 'json'
+      });
+
+      // h -> halt simulation
+    } else if (code == 72) {
+      // Should stop the server - Also, what if it's just an actual control?
+      console.log("halted sim");
+    }
+  });
 
   $("#world_defaults_button").click(function() {
     if (active_tab !== "defaults") {

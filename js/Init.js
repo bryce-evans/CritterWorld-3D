@@ -68,4 +68,32 @@ function init_game_server(data) {
   window.stop = function() {
     window.clearInterval(world.interval_id);
   }
+
+  window.updateWorld = function() {
+    $.ajax({
+      // url : SERVER_URL + "world?update_since=" + world.t + SESSION,
+      url : SERVER_URL + "world" + SESSION,
+      type : "GET",
+      processData : false,
+      dataType : 'json',
+      statusCode : {
+        200 : function(response) {
+          console.log(response);
+          world.data.timeStep = response.current_timestep;
+          world.data.population = response.population;
+          var updates = response.state;
+          var update;
+          for (var i = 0; i < updates.length; i++) {
+            update = updates[i];
+            if (update.type === "critter") {
+              world.critters[update.id].update(update.col, update.row, update.direction);
+            }
+          }
+        }
+      }
+    });
+  }
+
+  window.setInterval(updateWorld, 200);
+
 }
