@@ -69,31 +69,46 @@ function init_game_server(data) {
     window.clearInterval(world.interval_id);
   }
 
+  var throttle_time = 5000; // Minimum time between requests in ms.
+  var last_run = Date.now() + throttle_time;
   window.updateWorld = function() {
-    $.ajax({
-      // url : SERVER_URL + "world?update_since=" + world.t + SESSION,
-      url : SERVER_URL + "world" + SESSION,
-      type : "GET",
-      processData : false,
-      dataType : 'json',
-      statusCode : {
-        200 : function(response) {
-          console.log(response);
-          world.data.timeStep = response.current_timestep;
-          world.data.population = response.population;
-          var updates = response.state;
-          var update;
-          for (var i = 0; i < updates.length; i++) {
-            update = updates[i];
-            if (update.type === "critter") {
-              world.critters[update.id].update(update.col, update.row, update.direction);
+      $.ajax({
+        url : SERVER_URL + "world?update_since=" + world.t + "&session_id=" + SESSION_ID,
+        // url : SERVER_URL + "world" + SESSION,
+        type : "GET",
+        processData : false,
+        dataType : 'json',
+        statusCode : {
+          200 : function(response) {
+            console.log(response);
+            world.data.timeStep = response.current_timestep;
+            world.data.population = response.population;
+            world.t = response.current_version_number;
+            var updates = response.state;
+            world.map.update(updates);
+
+            var this_run = Date.now();
+            var run_time = this_run - last_run;
+            last_run = this_run;
+            if (run_time > throttle_time) {
+              // The request was slow, request immediately
+              console.error("slow");
+              updateWorld();
+            } else {
+              console.error("fast");
+              window.setTimeout(updateWorld, throttle_time - run_time);
             }
           }
+        },
+        error: function () {
+          last_run = Date.now();
+          window.setTimeout(updateWorld, throttle_time);
         }
-      }
-    });
-  }
+      });
+    };
 
-  window.setInterval(updateWorld, 200);
+  // window.setInterval(updateWorld, 200);
+  window.setTimeout(updateWorld, 200);
+  // updateWorld();
 
 }

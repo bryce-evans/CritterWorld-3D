@@ -1,6 +1,7 @@
 var SERVER_URL = "/CritterWorld/";
 
-var SESSION = "?session_id=0"
+var SESSION = "?session_id=0";
+var SESSION_ID = "0";
 
 // Login to the server
 $(function () {
@@ -14,6 +15,7 @@ $(function () {
 	} )
     }).done(function (response) {
 	SESSION = "?session_id=" + response.session_id;
+	SESSION_ID = response.session_id;
 	console.log(SESSION);
     });
 });

@@ -17,6 +17,9 @@ CRPoint = function() {
 Map = function(world) {
   this.world = world;
 
+  
+  this.look_and_feel = new LemurWorldLookAndFeel();
+ 
   // an array of arrays
   // hexes[c][r] returns hex at (c,r)
   this.hexes = new Array();
@@ -29,8 +32,6 @@ Map = function(world) {
 
   this.hexRadius = (this.hexSize + this.hexBuffer) / 2;
   this.hexHeight = (this.hexRadius * Math.sqrt(3));
-
-  this.hexColor = 0x8bf600;
 
   this.size = new XYPoint();
   this.center = new XYPoint();
@@ -158,6 +159,7 @@ Hex.prototype = {
       return;
     }
     this.type = 1;
+    
     var x = this.getPosX();
     var y = this.getPosY();
     //var size = .2;
@@ -265,28 +267,8 @@ Hex.prototype = {
   },
   //draws the wire around the hex
   addWire : function() {
-    var geometry = new THREE.Geometry();
-    this.material = new THREE.LineBasicMaterial({
-      color : world.map.hexColor,
-      linewidth : world.thickHexes ? 3 : 1,
-    });
-
-    var xyPoint = this.getRectCoord();
-
-    var xoffset = (xyPoint.x * world.map.hexRadius) * 1.5;
-    var yoffset = xyPoint.y * world.map.hexHeight - world.map.hexBuffer / 2;
-
-    for (var i = 0; i <= 6; i++) {
-
-      var xPoint = (xoffset + world.map.hexSize / 2 * Math.cos(i * 2 * Math.PI / 6));
-      var yPoint = (yoffset + world.map.hexSize / 2 * Math.sin(i * 2 * Math.PI / 6));
-
-      geometry.vertices.push(new THREE.Vector3(yPoint, 0.04, xPoint));
-    }
-
-    var mesh = new THREE.Line(geometry, this.material);
-    this.wire = mesh;
-    world.scene.add(mesh);
+    this.wire = world.map.look_and_feel.getHexModel(this.getRectCoord(), world.map.hexSize, 0.25);
+    world.scene.add(this.wire);
   },
 
   // draws the hex mesh for mouse click collision detection
