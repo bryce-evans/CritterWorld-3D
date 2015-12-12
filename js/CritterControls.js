@@ -8,20 +8,16 @@ CritterControls = function(world) {
   this.currentSelected = null;
   this.currentHovered = null;
 
-  this.hexHoverColor = 0xffffff;
-  this.hexSelectedColor = 0xffbe10;
-  this.hexBaseColor = this.world.map.hexColor;
-
+  this.hex_colors = this.world.map.look_and_feel.getHexColors();
 }
 
 CritterControls.prototype = {
-
-	// sets hex to be the current hovered hex 
+  // sets hex to be the current hovered hex 
   setHovered : function(hex) {
   	
-  	if(!world.selectable){
-  		return;
-  	}
+    if(!world.selectable){
+      return;
+    }
   	
     //on same hex
     if (hex === this.currentHovered) {
@@ -32,16 +28,17 @@ CritterControls.prototype = {
 
       // highlighting selected
       if (this.currentHovered === this.currentSelected) {
-        this.currentHovered.wire.material.color.setHex(this.hexSelectedColor);
+        this.currentHovered.wire.material.color.setHex(this.hex_colors["selected"]);
 
         // leaving a selected hex
       } else {
-        this.currentHovered.wire.material.color.setHex(this.hexBaseColor);
+        var wire = this.currentHovered.wire;
+        wire.material.color.setHex(wire.origColor);
       }
     }
 
     this.currentHovered = hex;
-    hex.wire.material.color.setHex(this.hexHoverColor);
+    hex.wire.material.color.setHex(this.hex_colors["hover"]);
   },
 
 /*
@@ -54,7 +51,8 @@ CritterControls.prototype = {
 
     // unselect previous
     if (this.currentSelected) {
-      this.currentSelected.wire.material.color.setHex(this.hexBaseColor);
+      var wire = this.currentSelected.wire;
+      wire.material.color.setHex(wire.origColor);
     }
 
     // change selected and update panel

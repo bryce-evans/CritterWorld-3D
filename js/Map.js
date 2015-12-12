@@ -18,7 +18,7 @@ Map = function(world) {
   this.world = world;
 
   
-  this.look_and_feel = new LemurWorldLookAndFeel();
+  this.look_and_feel = new WireframeWorldLookAndFeel();
   this.look_and_feel.load();   
  
   // an array of arrays
@@ -292,59 +292,6 @@ Hex.prototype = {
     var size = Math.random() * .1 + .1;
     var rotation = Math.PI / 3 * Math.floor((Math.random() * 5));
 
-    var branchTexture = new THREE.ImageUtils.loadTexture("/rsc/obj/tree1/branch.png");
-    var trunkTexture = new THREE.ImageUtils.loadTexture("/rsc/obj/tree1/bark.jpg");
-
-    function onBranchesLoad(geometry, materials) {
-
-      var branchMaterial = new THREE.MeshBasicMaterial({
-        map : branchTexture,
-        opacity : opacity,
-        transparent : true
-      });
-      var mesh = new THREE.Mesh(geometry, branchMaterial);
-      mesh.geometry.computeFaceNormals();
-      //mesh.position = new THREE.Vector3(y, .1, x);
-      mesh.position.x = y;
-      mesh.position.y = .1;
-      mesh.position.z = x;
-
-      mesh.rotation.y = rotation;
-      mesh.scale.x = size;
-      mesh.scale.y = size;
-      mesh.scale.z = size;
-      //mesh.scale = new THREE.Vector3(size, size, size);
-      //console.log(size);
-      world.scene.add(mesh);
-
-    }
-
-    function onTrunkLoad(geometry, materials) {
-
-      var trunkMaterial = new THREE.MeshBasicMaterial({
-        map : trunkTexture,
-        opacity : opacity,
-      });
-
-      var mesh = new THREE.Mesh(geometry, trunkMaterial);
-      mesh.geometry.computeFaceNormals();
-      //mesh.position = new THREE.Vector3(y, .1, x);
-      mesh.position.x = y;
-      mesh.position.y = .1;
-      mesh.position.z = x;
-      mesh.rotation.y = rotation;
-      //  mesh.scale = new THREE.Vector3(size, size, size);
-      mesh.scale.x = size;
-      mesh.scale.y = size;
-      mesh.scale.z = size;
-
-      world.scene.add(mesh);
-
-    }
-
-
-    loader.load("/rsc/obj/tree1/branches.js", onBranchesLoad);
-    loader.load("/rsc/obj/tree1/trunk.js", onTrunkLoad);
-  }
+  },
 }
 

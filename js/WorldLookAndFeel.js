@@ -4,6 +4,12 @@ WorldLookAndFeel = function() {
 
   this.rsc_dir = "rsc/world_styles/"
   this.dir = "default/";
+  
+  this.hex_colors = {
+    base : 0xaaaaaa,
+    hover : 0xffffff,
+    highlight: 0xff8800,  
+  };
   this.critter_files = [];
   this.energy_files = [];
   
@@ -45,20 +51,20 @@ WorldLookAndFeel.prototype = {
   load : function(callback) {
     this.onLoadCallback = callback;    
 
-    this.preloadHelper("critter", this.models.critter);
-    this.preloadHelper("decoration", this.models.decoration);
-    this.preloadHelper("rock", this.models.rock);
-    this.preloadHelper("energy", this.models.energy);
+    this.loadHelper("critter", this.models.critter);
+    this.loadHelper("decoration", this.models.decoration);
+    this.loadHelper("rock", this.models.rock);
+    this.loadHelper("energy", this.models.energy);
     for(var i = 0; i < this.scene_objs.length; i++) {
       var obj = this.scene_objs[i];
       var out = new Array(1);
       var cb = function(mesh_list) {
         this.models.scene[obj] = mesh_list[0];
       };
-      this.preloadHelper("scene/" + obj, out); 
+      this.loadHelper("scene/" + obj, out); 
     }
   },
-  preloadHelper : function(type, out, options) {
+  loadHelper : function(type, out, options) {
     var count = out.length;
     var options = options || {};
     var tex_ext = options.tex_ext || ".jpg";
@@ -118,8 +124,8 @@ WorldLookAndFeel.prototype = {
     return this.models.scene;
   },
   getHexWire : function(center, color, radius, buffer) {
-    var color = color || 0xffffff;
     var geometry = new THREE.Geometry();
+    var color = color || 0xffffff;
     this.material = new THREE.LineBasicMaterial({
       color : color,
       linewidth : 1,
@@ -138,14 +144,19 @@ WorldLookAndFeel.prototype = {
       geometry.vertices.push(new THREE.Vector3(yPoint, 0.04, xPoint));
     }
 
-    return new THREE.Line(geometry, this.material);
+    var wire = new THREE.Line(geometry, this.material);
+    wire.origColor = color;
+    return wire;
+  },
+  getHexColors : function() {
+    return this.hex_colors;
   },
 
   /**
    * adds decoration to a hex, such as vegetation
    */
-  decorateHex : function(hex) {
-    return;
+  getDecorations : function() {
+    return [];
   },
   getCritterModel : function(species) {
     if (species in this.critter_species_model_map) {
