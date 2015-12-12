@@ -19,6 +19,7 @@ Map = function(world) {
 
   
   this.look_and_feel = new LemurWorldLookAndFeel();
+  this.look_and_feel.load();   
  
   // an array of arrays
   // hexes[c][r] returns hex at (c,r)
@@ -57,14 +58,13 @@ Map.prototype = {
     var hex;
     for (var i = 0; i < data.length; i++) {
       if (data[i].type === "rock") {
-        hex = this.hexes[data[i].col][data[i].row].addRock();
+        this.hexes[data[i].col][data[i].row].addRock();
       } else if (data[i].type === "critter") {
-        hex = this.hexes[data[i].col][data[i].row].addCritter(data[i]);
+        this.hexes[data[i].col][data[i].row].addCritter(data[i]);
       }
     }
   },
   update : function(state) {
-    console.log(state);
 
     var new_pieces = [];
 
@@ -162,29 +162,11 @@ Hex.prototype = {
     
     var x = this.getPosX();
     var y = this.getPosY();
-    //var size = .2;
-    var rotation = Math.PI / 3 * Math.floor((Math.random() * 5));
 
-    var rockTexture = true ? new THREE.ImageUtils.loadTexture("/rsc/obj/rock1/rock.jpg") : undefined;
+    var mesh = world.map.look_and_feel.getRock();
+    mesh.position.copy(new THREE.Vector3(y, .1, x));
 
-    function onRockLoad(geometry, materials) {
-
-      var rockMaterial = new THREE.MeshBasicMaterial({
-        map : rockTexture,
-        color : 0x888888,
-      });
-
-      var mesh = new THREE.Mesh(geometry, rockMaterial);
-      mesh.geometry.computeFaceNormals();
-      mesh.position.copy(new THREE.Vector3(y, .1, x));
-      mesh.rotation.y = rotation;
-      //mesh.scale = new THREE.Vector3(size, size, size);
-      world.scene.add(mesh);
-
-    }
-
-    var model_path = world.hi_res ? "/rsc/obj/rock1/rock1.js" : "/rsc/obj/rock1/rock1_simple.js"
-    loader.load(model_path, onRockLoad);
+    world.scene.add(mesh);
 
   },
   addFood : function() {
@@ -332,7 +314,7 @@ Hex.prototype = {
       mesh.scale.y = size;
       mesh.scale.z = size;
       //mesh.scale = new THREE.Vector3(size, size, size);
-      console.log(size);
+      //console.log(size);
       world.scene.add(mesh);
 
     }

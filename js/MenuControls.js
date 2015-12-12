@@ -93,7 +93,7 @@ $(document).ready(function() {
       }
       // p -> play simulation
     } else if (code == 80) {
-      $.post(SERVER_URL + "run?rate=2.0" + SESSION, function() {
+      $.post(SERVER_URL + "run" + SESSION, JSON.stringify({"rate": 2}), function() {
         console.log("running server at 2 turns/sec");
       });
 
@@ -117,8 +117,27 @@ $(document).ready(function() {
 
       // h -> halt simulation
     } else if (code == 72) {
-      // Should stop the server - Also, what if it's just an actual control?
-      console.log("halted sim");
+      $.post(SERVER_URL + "run" + SESSION, JSON.stringify({"rate": 0}), function() {
+        console.log("Stopped simulation!");
+      });
+      // q -> create rock turn critter
+    } else if (code == 81) {
+              // Temporary way to create critters.
+        var rock_turn_critter = '{"species_id":"rock turn","program":"{mem[4] <= (3 * mem[3])} --> wait;\n{ahead[1] != 0} --> right;\n{1 = 1} --> forward;\n","mem":[9,2,3,1,500,0,0,17,0],"num":1}';
+
+        $.post(SERVER_URL + "critters" + SESSION, rock_turn_critter, function () {});
+        // w -> create new world
+    } else if (code == 87) {
+              // Temporary
+        var small_world = '{"description":"name simple-world\nsize 10 10\n\n"}';
+
+        $.post(SERVER_URL + "world" + SESSION, small_world, function () {});
+        // v -> create new big world
+    } else if (code == 86) {
+              // Temporary
+        var small_world = '{"description":"name default world\nsize 50 68\nrock 0 54\nrock 1 34\nrock 2 63\nrock 3 67\nrock 4 12\nrock 5 34\nrock 6 14\nrock 7 67\nrock 8 11\nrock 9 5\nrock 10 5\nrock 11 33\nrock 12 28\nrock 13 7\nrock 14 0\nrock 15 15\nrock 16 42\nrock 17 1\nrock 18 28\nrock 19 65\nrock 20 57\nrock 21 23\nrock 22 56\nrock 23 28\nrock 24 60\nrock 25 27\nrock 26 50\nrock 27 66\nrock 28 55\nrock 29 61\nrock 30 20\nrock 31 56\nrock 32 51\nrock 33 19\nrock 34 41\nrock 35 17\nrock 36 14\nrock 37 37\nrock 38 16\nrock 39 42\nrock 40 11\nrock 41 37\nrock 42 31\nrock 43 37\nrock 44 65\nrock 45 18\nrock 46 12\nrock 47 48\nrock 48 60\nrock 49 36"}';
+
+        $.post(SERVER_URL + "world" + SESSION, small_world, function () {});
     }
   });
 

@@ -2,6 +2,7 @@ WorldLookAndFeel = function() {
   this.model_loader = new THREE.JSONLoader();
   this.tex_loader = new THREE.TextureLoader();
 
+  this.rsc_dir = "rsc/world_styles/"
   this.dir = "default/";
   this.critter_files = [];
   this.energy_files = [];
@@ -12,60 +13,107 @@ WorldLookAndFeel = function() {
   this.decoration_types = 1;
   this.scene_objs = [];  
 
+  this.items_remaining = 2 * (this.critter_types + this.energy_types + this.rock_types + this.decoration_types + Object.keys(this.scene_objs));  
+
   this.models = {};
   this.models.critter = new Array(this.critter_types);
   this.models.energy = new Array(this.energy_types);
   this.models.rock = new Array(this.rock_types);
-  this.decoration = new Array(this.decoration_types);
+  this.models.decoration = new Array(this.decoration_types);
   this.models.scene = {};
   for (var i = 0; i < this.scene_objs.length; i++) {
     var obj_key = this.scene_objs[i];
     this.models.scene[obj_key] = undefined;
   }
+  
+  // list of models requested but that haven't loaded yet
+  this.futures = {};
+  this.futures.critter = [];
+  this.futures.energy = [];
+  this.futures.rock = [];
+  this.futures.decoration = [];
+  this.futures.scene = {};
 
   this.loaded = false;
   // string : int
   this.critter_species_model_map = {};
+
   
 };
 
 WorldLookAndFeel.prototype = {
-  preloadModels : function() {
-    preloadHelper("critter", this.models.critter);
-    preloadHelper("decoration", this.models.critter);
-    preloadHelper("rock", this.models.critter);
-    preloadHelper("energy", this.models.critter);
+  load : function(callback) {
+    this.onLoadCallback = callback;    
+
+    this.preloadHelper("critter", this.models.critter);
+    this.preloadHelper("decoration", this.models.decoration);
+    this.preloadHelper("rock", this.models.rock);
+    this.preloadHelper("energy", this.models.energy);
     for(var i = 0; i < this.scene_objs.length; i++) {
       var obj = this.scene_objs[i];
       var out = new Array(1);
       var cb = function(mesh_list) {
         this.models.scene[obj] = mesh_list[0];
       };
-      preloadHelper("scene/" + obj, out, {callback: cb}); 
+      this.preloadHelper("scene/" + obj, out); 
     }
   },
   preloadHelper : function(type, out, options) {
     var count = out.length;
+    var options = options || {};
     var tex_ext = options.tex_ext || ".jpg";
     var dir = options.dir || this.rsc_dir + this.dir;
-    var callback = options.callback || function(){};
     
     var look_and_feel = this;
     
-    for (; i < this.critters; i++) {
-      var path = dir + type + (i+1) + "/" + type;
-      this.tex_loader.load(path + text_ext, function(texture) {
-        look_and_feel.model_loader.load(dir + type + (this.i+1) + "/" + type+".json", function(geometry) {
+    for (var i = 0; i < count; i++) {
+      var path = dir + type + "/" + type + (i+1) + "/" + type + (i+1);
+      out[i] = {};
+      this.tex_loader.load(path + tex_ext, function(texture) {
           var material = new THREE.MeshBasicMaterial({
             map : texture,
             color : 0x888888,
           });
-
-          out[this.i] = new THREE.Mesh(geometry, material);
-        }.bind({i: this.i})); 
-      }.bind({i: i}));      
+          out[this.i]["material"]  = material;
+          look_and_feel.markObjectLoaded();
+          look_and_feel.loadFuturesMaterial(type, this.i, material);
+      }.bind({i:i}));
+      this.model_loader.load(path +".json", function(geometry) {
+         geometry.computeFaceNormals();
+         out[this.i]["geometry"]  = geometry;
+         look_and_feel.markObjectLoaded();
+         look_and_feel.loadFuturesGeometry(type, this.i, geometry);
+      }.bind({i : i})); 
     }  
   },
+  markObjectLoaded : function() {
+    this.items_remaining--;
+    if (this.items_remaining === 0) {
+      this.loaded = true;
+      this.onLoadCallback();
+    }
+  },
+  loadFuturesGeometry : function(type, index, geometry) {
+    var list = this.futures[type][index];
+    for (var i = 0; i < list.length; i++) {
+      list[i].onGeometryLoad(geometry);  
+    }
+    // material is loaded, no more futures!
+    if (this.models[type].material) {
+      list = []; 
+    }
+  },
+  loadFuturesMaterial : function(type, index, material) {
+    var list = this.futures[type][index];
+    for (var i = 0; i < list.length; i++) {
+      list[i].onMaterialLoad(material);  
+    }
+    // geometry is loaded, no more futures!
+    if (this.models[type].geometry) {
+      list = []; 
+    }
+  },
+    
   getSceneModels : function() {
     return this.models.scene;
   },
@@ -84,8 +132,8 @@ WorldLookAndFeel.prototype = {
 
     for (var i = 0; i <= 6; i++) {
 
-      var xPoint = (xoffset + (size -buffer)  * Math.cos(i * 2 * Math.PI / 6));
-      var yPoint = (yoffset + (size -buffer) * Math.sin(i * 2 * Math.PI / 6));
+      var xPoint = (xoffset + (size -buffer)  * Math.cos(i * 2 * Math.PI / 6))/2;
+      var yPoint = (yoffset + (size -buffer) * Math.sin(i * 2 * Math.PI / 6))/2;
 
       geometry.vertices.push(new THREE.Vector3(yPoint, 0.04, xPoint));
     }
@@ -113,7 +161,64 @@ WorldLookAndFeel.prototype = {
   },
   getRock : function(size) {  
     var size = size || 1;
-    return this.models.rock[0];
+    var i = 0;
+    var rock_data = this.models.rock[i];
+    
+    var future = new FutureMesh("rock", i, rock_data.geometry, rock_data.material);
+    if (!future.loaded) {
+      var future_lst = this.futures.rock;
+      if (!future_lst[i]) {
+        future_lst[i] = [];
+      }
+      future_lst[i].push(future);
+    } 
+    var rotation = Math.PI / 3 * Math.floor((Math.random() * 5));
+    future.mesh.rotation.y = rotation;
+    return future.mesh;
   },
 };
 
+/**
+ *  THREE.Mesh but can be temporarily null and then loaded later
+ */
+FutureMesh = function(type, index, geometry, material) {
+  this.geometry = geometry;
+  this.material = material;
+  this.loaded = this.geometry !== undefined && this.material !== undefined;
+  this.type = type;
+  this.index = index;
+
+  var geometry = geometry || new THREE.BoxGeometry(1,1,1);
+  var material = material            
+    || new THREE.MeshBasicMaterial({
+        color: 0xaa0000,
+        wireframe: true 
+    });
+  
+  this.mesh = new THREE.Mesh(geometry, material);
+}
+FutureMesh.prototype = {
+  onGeometryLoad : function(geometry) {
+    this.geometry = geometry;
+    this.loaded = this.geometry !== undefined && this.material !== undefined;
+    
+    if(this.loaded) {
+      this.reload();
+    } 
+   },
+  onMaterialLoad : function(material) {
+    this.material = material;
+    this.loaded = this.geometry !== undefined && this.material !== undefined;
+    if (this.loaded) {
+      this.reload();
+    }
+  },
+  reload : function() {
+    world.scene.remove(this.mesh);
+    var mesh = new THREE.Mesh(this.geometry, this.material);
+    mesh.position.copy(this.mesh.position);
+    mesh.rotation.copy(this.mesh.rotation);
+    this.mesh = mesh;
+    world.scene.add(this.mesh); 
+  },
+}

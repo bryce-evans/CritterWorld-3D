@@ -69,7 +69,7 @@ function init_game_server(data) {
     window.clearInterval(world.interval_id);
   }
 
-  var throttle_time = 5000; // Minimum time between requests in ms.
+  var throttle_time = 200; // Minimum time between requests in ms.
   var last_run = Date.now() + throttle_time;
   window.updateWorld = function() {
       $.ajax({
@@ -80,7 +80,6 @@ function init_game_server(data) {
         dataType : 'json',
         statusCode : {
           200 : function(response) {
-            console.log(response);
             world.data.timeStep = response.current_timestep;
             world.data.population = response.population;
             world.t = response.current_version_number;
@@ -92,10 +91,10 @@ function init_game_server(data) {
             last_run = this_run;
             if (run_time > throttle_time) {
               // The request was slow, request immediately
-              console.error("slow");
+              // console.error("slow");
               updateWorld();
             } else {
-              console.error("fast");
+              // console.error("fast");
               window.setTimeout(updateWorld, throttle_time - run_time);
             }
           }
