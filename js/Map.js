@@ -18,7 +18,7 @@ Map = function(world) {
   this.world = world;
 
   
-  this.look_and_feel = new SpaceWorldLookAndFeel();
+  this.look_and_feel = new WireframeWorldLookAndFeel();
   this.look_and_feel.load();   
 
   // cache the colors for faster access
@@ -165,7 +165,8 @@ Hex.prototype = {
     var y = this.getPosY();
 
     var mesh = world.map.look_and_feel.getRock();
-    mesh.position.copy(new THREE.Vector3(y, .1, x));
+    mesh.position.x = y;
+    mesh.position.z = x;
 
     world.scene.add(mesh);
 
@@ -183,7 +184,8 @@ Hex.prototype = {
     mesh.mesh.scale.y = .5;
     mesh.mesh.scale.z = .5;
 
-    mesh.position.copy(new THREE.Vector3(y, .1, x));
+    mesh.position.x = y;
+    mesh.position.z = x;
 
     this.type = 0;
     var x = this.getPosX();

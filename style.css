@@ -117,24 +117,23 @@ body {
   border-left: 2px solid #001207;
   color: #FFFFFF;
 }
-#header {
+#control-pane>header {
   background-color: #92cc47;
   height: 25px;
   width: 200px;
-  position: absolute;
-  top: 15px;
-  right: 15px;
   box-shadow: 2px 2px 10px black;
   border-radius: 0px 5px 5px 0px;
   color: #fff;
   padding: 10px 0px 10px 25px;
   font-size: 24px;
+  margin-top: 1ex;
+}
+.panel-section {
+  padding: 1.25em;
+  margin-top: 1ex;
 }
 #world-stats {
-  position: absolute;
-  top: 80px;
-  padding: 20px;
-  width: 200px;
+
 }
 #world-stats > li {
   height: 25px;
