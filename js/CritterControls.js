@@ -15,7 +15,7 @@ CritterControls.prototype = {
   // sets hex to be the current hovered hex 
   setHovered : function(hex) {
   	
-    if(!world.selectable){
+    if(!world.hover_highlight){
       return;
     }
   	
@@ -28,17 +28,17 @@ CritterControls.prototype = {
 
       // highlighting selected
       if (this.currentHovered === this.currentSelected) {
-        this.currentHovered.wire.material.color.setHex(this.hex_colors["selected"]);
-
+        this.currentHovered.highlightSelected();
+ 
         // leaving a selected hex
       } else {
-        var wire = this.currentHovered.wire;
-        wire.material.color.setHex(wire.origColor);
-      }
+       this.currentHovered.unhighlight(); 
+ }
     }
 
     this.currentHovered = hex;
-    hex.wire.material.color.setHex(this.hex_colors["hover"]);
+       
+    this.currentHovered.highlight();
   },
 
 /*
@@ -51,13 +51,12 @@ CritterControls.prototype = {
 
     // unselect previous
     if (this.currentSelected) {
-      var wire = this.currentSelected.wire;
-      wire.material.color.setHex(wire.origColor);
+      this.currentSelected.unhighlight();
     }
 
     // change selected and update panel
     this.currentSelected = hex;
-    this.currentSelected.wire.material.color.setHex(this.hexSelectedColor);
+    this.currentSelected.highlightSelected();
     document.getElementById("current-hex").innerHTML = ("(" + this.currentSelected.location.c + "," + this.currentSelected.location.r + ")");
     hex.updateStats();
 

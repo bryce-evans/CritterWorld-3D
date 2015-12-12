@@ -120,8 +120,8 @@ WorldLookAndFeel.prototype = {
     }
   },
     
-  getSceneModels : function() {
-    return this.models.scene;
+  addSceneModels : function(scene) {
+    return;
   },
   getHexWire : function(center, color, radius, buffer) {
     var geometry = new THREE.Geometry();
@@ -134,7 +134,7 @@ WorldLookAndFeel.prototype = {
     var xyPoint = center;
 
     var xoffset = (xyPoint.x * radius) * 1.5;
-    var yoffset = xyPoint.y * radius * Math.sqrt(3) - buffer / 2;
+    var yoffset = xyPoint.y * radius * Math.sqrt(3);
 
     for (var i = 0; i <= 6; i++) {
 

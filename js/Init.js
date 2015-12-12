@@ -9,35 +9,6 @@ function init_game_server(data) {
   world.lookAt = (new THREE.Vector3(world.map.center.x / 2, 0, world.map.center.y));
   world.camera.position.copy(new THREE.Vector3(world.map.center.x / 2, 250, world.map.center.y));
 
-  // graphics params
-  // world.isVegetated = false;
-  // world.hasFog = false;
-  // world.hasWater = false;
-  // world.hasTerrain = false;
-  world.map.skyColor = world.skies.black;
-
-  // Add terrain (from Terrain.js)
-  if (world.hasTerrain) {
-    var terrain = new Terrain();
-    var map = world.map;
-    terrain.updateTerrain(map.size.x, map.size.y, terrain.segments, 3);
-
-    world.scene.terrain = terrain;
-    terrain.setTexture(terrain.texture);
-
-    terrain.mesh.position.copy(new THREE.Vector3(map.center.x, -1, map.center.y));
-
-    world.scene.add(terrain.mesh);
-  }
-  if (world.hasFog) {
-    world.scene.fog = new THREE.Fog(0xffffff, 10, Math.max(Math.max(world.COLUMNS, world.ROWS) * 12, 300));
-  }
-  // Add water (from Water.js)
-  if (world.hasWater) {
-    water = new Water(world.map);
-    water.addWater(world.scene);
-  }
-
   // Add mouse controls (from MouseControls.js)
   THREE.OrbitControls.prototype = Object.create(THREE.EventDispatcher.prototype);
 

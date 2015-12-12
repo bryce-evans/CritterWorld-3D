@@ -2,8 +2,8 @@
  *
  * @param {XYPoint} size
  */
-Water = function(map) {
-  this.map = map;
+Water = function(size) {
+  this.size = size || new Vector2(10,10);
   this.uniforms = null;
 
   // TODO not animated yet
@@ -13,7 +13,7 @@ Water = function(map) {
 Water.prototype = {
   addWater : function(scene) {
 
-    var geometry = new THREE.PlaneGeometry(this.map.size.x * 2, this.map.size.y * 2);
+    var geometry = new THREE.PlaneGeometry(this.size.x * 2, this.size.y * 2);
 
     var path = "rsc/textures/sky_ENV/surreal_";
     var format = '.jpg';

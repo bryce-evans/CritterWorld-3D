@@ -18,8 +18,11 @@ Map = function(world) {
   this.world = world;
 
   
-  this.look_and_feel = new WireframeWorldLookAndFeel();
+  this.look_and_feel = new SpaceWorldLookAndFeel();
   this.look_and_feel.load();   
+
+  // cache the colors for faster access
+  this.hex_colors = this.look_and_feel.getHexColors();
  
   // an array of arrays
   // hexes[c][r] returns hex at (c,r)
@@ -134,9 +137,7 @@ Hex = function(c, r) {
   if (world.selectable) {
     this.addMesh();
   }
-  if (world.isVegetated) {
-    this.addScenery();
-  }
+  this.addDecorations();
 
   if (!world.map.hexes[c]) {
     world.map.hexes[c] = new Array();
@@ -145,8 +146,8 @@ Hex = function(c, r) {
 }
 Hex.prototype = {
   addCritter : function(data) {
-
-    critter = new Critter(data);
+    var mesh = this.look_and_feel.getCritter(data.id);
+    critter = new Critter(mesh, data);
 
     critter.add(this);
     this.type = 2;
@@ -284,14 +285,57 @@ Hex.prototype = {
     world.map.hexGeometries.push(mesh);
     //world.scene.add(mesh);
   },
-  // add some shrubbery
-  addScenery : function() {
-    var x = this.getPosX();
-    var y = this.getPosY();
-    var opacity = 1;
-    var size = Math.random() * .1 + .1;
-    var rotation = Math.PI / 3 * Math.floor((Math.random() * 5));
+  highlight : function() {
+  var wire  = this.wire;
+  if(wire.material) {
+          wire.material.color.setHex(world.map.hex_colors["hover"]);
+        } else {
+       
+          $.each(wire.children, function(i,w){
+             w.material.color.setHex(world.map.hex_colors["hover"]);
+          }.bind(this));
+}
+         },
+  unhighlight : function() {
+      var wire = this.wire;
+      if(wire.material) {
+          wire.material.color.setHex(wire.origColor);
+        } else {
+       
+          $.each(wire.children, function(i,w){
+             w.material.color.setHex(wire.origColor);
+          }.bind(this));
+}   
+  },
+  highlightSelected : function() {
+         var wire = this.wire;
+        if (wire.material) { 
+          wire.material.color.setHex(world.map.hex_colors["selected"]);
+        } else {
+       
+          $.each(wire.children, function(i,w){
+             w.material.color.setHex(world.map.hex_colors["selected"]);
+          }.bind(this));
+}
 
   },
+  // add some shrubbery
+  addDecorations : function() {
+    var x = this.getPosX();
+    var y = this.getPosY();
+    var decors = world.map.look_and_feel.getDecorations();
+    for (var i = 0; i < decors.length; i++) {
+      decors[i].position.add(this.get3DCenter)();
+      world.scene.add(decors);
+    }
+  },
+  // returns Vector3
+  get3DCenter : function() {
+    var xyPoint = this.getRectCoord();
+    // xyPoint.print();
+    var xoffset = (xyPoint.x * world.map.hexRadius) * 1.5;
+    var yoffset = xyPoint.y * world.map.hexRadius * Math.sqrt(3) - world.map.hexBuffer / 2;
+    return new THREE.Vector3(yoffset, 0.0, xoffset);
+  }
 }
 

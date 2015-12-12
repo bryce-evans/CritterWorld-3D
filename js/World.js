@@ -64,7 +64,8 @@ World = function(options) {
   this.hasWater = this.hi_res;
   this.hasTerrain = true;
   this.hasFog = false; //this.hi_res;
-  this.selectable = this.hi_res;
+  this.hover_highlight = true; 
+  this.selectable = true; 
   this.animated = false; // TODO: this.hi_res;
   this.thickHexes = this.hi_res;
 

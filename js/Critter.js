@@ -1,10 +1,5 @@
-// LEMURS!!
-var critterpath = false ? "/rsc/obj/lemur/lemur_run1.js" : "/rsc/obj/lemur/lemur_run1_simple.js";
-var critteraction = "LemurAction";
-
-var loader = new THREE.JSONLoader();
-
-Critter = function(data) {
+Critter = function(mesh, data) {
+  this.mesh = mesh;
   this.data = {
     direction : data.direction,
     id : data.id,
@@ -24,8 +19,6 @@ Critter = function(data) {
   //this.size = 1;
   this.orientation = 0;
   this.ruleset = "";
-
-  this.mesh
 
   this.animation_handler = undefined;
 
