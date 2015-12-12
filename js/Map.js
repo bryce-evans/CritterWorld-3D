@@ -32,7 +32,7 @@ Map = function(world) {
   this.hexBuffer = .25;
 
   this.hexRadius = (this.hexSize + this.hexBuffer) / 2;
-  this.hexHeight = (this.hexRadius * Math.sqrt(3));
+  this.hexHeight = (this.hexSize * Math.sqrt(3));
 
   this.size = new XYPoint();
   this.center = new XYPoint();
@@ -249,7 +249,7 @@ Hex.prototype = {
   },
   //draws the wire around the hex
   addWire : function() {
-    this.wire = world.map.look_and_feel.getHexModel(this.getRectCoord(), world.map.hexSize, 0.25);
+    this.wire = world.map.look_and_feel.getHexWire(this.getRectCoord(), world.map.hexRadius, world.map.hexBuffer);
     world.scene.add(this.wire);
   },
 
@@ -259,13 +259,13 @@ Hex.prototype = {
     this.material = new THREE.MeshBasicMaterial({
       color : world.map.hexColor,
       transparent : true,
-      opacity : 0.001
+      opacity : 0.1
     });
 
     var xyPoint = this.getRectCoord();
     // xyPoint.print();
     var xoffset = (xyPoint.x * world.map.hexRadius) * 1.5;
-    var yoffset = xyPoint.y * world.map.hexHeight - world.map.hexBuffer / 2;
+    var yoffset = xyPoint.y * world.map.hexRadius * Math.sqrt(3) - world.map.hexBuffer / 2;
 
     for (var i = 0; i < 6; i++) {
 
@@ -282,7 +282,7 @@ Hex.prototype = {
     var mesh = new THREE.Mesh(geometry, this.material);
     mesh.hex = this;
     world.map.hexGeometries.push(mesh);
-    world.scene.add(mesh);
+    //world.scene.add(mesh);
   },
   // add some shrubbery
   addScenery : function() {

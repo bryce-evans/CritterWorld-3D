@@ -117,7 +117,7 @@ WorldLookAndFeel.prototype = {
   getSceneModels : function() {
     return this.models.scene;
   },
-  getHexModel : function(center, color, size, buffer) {
+  getHexWire : function(center, color, radius, buffer) {
     var color = color || 0xffffff;
     var geometry = new THREE.Geometry();
     this.material = new THREE.LineBasicMaterial({
@@ -127,13 +127,13 @@ WorldLookAndFeel.prototype = {
 
     var xyPoint = center;
 
-    var xoffset = (xyPoint.x * size) * 1.5;
-    var yoffset = xyPoint.y * size * Math.sqrt(3) - buffer / 2;
+    var xoffset = (xyPoint.x * radius) * 1.5;
+    var yoffset = xyPoint.y * radius * Math.sqrt(3) - buffer / 2;
 
     for (var i = 0; i <= 6; i++) {
 
-      var xPoint = (xoffset + (size -buffer)  * Math.cos(i * 2 * Math.PI / 6))/2;
-      var yPoint = (yoffset + (size -buffer) * Math.sin(i * 2 * Math.PI / 6))/2;
+      var xPoint = (xoffset + (radius-buffer) * Math.cos(i * 2 * Math.PI / 6));
+      var yPoint = (yoffset + (radius-buffer) * Math.sin(i * 2 * Math.PI / 6));
 
       geometry.vertices.push(new THREE.Vector3(yPoint, 0.04, xPoint));
     }
