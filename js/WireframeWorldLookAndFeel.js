@@ -12,18 +12,26 @@ WireframeWorldLookAndFeel.prototype.constructor = WireframeWorldLookAndFeel;
 
 WireframeWorldLookAndFeel.prototype.load = function() {
   var models = this.models = {};
-  var critters = models.critter = [];
-  critters[0] = {};
-  critters[0].geometry = new THREE.IcosahedronGeometry(1, 0 );
-  critters[0].material = new THREE.MeshBasicMaterial({wireframe:true, color : 0x00ff00});
+  
+  var up_mat = new THREE.Matrix4().makeTranslation(0, 1, 0);
+
+  var critter = models.critter = [];
+  critter[0] = {};
+  critter[0].geometry = new THREE.CylinderGeometry(0, 1, 2, 6, 1, true); 
+  critter[0].geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI/2));
+  critter[0].geometry.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI/2));
+  critter[0].geometry.applyMatrix(up_mat);
+  critter[0].material = new THREE.MeshBasicMaterial({wireframe:true, color : 0x00ff00});
   var rock = models.rock = []; 
   rock[0] = {};
-  rock[0].geometry = new THREE.CylinderGeometry(0, 1, 2, 6, 1, true);
+  rock[0].geometry = new THREE.IcosahedronGeometry(1, 0);
+  rock[0].geometry.applyMatrix(up_mat);
   rock[0].material = new THREE.MeshBasicMaterial({wireframe:true, color : 0xff0000});
   
   var energy = models.energy = [];
   energy[0] = {};
-  energy[0].geometry = new THREE.BoxGeometry(1.25,1.25,1.25); 
+  energy[0].geometry = new THREE.BoxGeometry(1,1,1); 
+  energy[0].geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,0.5,0));
   energy[0].material = new THREE.MeshBasicMaterial({wireframe:true, color : 0x00ffff});
 }
 
@@ -69,27 +77,24 @@ WireframeWorldLookAndFeel.prototype.getCritter = function(species, subtype) {
   species = 0;
   var geometry = this.models.critter[species].geometry;
   var material = this.models.critter[species].material;
-  var mesh = new THREE.Mesh(geometry, material);
-  mesh.position.y += 1;
-  return mesh;
+  return new THREE.Mesh(geometry, material);
 }
 WireframeWorldLookAndFeel.prototype.getRock = function(size) {
   size = 1;
   var geometry = this.models.rock[0].geometry;
   var material = this.models.rock[0].material;
-  var mesh = new THREE.Mesh(geometry, material);
-  mesh.position.y += 1;
-  return mesh;
+  return new THREE.Mesh(geometry, material);
 }
 
 WireframeWorldLookAndFeel.prototype.getEnergy = function(size) {
   size = 1;
   var geometry = this.models.energy[0].geometry;
   var material = this.models.energy[0].material;
-  var mesh =  new THREE.Mesh(geometry, material);
-  mesh.position.y += 1;
-  return mesh;
+  return new THREE.Mesh(geometry, material);
 }
-WireframeWorldLookAndFeel.prototype.getScene = function() {
-  return [];
+// adds misc other things global to the scene
+WireframeWorldLookAndFeel.prototype.addSceneModels = function(scene) {
+  var geometry = new THREE.IcosahedronGeometry(500, 1);
+  var material = new THREE.MeshBasicMaterial({wireframe:true, color : 0x000815});
+  scene.add(new THREE.Mesh(geometry, material)); 
 }

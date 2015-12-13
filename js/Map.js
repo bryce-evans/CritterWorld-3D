@@ -20,6 +20,7 @@ Map = function(world) {
   
   this.look_and_feel = new WireframeWorldLookAndFeel();
   this.look_and_feel.load();   
+  this.look_and_feel.addSceneModels(world.scene);
 
   // cache the colors for faster access
   this.hex_colors = this.look_and_feel.getHexColors();
