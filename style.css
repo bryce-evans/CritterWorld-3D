@@ -117,7 +117,7 @@ body {
   border-left: 2px solid #001207;
   color: #FFFFFF;
 }
-#control-pane>header {
+#control-pane header {
   background-color: #92cc47;
   height: 25px;
   width: 200px;
@@ -357,7 +357,6 @@ input[type="file"]::-webkit-file-upload-button:hover {
 
 #critter-data {
   top: 200px;
-  position: absolute;
   margin: 25px;
 }
 #critter-data li span {

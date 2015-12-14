@@ -23,7 +23,7 @@ Map = function(world) {
   this.look_and_feel.addSceneModels(world.scene);
 
   // map of <string> critter species to <int> id of model from look and feel 
-  this.specie_count = 0;
+  this.species_count = 0;
   this.species_map = {};
   
   // cache the colors for faster access
@@ -155,10 +155,11 @@ Hex = function(c, r) {
 Hex.prototype = {
   addCritter : function(data) {
     var species = 0;
-    if (data.species in world.map.species_map) {
-      species = world.map.species_map[data.species];
+    if (data.species_id in world.map.species_map) {
+      species = world.map.species_map[data.species_id];
     } else {
       species = world.map.species_count++;
+      world.map.species_map[data.species_id] = species;
     }
     
     var mesh = world.map.look_and_feel.getCritter(species);
