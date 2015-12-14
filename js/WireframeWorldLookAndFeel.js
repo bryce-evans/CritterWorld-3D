@@ -19,7 +19,7 @@ WireframeWorldLookAndFeel.prototype.load = function() {
   critter[0] = {};
   critter[0].geometry = new THREE.CylinderGeometry(0, 1, 2, 6, 1, true); 
   critter[0].geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI/2));
-  critter[0].geometry.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI/2));
+  critter[0].geometry.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI));
   critter[0].geometry.applyMatrix(up_mat);
   critter[0].material = new THREE.MeshBasicMaterial({wireframe:true, color : 0x00ff00});
   var rock = models.rock = []; 

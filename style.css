@@ -149,6 +149,34 @@ body {
   font-size: 18px;
   text-align: left;
 }
+#control-pane .critters table {
+
+}
+
+#control-pane .critters table tr {
+
+}
+#control-pane .critters table td {
+
+}
+
+#control-pane .critters table td .critter-icon{
+
+}
+#control-pane .critters table td .critter-color {
+
+}
+#control-pane .critters table tr:first-child {
+
+}
+#control-pane .critters table tr:last-child {
+
+}
+#control-pane .critters table {
+
+}
+
+
 /*    INSET CONTROLS
  width: 220px;
  right: 8px;

@@ -125,7 +125,7 @@ Critter.prototype = {
     } else {
       this.mesh.position.copy(new_pos);
     }
-    this.updateHexToCritter(hex);
+//    this.updateHexToCritter(hex);
   },
 
   updateHexToCritter : function(hex) {

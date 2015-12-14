@@ -22,6 +22,10 @@ Map = function(world) {
   this.look_and_feel.load();   
   this.look_and_feel.addSceneModels(world.scene);
 
+  // map of <string> critter species to <int> id of model from look and feel 
+  this.specie_count = 0;
+  this.species_map = {};
+  
   // cache the colors for faster access
   this.hex_colors = this.look_and_feel.getHexColors();
  
@@ -110,9 +114,12 @@ Map.prototype = {
         c.update(update.col, update.row, update.direction);
 
         // dead! delete!
-      } else { debugger;
+      } else {
         world.scene.remove(c.mesh);
+        
+        // delete this because making it undefined causes many additional checks later
         delete world.critters[key];
+        //world.critters[key] = undefined;
       }
 
     }
@@ -147,10 +154,20 @@ Hex = function(c, r) {
 }
 Hex.prototype = {
   addCritter : function(data) {
-    var mesh = this.look_and_feel.getCritter(data.id);
+    var species = 0;
+    if (data.species in world.map.species_map) {
+      species = world.map.species_map[data.species];
+    } else {
+      species = world.map.species_count++;
+    }
+    
+    var mesh = world.map.look_and_feel.getCritter(species);
     critter = new Critter(mesh, data);
 
-    critter.add(this);
+    world.scene.add(mesh);
+    this.critter = critter;
+    critter.hex = this;
+    //critter.add(this);
     this.type = 2;
 
   },
