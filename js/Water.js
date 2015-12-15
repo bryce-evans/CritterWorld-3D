@@ -3,7 +3,7 @@
  * @param {XYPoint} size
  */
 Water = function(size) {
-  this.size = size || new Vector2(10,10);
+  this.size = size || new THREE.Vector2(10,10);
   this.uniforms = null;
 
   // TODO not animated yet
@@ -92,8 +92,8 @@ Water.prototype = {
     
     var plane = new THREE.Mesh(geometry, material);
     plane.rotation.x = -Math.PI / 2;
-    plane.position.copy(new THREE.Vector3(this.map.center.x, -2, this.map.center.y));
-
+   // plane.position.copy(new THREE.Vector3(this.map.center.x, -2, this.map.center.y));
+     plane.scale = new THREE.Vector3(200,200,200);
     scene.add(plane);
   }
 }

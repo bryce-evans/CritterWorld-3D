@@ -18,7 +18,7 @@ Map = function(world) {
   this.world = world;
 
   
-  this.look_and_feel = new WireframeWorldLookAndFeel();
+  this.look_and_feel = new LemurWorldLookAndFeel();
   this.look_and_feel.load();   
   this.look_and_feel.addSceneModels(world.scene);
 
@@ -32,6 +32,9 @@ Map = function(world) {
   // an array of arrays
   // hexes[c][r] returns hex at (c,r)
   this.hexes = new Array();
+
+   // set of meshes that are removed after update (food etc)
+  this.to_remove_next_turn = [];
 
   // used strictly for selecting hex with mouse
   this.hexGeometries = new Array();
@@ -78,6 +81,10 @@ Map.prototype = {
 
     // hashset of already existing but valid ids
     var cur_ids = {};
+    while(this.to_remove_next_turn.length > 0) {
+      var mesh = this.to_remove_next_turn.pop();
+      world.scene.remove(mesh);
+    }
 
     for (var i = 0; i < state.length; i++) {
 
@@ -85,6 +92,10 @@ Map.prototype = {
 
       if (obj.type == "rock") {
         this.hexes[obj.col][obj.row].addRock();
+        continue;
+      } 
+      if (obj.type == "food") {
+        this.hexes[obj.col][obj.row].addFood();
         continue;
       }
 
@@ -157,12 +168,22 @@ Hex.prototype = {
     var species = 0;
     if (data.species_id in world.map.species_map) {
       species = world.map.species_map[data.species_id];
+    var mesh = world.map.look_and_feel.getCritter(species);
     } else {
       species = world.map.species_count++;
       world.map.species_map[data.species_id] = species;
+      $('#control-pane .critters table').append('\
+         <tr>\
+           <td><div class="critter-color '+data.species_id+'"></div><div class="critter-icon"></div></td>\
+           <td>' + data.species_id + '</td>\
+           <td class="count">0</td>\
+           <td></td>\
+         </tr>');
+    var mesh = world.map.look_and_feel.getCritter(species);
+        $('.critter-color.'+data.species_id).css('background-color','#'+mesh.material.color.getHexString());
+
     }
     
-    var mesh = world.map.look_and_feel.getCritter(species);
     critter = new Critter(mesh, data);
 
     world.scene.add(mesh);
@@ -191,6 +212,15 @@ Hex.prototype = {
 
   },
   addFood : function() {
+    var mesh = world.map.look_and_feel.getEnergy();
+  //  this.mesh = mesh;
+    world.map.to_remove_next_turn.push(mesh);
+    mesh.position.z = this.getPosX();
+    mesh.position.x = this.getPosY();
+
+world.scene.add(mesh);
+    return; 
+
     var geometry = new THREE.SphereGeometry(5, 8, 8);
     var material = new THREE.MeshBasicMaterial({
       color : world.stringToColorCode(this.data.species),

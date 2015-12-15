@@ -150,7 +150,7 @@ body {
   text-align: left;
 }
 #control-pane .critters table {
-
+ width: 100%;
 }
 
 #control-pane .critters table tr {
@@ -161,10 +161,18 @@ body {
 }
 
 #control-pane .critters table td .critter-icon{
-
+    height: 40px;
+    width: 40px;
+    background-image: url("http://files.bryceevans.me/cw/wireframe-critter1.PNG");
+    z-index: 2;
+    margin-top: -40px;
+    background-size: cover;
 }
 #control-pane .critters table td .critter-color {
-
+background-color: red;
+    width: 40px;
+    height: 40px;
+    z-index: 1;
 }
 #control-pane .critters table tr:first-child {
 

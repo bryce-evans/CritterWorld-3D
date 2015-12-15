@@ -16,23 +16,22 @@ WireframeWorldLookAndFeel.prototype.load = function() {
   var up_mat = new THREE.Matrix4().makeTranslation(0, 1, 0);
 
   var critter = models.critter = [];
-  critter[0] = {};
-  critter[1] = {};
-  critter[2] = {};
-  critter[3] = {};
-  critter[0].geometry = new THREE.CylinderGeometry(0, 1, 2, 6, 1, true); 
-  critter[0].geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI/2));
-  critter[0].geometry.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI));
-  critter[0].geometry.applyMatrix(up_mat);
-  critter[0].material = new THREE.MeshBasicMaterial({wireframe:true, color : 0xff0000});
-  critter[1].material = new THREE.MeshBasicMaterial({wireframe:true, color : 0xffff00});
-  critter[2].material = new THREE.MeshBasicMaterial({wireframe:true, color : 0x00ff00});
-  critter[3].material = new THREE.MeshBasicMaterial({wireframe:true, color : 0x0000ff});
+  var colors = [0x00ff00, 0x0000ff, 0xff0000];
+
+  for (var i = colors.length - 1; i >= 0; i--) {
+    critter[i] = {};
+    critter[i].geometry = new THREE.CylinderGeometry(0, 1, 2, 6, 1, true);
+    critter[i].geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI/2));
+    critter[i].geometry.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI));
+    critter[i].geometry.applyMatrix(up_mat);
+    critter[i].material = new THREE.MeshBasicMaterial({wireframe:true, color : colors[i]});
+  };
+
   var rock = models.rock = []; 
   rock[0] = {};
   rock[0].geometry = new THREE.IcosahedronGeometry(1, 0);
   rock[0].geometry.applyMatrix(up_mat);
-  rock[0].material = new THREE.MeshBasicMaterial({wireframe:true, color : 0x999999});
+  rock[0].material = new THREE.MeshBasicMaterial({wireframe:true, color : 0xff0000});
   
   var energy = models.energy = [];
   energy[0] = {};
@@ -80,8 +79,15 @@ WireframeWorldLookAndFeel.prototype.getDecorations = function() {
   return [];
 }
 WireframeWorldLookAndFeel.prototype.getCritter = function(species, subtype) {
-  // ALWAYS GEOMETRY 0
-  var geometry = this.models.critter[0].geometry;
+  if (!$.isNumeric(species) || Math.floor(species) != species) {
+    species = 0;
+  } else if (species < 0) {
+    species = (species % this.models.critter.length) + this.models.critter.length;
+  } else if (species >= this.models.critter.length) {
+    species = (species % this.models.critter.length)
+  }
+  console.log(species);
+  var geometry = this.models.critter[species].geometry;
   var material = this.models.critter[species].material;
   return new THREE.Mesh(geometry, material);
 }

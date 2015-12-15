@@ -100,7 +100,7 @@ WorldLookAndFeel.prototype = {
     }
   },
   loadFuturesGeometry : function(type, index, geometry) {
-    var list = this.futures[type][index];
+    var list = this.futures[type];
     for (var i = 0; i < list.length; i++) {
       list[i].onGeometryLoad(geometry);  
     }
@@ -110,7 +110,7 @@ WorldLookAndFeel.prototype = {
     }
   },
   loadFuturesMaterial : function(type, index, material) {
-    var list = this.futures[type][index];
+    var list = this.futures[type];
     for (var i = 0; i < list.length; i++) {
       list[i].onMaterialLoad(material);  
     }

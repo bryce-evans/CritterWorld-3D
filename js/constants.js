@@ -10,8 +10,8 @@ $(function () {
 	type: "POST",
 	contentType: "application/json",
 	data : JSON.stringify( {
-	    "level": "admin",
-	    "password": "admin"
+	    "level": "read",
+	    "password": "read"
 	} )
     }).done(function (response) {
 	SESSION = "?session_id=" + response.session_id;
